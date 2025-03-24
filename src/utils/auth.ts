@@ -1,4 +1,4 @@
-import { useUserStoreHook } from '@/store/modules/user';
+import { useUserStoreHook } from '@/stores/modules/user';
 import { isIncludeAllChildren, isString, storageLocal } from '@pureadmin/utils';
 import Cookies from 'js-cookie';
 

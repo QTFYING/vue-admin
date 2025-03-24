@@ -1,6 +1,6 @@
-import type { VNode } from 'vue';
 import { isFunction } from '@pureadmin/utils';
 import { type MessageHandler, ElMessage } from 'element-plus';
+import type { VNode } from 'vue';
 
 type messageStyle = 'el' | 'antd';
 type messageTypes = 'info' | 'success' | 'warning' | 'error';
@@ -30,7 +30,7 @@ interface MessageParams {
   onClose?: Function | null;
 }
 
-/** 用法非常简单，参考 src/views/components/message/index.vue 文件 */
+/** 用法非常简单，参考 src/pages/components/message/index.vue 文件 */
 
 /**
  * `Message` 消息提示函数
@@ -79,4 +79,4 @@ const message = (message: string | VNode | (() => VNode), params?: MessageParams
  */
 const closeAllMessage = (): void => ElMessage.closeAll();
 
-export { message, closeAllMessage };
+export { closeAllMessage, message };

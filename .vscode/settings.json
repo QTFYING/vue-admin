@@ -28,15 +28,7 @@
     "source.fixAll.eslint": "explicit"
   },
   "iconify.excludes": ["el"],
-  "vscodeCustomCodeColor.highlightValue": [
-    "v-loading",
-    "v-auth",
-    "v-copy",
-    "v-longpress",
-    "v-optimize",
-    "v-perms",
-    "v-ripple"
-  ],
+  "vscodeCustomCodeColor.highlightValue": ["v-loading", "v-auth", "v-copy", "v-longpress", "v-optimize", "v-perms", "v-ripple"],
   "vscodeCustomCodeColor.highlightValueColor": "#b392f0",
-  "cSpell.words": ["cits", "iconify", "pureadmin", "VITE", "vueuse"]
+  "cSpell.words": ["cits", "iconfont", "iconify", "pureadmin", "VITE", "vueuse"]
 }

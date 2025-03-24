@@ -1,53 +1,40 @@
 <template>
   <div class="select-none">
     <img :src="bg" class="wave" />
+
     <div class="flex-c absolute right-5 top-3">
-      <!-- 主题 -->
-      <el-switch v-model="dataTheme" inline-prompt :active-icon="dayIcon" :inactive-icon="darkIcon" @change="dataThemeChange" />
+      <!-- 切换主题 -->
+      <el-switch v-model="dataTheme" inline-prompt :active-icon="dayIcon" :inactive-icon="darkIcon" @change="handleThemeChange" />
     </div>
+
     <div class="login-container">
       <div class="img">
-        <component :is="toRaw(illustration)" />
+        <component :is="illustrationComponent" />
       </div>
+
       <div class="login-box">
         <div class="login-form">
-          <avatar class="avatar" />
+          <img src="@/assets/login/avatar.png" width="60" alt="avatar" />
+
           <Motion>
-            <h2 class="outline-none">{{ title }}</h2>
+            <h2 class="outline-none">{{ pageTitle }}</h2>
           </Motion>
 
-          <el-form ref="ruleFormRef" :model="ruleForm" :rules="loginRules" size="large">
+          <el-form ref="ruleFormRef" :model="form" :rules="loginRules" size="large">
             <Motion :delay="100">
-              <el-form-item
-                :rules="[
-                  {
-                    required: true,
-                    message: '请输入账号',
-                    trigger: 'blur',
-                  },
-                ]"
-                prop="username"
-              >
-                <el-input v-model="ruleForm.username" clearable placeholder="账号" :prefix-icon="useRenderIcon(User)" />
+              <el-form-item prop="username" :rules="[{ required: true, message: '请输入账号', trigger: 'blur' }]">
+                <el-input v-model="form.username" clearable placeholder="请输入您的账号" :prefix-icon="userIcon" />
               </el-form-item>
             </Motion>
 
             <Motion :delay="150">
               <el-form-item prop="password">
-                <el-input
-                  v-model="ruleForm.password"
-                  clearable
-                  show-password
-                  placeholder="密码"
-                  :prefix-icon="useRenderIcon(Lock)"
-                />
+                <el-input v-model="form.password" clearable show-password placeholder="请输入您的密码" :prefix-icon="lockIcon" />
               </el-form-item>
             </Motion>
 
             <Motion :delay="250">
-              <el-button class="w-full mt-4" size="default" type="primary" :loading="loading" @click="onLogin(ruleFormRef)">
-                登录
-              </el-button>
+              <el-button class="w-full mt-4" size="default" type="primary" :loading="loading" @click="onLogin"> 登录 </el-button>
             </Motion>
           </el-form>
         </div>
@@ -59,71 +46,81 @@
 <script setup lang="ts">
   import { useRenderIcon } from '@/components/ReIcon/src/hooks';
   import { useDataThemeChange } from '@/layouts/hooks/useDataThemeChange';
-  import { useLayout } from '@/layouts/hooks/useLayout';
   import { useNav } from '@/layouts/hooks/useNav';
   import { getTopMenu, initRouter } from '@/routes/utils';
   import { useUserStoreHook } from '@/stores/modules/user';
   import { message } from '@/utils/message';
   import type { FormInstance } from 'element-plus';
-  import { onBeforeUnmount, onMounted, reactive, ref, toRaw } from 'vue';
+  import { onBeforeUnmount, onMounted, reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
   import Motion from './utils/motion';
   import { loginRules } from './utils/rule';
-  import { avatar, bg, illustration } from './utils/static';
+  import { bg, illustration } from './utils/static';
 
   import darkIcon from '@/assets/svg/dark.svg?component';
   import dayIcon from '@/assets/svg/day.svg?component';
   import Lock from '@iconify-icons/ri/lock-fill';
   import User from '@iconify-icons/ri/user-3-fill';
 
-  defineOptions({
-    name: 'Login',
-  });
+  defineOptions({ name: 'Login' });
+
   const router = useRouter();
   const loading = ref(false);
   const ruleFormRef = ref<FormInstance>();
+  const form = reactive({ username: 'admin', password: '' });
 
-  const { initStorage } = useLayout();
-  initStorage();
+  // 图标
+  const userIcon = useRenderIcon(User);
+  const lockIcon = useRenderIcon(Lock);
 
-  const { dataTheme, overallStyle, dataThemeChange } = useDataThemeChange();
-  dataThemeChange(overallStyle.value);
-  const { title } = useNav();
+  // 主题
+  const { dataTheme, dataThemeChange } = useDataThemeChange();
 
-  const ruleForm = reactive({
-    username: 'admin',
-    password: 'admin123',
-  });
+  // 页面标题
+  const { title: pageTitle } = useNav();
 
-  const onLogin = async (formEl: FormInstance | undefined) => {
+  // 插图组件（避免不必要的 toRaw 调用）
+  const illustrationComponent = illustration;
+
+  // 处理主题切换
+  function handleThemeChange(value: string) {
+    dataThemeChange(value);
+  }
+
+  // const { initStorage } = useLayout();
+
+  // initStorage();
+
+  // dataThemeChange(overallStyle.value);
+
+  const onLogin = async () => {
+    const formEl: FormInstance = ruleFormRef?.value;
     if (!formEl) return;
-    await formEl.validate((valid, fields) => {
+    await formEl.validate(async (valid) => {
       if (valid) {
         loading.value = true;
-        useUserStoreHook()
-          .loginByUsername({ username: ruleForm.username, password: 'admin123' })
-          .then((res) => {
-            if (res.success) {
-              // 获取后端路由
-              return initRouter().then(() => {
-                router.push(getTopMenu(true).path).then(() => {
-                  message('登录成功', { type: 'success' });
-                });
-              });
-            } else {
-              message('登录失败', { type: 'error' });
-            }
-          })
-          .finally(() => (loading.value = false));
+        try {
+          const res = await useUserStoreHook().loginByUsername(form);
+          if (res.success) {
+            await initRouter();
+            const targetPath = getTopMenu(true).path;
+            await router.push(targetPath);
+            message('登录成功', { type: 'success' });
+          } else {
+            message('登录失败', { type: 'error' });
+          }
+        } catch (error) {
+          message(error?.message, { type: 'error' });
+        } finally {
+          loading.value = false;
+        }
       }
     });
   };
 
   /** 使用公共函数，避免`removeEventListener`失效 */
   function onkeypress({ code }: KeyboardEvent) {
-    if (['Enter', 'NumpadEnter'].includes(code)) {
-      onLogin(ruleFormRef.value);
-    }
+    if (['Enter', 'NumpadEnter'].includes(code)) onLogin();
   }
 
   onMounted(() => {
@@ -135,11 +132,8 @@
   });
 </script>
 
-<style scoped>
-  @import url('@/styles/login.css');
-</style>
-
 <style lang="scss" scoped>
+  @import url('@/styles/login.css');
   :deep(.el-input-group__append, .el-input-group__prepend) {
     padding: 0;
   }

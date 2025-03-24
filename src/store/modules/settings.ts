@@ -1,12 +1,12 @@
-import { defineStore } from "pinia";
-import { type setType, store, getConfig } from "../utils";
+import { defineStore } from 'pinia';
+import { type setType, store, getConfig } from '../utils';
 
 export const useSettingStore = defineStore({
-  id: "pure-setting",
+  id: 'pure-setting',
   state: (): setType => ({
     title: getConfig().Title,
     fixedHeader: getConfig().FixedHeader,
-    hiddenSideBar: getConfig().HiddenSideBar
+    hiddenSideBar: getConfig().HiddenSideBar,
   }),
   getters: {
     getTitle(state) {
@@ -17,7 +17,7 @@ export const useSettingStore = defineStore({
     },
     getHiddenSideBar(state) {
       return state.hiddenSideBar;
-    }
+    },
   },
   actions: {
     CHANGE_SETTING({ key, value }) {
@@ -27,8 +27,8 @@ export const useSettingStore = defineStore({
     },
     changeSetting(data) {
       this.CHANGE_SETTING(data);
-    }
-  }
+    },
+  },
 });
 
 export function useSettingStoreHook() {

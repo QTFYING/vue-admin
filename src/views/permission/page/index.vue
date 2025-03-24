@@ -1,45 +1,45 @@
 <script setup lang="ts">
-import { initRouter } from "@/router/utils";
-import { storageLocal } from "@pureadmin/utils";
-import { type CSSProperties, ref, computed } from "vue";
-import { useUserStoreHook } from "@/store/modules/user";
-import { usePermissionStoreHook } from "@/store/modules/permission";
+  import { initRouter } from '@/router/utils';
+  import { storageLocal } from '@pureadmin/utils';
+  import { type CSSProperties, ref, computed } from 'vue';
+  import { useUserStoreHook } from '@/store/modules/user';
+  import { usePermissionStoreHook } from '@/store/modules/permission';
 
-defineOptions({
-  name: "PermissionPage"
-});
+  defineOptions({
+    name: 'PermissionPage',
+  });
 
-const elStyle = computed((): CSSProperties => {
-  return {
-    width: "85vw",
-    justifyContent: "start"
-  };
-});
+  const elStyle = computed((): CSSProperties => {
+    return {
+      width: '85vw',
+      justifyContent: 'start',
+    };
+  });
 
-const username = ref(useUserStoreHook()?.username);
+  const username = ref(useUserStoreHook()?.username);
 
-const options = [
-  {
-    value: "admin",
-    label: "管理员角色"
-  },
-  {
-    value: "common",
-    label: "普通角色"
+  const options = [
+    {
+      value: 'admin',
+      label: '管理员角色',
+    },
+    {
+      value: 'common',
+      label: '普通角色',
+    },
+  ];
+
+  function onChange() {
+    useUserStoreHook()
+      .loginByUsername({ username: username.value, password: 'admin123' })
+      .then((res) => {
+        if (res.success) {
+          storageLocal().removeItem('async-routes');
+          usePermissionStoreHook().clearAllCachePage();
+          initRouter();
+        }
+      });
   }
-];
-
-function onChange() {
-  useUserStoreHook()
-    .loginByUsername({ username: username.value, password: "admin123" })
-    .then(res => {
-      if (res.success) {
-        storageLocal().removeItem("async-routes");
-        usePermissionStoreHook().clearAllCachePage();
-        initRouter();
-      }
-    });
-}
 </script>
 
 <template>
@@ -54,12 +54,7 @@ function onChange() {
         </div>
       </template>
       <el-select v-model="username" class="!w-[160px]" @change="onChange">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
     </el-card>
   </div>

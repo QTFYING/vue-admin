@@ -14,6 +14,7 @@
     "mikestead.dotenv",
     "eamodio.gitlens",
     "antfu.iconify",
-    "Vue.volar"
+    "Vue.volar",
+    "noxussj.element-plus"
   ]
 }

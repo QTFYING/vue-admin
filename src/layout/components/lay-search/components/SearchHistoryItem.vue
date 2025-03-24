@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import type { optionsItem } from "../types";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import StarIcon from "@iconify-icons/ep/star";
-import CloseIcon from "@iconify-icons/ep/close";
+  import type { optionsItem } from '../types';
+  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+  import StarIcon from '@iconify-icons/ep/star';
+  import CloseIcon from '@iconify-icons/ep/close';
 
-interface Props {
-  item: optionsItem;
-}
+  interface Props {
+    item: optionsItem;
+  }
 
-interface Emits {
-  (e: "collectItem", val: optionsItem): void;
-  (e: "deleteItem", val: optionsItem): void;
-}
+  interface Emits {
+    (e: 'collectItem', val: optionsItem): void;
+    (e: 'deleteItem', val: optionsItem): void;
+  }
 
-const emit = defineEmits<Emits>();
-withDefaults(defineProps<Props>(), {});
+  const emit = defineEmits<Emits>();
+  withDefaults(defineProps<Props>(), {});
 
-function handleCollect(item) {
-  emit("collectItem", item);
-}
+  function handleCollect(item) {
+    emit('collectItem', item);
+  }
 
-function handleDelete(item) {
-  emit("deleteItem", item);
-}
+  function handleDelete(item) {
+    emit('deleteItem', item);
+  }
 </script>
 
 <template>
@@ -44,9 +44,9 @@ function handleDelete(item) {
 </template>
 
 <style lang="scss" scoped>
-.history-item-title {
-  display: flex;
-  flex: 1;
-  margin-left: 5px;
-}
+  .history-item-title {
+    display: flex;
+    flex: 1;
+    margin-left: 5px;
+  }
 </style>

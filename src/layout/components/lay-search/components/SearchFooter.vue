@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useNav } from "@/layout/hooks/useNav";
-import MdiKeyboardEsc from "@/assets/svg/keyboard_esc.svg?component";
-import EnterOutlined from "@/assets/svg/enter_outlined.svg?component";
-import ArrowUpLine from "@iconify-icons/ri/arrow-up-line";
-import ArrowDownLine from "@iconify-icons/ri/arrow-down-line";
+  import { useNav } from '@/layout/hooks/useNav';
+  import MdiKeyboardEsc from '@/assets/svg/keyboard_esc.svg?component';
+  import EnterOutlined from '@/assets/svg/enter_outlined.svg?component';
+  import ArrowUpLine from '@iconify-icons/ri/arrow-up-line';
+  import ArrowDownLine from '@iconify-icons/ri/arrow-down-line';
 
-withDefaults(defineProps<{ total: number }>(), {
-  total: 0
-});
+  withDefaults(defineProps<{ total: number }>(), {
+    total: 0,
+  });
 
-const { device } = useNav();
+  const { device } = useNav();
 </script>
 
 <template>
@@ -34,28 +34,28 @@ const { device } = useNav();
 </template>
 
 <style lang="scss" scoped>
-.search-footer {
-  display: flex;
-
-  .search-footer-item {
+  .search-footer {
     display: flex;
-    align-items: center;
-    margin-right: 14px;
-  }
 
-  .icon {
-    padding: 2px;
-    margin-right: 3px;
-    font-size: 20px;
-    box-shadow:
-      inset 0 -2px #cdcde6,
-      inset 0 0 1px 1px #fff,
-      0 1px 2px 1px #1e235a66;
-  }
+    .search-footer-item {
+      display: flex;
+      align-items: center;
+      margin-right: 14px;
+    }
 
-  .search-footer-total {
-    position: absolute;
-    right: 20px;
+    .icon {
+      padding: 2px;
+      margin-right: 3px;
+      font-size: 20px;
+      box-shadow:
+        inset 0 -2px #cdcde6,
+        inset 0 0 1px 1px #fff,
+        0 1px 2px 1px #1e235a66;
+    }
+
+    .search-footer-total {
+      position: absolute;
+      right: 20px;
+    }
   }
-}
 </style>

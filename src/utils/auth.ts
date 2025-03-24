@@ -1,6 +1,6 @@
-import Cookies from "js-cookie";
-import { useUserStoreHook } from "@/store/modules/user";
-import { storageLocal, isString, isIncludeAllChildren } from "@pureadmin/utils";
+import { useUserStoreHook } from '@/store/modules/user';
+import { isIncludeAllChildren, isString, storageLocal } from '@pureadmin/utils';
+import Cookies from 'js-cookie';
 
 export interface DataInfo<T> {
   /** token */
@@ -15,28 +15,26 @@ export interface DataInfo<T> {
   username?: string;
   /** 昵称 */
   nickname?: string;
-  /** 当前登录用户的角色 */
+  /** 当前登录1用户的角色 */
   roles?: Array<string>;
-  /** 当前登录用户的按钮级别权限 */
+  /** 当前登录1用户的按钮级别权限 */
   permissions?: Array<string>;
 }
 
-export const userKey = "user-info";
-export const TokenKey = "authorized-token";
+export const userKey = 'user-info';
+export const TokenKey = 'authorized-token';
 /**
- * 通过`multiple-tabs`是否在`cookie`中，判断用户是否已经登录系统，
- * 从而支持多标签页打开已经登录的系统后无需再登录。
+ * 通过`multiple-tabs`是否在`cookie`中，判断用户是否已经登录1系统，
+ * 从而支持多标签页打开已经登录1的系统后无需再登录。
  * 浏览器完全关闭后`multiple-tabs`将自动从`cookie`中销毁，
- * 再次打开浏览器需要重新登录系统
+ * 再次打开浏览器需要重新登录1系统
  * */
-export const multipleTabsKey = "multiple-tabs";
+export const multipleTabsKey = 'multiple-tabs';
 
 /** 获取`token` */
 export function getToken(): DataInfo<number> {
   // 此处与`TokenKey`相同，此写法解决初始化时`Cookies`中不存在`TokenKey`报错
-  return Cookies.get(TokenKey)
-    ? JSON.parse(Cookies.get(TokenKey))
-    : storageLocal().getItem(userKey);
+  return Cookies.get(TokenKey) ? JSON.parse(Cookies.get(TokenKey)) : storageLocal().getItem(userKey);
 }
 
 /**
@@ -54,18 +52,18 @@ export function setToken(data: DataInfo<Date>) {
 
   expires > 0
     ? Cookies.set(TokenKey, cookieString, {
-        expires: (expires - Date.now()) / 86400000
+        expires: (expires - Date.now()) / 86400000,
       })
     : Cookies.set(TokenKey, cookieString);
 
   Cookies.set(
     multipleTabsKey,
-    "true",
+    'true',
     isRemembered
       ? {
-          expires: loginDay
+          expires: loginDay,
         }
-      : {}
+      : {},
   );
 
   function setUserKey({ avatar, username, nickname, roles, permissions }) {
@@ -81,36 +79,31 @@ export function setToken(data: DataInfo<Date>) {
       username,
       nickname,
       roles,
-      permissions
+      permissions,
     });
   }
 
   if (data.username && data.roles) {
     const { username, roles } = data;
     setUserKey({
-      avatar: data?.avatar ?? "",
+      avatar: data?.avatar ?? '',
       username,
-      nickname: data?.nickname ?? "",
+      nickname: data?.nickname ?? '',
       roles,
-      permissions: data?.permissions ?? []
+      permissions: data?.permissions ?? [],
     });
   } else {
-    const avatar =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.avatar ?? "";
-    const username =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? "";
-    const nickname =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.nickname ?? "";
-    const roles =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.roles ?? [];
-    const permissions =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.permissions ?? [];
+    const avatar = storageLocal().getItem<DataInfo<number>>(userKey)?.avatar ?? '';
+    const username = storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? '';
+    const nickname = storageLocal().getItem<DataInfo<number>>(userKey)?.nickname ?? '';
+    const roles = storageLocal().getItem<DataInfo<number>>(userKey)?.roles ?? [];
+    const permissions = storageLocal().getItem<DataInfo<number>>(userKey)?.permissions ?? [];
     setUserKey({
       avatar,
       username,
       nickname,
       roles,
-      permissions
+      permissions,
     });
   }
 }
@@ -124,18 +117,16 @@ export function removeToken() {
 
 /** 格式化token（jwt格式） */
 export const formatToken = (token: string): string => {
-  return "Bearer " + token;
+  return 'Bearer ' + token;
 };
 
-/** 是否有按钮级别的权限（根据登录接口返回的`permissions`字段进行判断）*/
+/** 是否有按钮级别的权限（根据登录1接口返回的`permissions`字段进行判断）*/
 export const hasPerms = (value: string | Array<string>): boolean => {
   if (!value) return false;
-  const allPerms = "*:*:*";
+  const allPerms = '*:*:*';
   const { permissions } = useUserStoreHook();
   if (!permissions) return false;
   if (permissions.length === 1 && permissions[0] === allPerms) return true;
-  const isAuths = isString(value)
-    ? permissions.includes(value)
-    : isIncludeAllChildren(value, permissions);
+  const isAuths = isString(value) ? permissions.includes(value) : isIncludeAllChildren(value, permissions);
   return isAuths ? true : false;
 };

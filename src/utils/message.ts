@@ -1,9 +1,9 @@
-import type { VNode } from "vue";
-import { isFunction } from "@pureadmin/utils";
-import { type MessageHandler, ElMessage } from "element-plus";
+import type { VNode } from 'vue';
+import { isFunction } from '@pureadmin/utils';
+import { type MessageHandler, ElMessage } from 'element-plus';
 
-type messageStyle = "el" | "antd";
-type messageTypes = "info" | "success" | "warning" | "error";
+type messageStyle = 'el' | 'antd';
+type messageTypes = 'info' | 'success' | 'warning' | 'error';
 
 interface MessageParams {
   /** 消息类型，可选 `info` 、`success` 、`warning` 、`error` ，默认 `info` */
@@ -35,28 +35,25 @@ interface MessageParams {
 /**
  * `Message` 消息提示函数
  */
-const message = (
-  message: string | VNode | (() => VNode),
-  params?: MessageParams
-): MessageHandler => {
+const message = (message: string | VNode | (() => VNode), params?: MessageParams): MessageHandler => {
   if (!params) {
     return ElMessage({
       message,
-      customClass: "pure-message"
+      customClass: 'pure-message',
     });
   } else {
     const {
       icon,
-      type = "info",
+      type = 'info',
       dangerouslyUseHTMLString = false,
-      customClass = "antd",
+      customClass = 'antd',
       duration = 2000,
       showClose = false,
       center = false,
       offset = 20,
       appendTo = document.body,
       grouping = false,
-      onClose
+      onClose,
     } = params;
 
     return ElMessage({
@@ -71,8 +68,8 @@ const message = (
       appendTo,
       grouping,
       // 全局搜 pure-message 即可知道该类的样式位置
-      customClass: customClass === "antd" ? "pure-message" : "",
-      onClose: () => (isFunction(onClose) ? onClose() : null)
+      customClass: customClass === 'antd' ? 'pure-message' : '',
+      onClose: () => (isFunction(onClose) ? onClose() : null),
     });
   }
 };

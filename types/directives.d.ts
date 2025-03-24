@@ -1,7 +1,7 @@
-import type { Directive } from "vue";
-import type { CopyEl, OptimizeOptions, RippleOptions } from "@/directives";
+import type { CopyEl, OptimizeOptions, RippleOptions } from '@/directives';
+import type { Directive } from 'vue';
 
-declare module "vue" {
+declare module 'vue' {
   export interface ComponentCustomProperties {
     /** `Loading` 动画加载指令，具体看：https://element-plus.org/zh-CN/component/loading.html#%E6%8C%87%E4%BB%A4 */
     vLoading: Directive<Element, boolean>;
@@ -13,7 +13,7 @@ declare module "vue" {
     vLongpress: Directive<HTMLElement, Function>;
     /** 防抖、节流指令 */
     vOptimize: Directive<HTMLElement, OptimizeOptions>;
-    /** 按钮权限指令（根据登录接口返回的`permissions`字段进行判断）*/
+    /** 按钮权限指令（根据登录1接口返回的`permissions`字段进行判断）*/
     vPerms: Directive<HTMLElement, string | Array<string>>;
     /**
      * `v-ripple`指令，用法如下：

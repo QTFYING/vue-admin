@@ -6,6 +6,9 @@
 
 /* 自定义全局 CssVar */
 :root {
+  /* 顶部菜单栏的高度 */
+  --pure-menu-bar-height: 60px;
+
   /* 左侧菜单展开、收起动画时长 */
   --pure-transition-duration: 0.3s;
 

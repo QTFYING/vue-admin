@@ -1,6 +1,6 @@
+import fontIcon from './src/iconfont';
 import iconifyIconOffline from './src/iconifyIconOffline';
 import iconifyIconOnline from './src/iconifyIconOnline';
-import fontIcon from './src/iconfont';
 
 /** 本地图标组件 */
 const IconifyIconOffline = iconifyIconOffline;
@@ -9,4 +9,4 @@ const IconifyIconOnline = iconifyIconOnline;
 /** `iconfont`组件 */
 const FontIcon = fontIcon;
 
-export { IconifyIconOffline, IconifyIconOnline, FontIcon };
+export { FontIcon, IconifyIconOffline, IconifyIconOnline };

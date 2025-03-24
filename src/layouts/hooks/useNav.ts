@@ -1,4 +1,4 @@
-import Avatar from '@/assets/user.jpg';
+import Avatar from '@/assets/user.png';
 import { getConfig } from '@/config';
 import { remainingPaths, router } from '@/routes';
 import { getTopMenu } from '@/routes/utils';
@@ -6,7 +6,8 @@ import { useAppStoreHook } from '@/stores/modules/app';
 import { usePermissionStoreHook } from '@/stores/modules/permission';
 import { useUserStoreHook } from '@/stores/modules/user';
 import { emitter } from '@/utils/mitt';
-import ExitFullscreen from '@iconify-icons/ri/fullscreen-exit-fill';
+import { default as DownloadIcon } from '@iconify-icons/ep/download';
+import { default as ExitFullscreen } from '@iconify-icons/ri/fullscreen-exit-fill';
 import Fullscreen from '@iconify-icons/ri/fullscreen-fill';
 import { isAllEmpty, useGlobal } from '@pureadmin/utils';
 import { useFullscreen } from '@vueuse/core';
@@ -44,10 +45,6 @@ export function useNav() {
   /** 昵称（如果昵称为空则显示用户名） */
   const username = computed(() => {
     return isAllEmpty(useUserStoreHook()?.nickname) ? useUserStoreHook()?.username : useUserStoreHook()?.nickname;
-  });
-
-  const avatarsStyle = computed(() => {
-    return username.value ? { marginRight: '10px' } : '';
   });
 
   const isCollapse = computed(() => {
@@ -118,7 +115,7 @@ export function useNav() {
 
   /** 获取`logo` */
   function getLogo() {
-    return new URL('/logo.svg', import.meta.url).href;
+    return new URL('/logo.png', import.meta.url).href;
   }
 
   return {
@@ -132,6 +129,7 @@ export function useNav() {
     isFullscreen,
     Fullscreen,
     ExitFullscreen,
+    DownloadIcon,
     toggle,
     backTopMenu,
     onPanel,
@@ -146,7 +144,6 @@ export function useNav() {
     pureApp,
     username,
     userAvatar,
-    avatarsStyle,
     tooltipEffect,
   };
 }

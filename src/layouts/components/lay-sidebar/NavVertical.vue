@@ -71,6 +71,7 @@
     @mouseleave.prevent="isShow = false"
   >
     <LaySidebarLogo v-if="showLogo" :collapse="isCollapse" />
+
     <el-scrollbar wrap-class="scrollbar-wrapper" :class="[device === 'mobile' ? 'mobile' : 'pc']">
       <el-menu
         unique-opened
@@ -91,11 +92,13 @@
         />
       </el-menu>
     </el-scrollbar>
+
     <LaySidebarCenterCollapse
       v-if="device !== 'mobile' && (isShow || isCollapse)"
       :is-active="pureApp.sidebar.opened"
       @toggleClick="toggleSideBar"
     />
+
     <LaySidebarLeftCollapse v-if="device !== 'mobile'" :is-active="pureApp.sidebar.opened" @toggleClick="toggleSideBar" />
   </div>
 </template>

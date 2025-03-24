@@ -1,8 +1,8 @@
+import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+import { isFunction, isNumber, useDark, useResizeObserver } from '@pureadmin/utils';
+import { type PropType, defineComponent, getCurrentInstance, h, nextTick, ref, toRef, watch } from 'vue';
 import './index.css';
 import type { OptionsType } from './type';
-import { useRenderIcon } from '@/components/ReIcon/src/hooks';
-import { useDark, isNumber, isFunction, useResizeObserver } from '@pureadmin/utils';
-import { type PropType, h, ref, toRef, watch, nextTick, defineComponent, getCurrentInstance } from 'vue';
 
 const props = {
   options: {

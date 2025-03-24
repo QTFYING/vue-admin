@@ -1,14 +1,3 @@
-<script setup lang="ts">
-  import { useNav } from '@/layouts/hooks/useNav';
-  import { getTopMenu } from '@/routes/utils';
-
-  defineProps({
-    collapse: Boolean,
-  });
-
-  const { title, getLogo } = useNav();
-</script>
-
 <template>
   <div class="sidebar-logo-container" :class="{ collapses: collapse }">
     <transition name="sidebarLogoFade">
@@ -24,11 +13,22 @@
   </div>
 </template>
 
+<script setup lang="ts">
+  import { useNav } from '@/layouts/hooks/useNav';
+  import { getTopMenu } from '@/routes/utils';
+
+  defineProps({
+    collapse: Boolean,
+  });
+
+  const { title, getLogo } = useNav();
+</script>
+
 <style lang="scss" scoped>
   .sidebar-logo-container {
     position: relative;
     width: 100%;
-    height: 48px;
+    height: var(--pure-menu-bar-height);
     overflow: hidden;
 
     .sidebar-logo-link {

@@ -1,8 +1,8 @@
+import { withInstall } from '@pureadmin/utils';
+import { useTimeoutFn } from '@vueuse/core';
 import { ref } from 'vue';
 import reDialog from './index.vue';
-import { useTimeoutFn } from '@vueuse/core';
-import { withInstall } from '@pureadmin/utils';
-import type { EventType, ArgsType, DialogProps, ButtonProps, DialogOptions } from './type';
+import type { ArgsType, ButtonProps, DialogOptions, DialogProps, EventType } from './type';
 
 const dialogStore = ref<Array<DialogOptions>>([]);
 
@@ -51,5 +51,5 @@ const closeAllDialog = () => {
  */
 const ReDialog = withInstall(reDialog);
 
-export type { EventType, ArgsType, DialogProps, ButtonProps, DialogOptions };
-export { ReDialog, dialogStore, addDialog, closeDialog, updateDialog, closeAllDialog };
+export { addDialog, closeAllDialog, closeDialog, dialogStore, ReDialog, updateDialog };
+export type { ArgsType, ButtonProps, DialogOptions, DialogProps, EventType };

@@ -30,12 +30,6 @@
 .login-box {
   display: flex;
   align-items: center;
-  text-align: center;
-  overflow: hidden;
-}
-
-.login-form {
-  width: 360px;
 }
 
 .avatar {

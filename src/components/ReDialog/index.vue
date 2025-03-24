@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  import { type EventType, type ButtonProps, type DialogOptions, closeDialog, dialogStore } from './index';
-  import { ref, computed } from 'vue';
-  import { isFunction } from '@pureadmin/utils';
-  import Fullscreen from '@iconify-icons/ri/fullscreen-fill';
   import ExitFullscreen from '@iconify-icons/ri/fullscreen-exit-fill';
+  import Fullscreen from '@iconify-icons/ri/fullscreen-fill';
+  import { isFunction } from '@pureadmin/utils';
+  import { computed, ref } from 'vue';
+  import { type ButtonProps, type DialogOptions, type EventType, closeDialog, dialogStore } from './index';
 
   defineOptions({
     name: 'ReDialog',

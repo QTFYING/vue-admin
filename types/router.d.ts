@@ -1,7 +1,7 @@
 // 全局路由类型声明
 
-import type { RouteComponent, RouteLocationNormalized } from "vue-router";
-import type { FunctionalComponent } from "vue";
+import type { FunctionalComponent } from 'vue';
+import type { RouteComponent, RouteLocationNormalized } from 'vue-router';
 
 declare global {
   interface ToRouteType extends RouteLocationNormalized {
@@ -103,6 +103,6 @@ declare global {
 }
 
 // https://router.vuejs.org/zh/guide/advanced/meta.html#typescript
-declare module "vue-router" {
+declare module 'vue-router' {
   interface RouteMeta extends CustomizeRouteMeta {}
 }

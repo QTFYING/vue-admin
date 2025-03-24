@@ -1,17 +1,4 @@
-<script setup lang="ts">
-  import { useNav } from '@/layouts/hooks/useNav';
-  import LayNotice from '../lay-notice/index.vue';
-  import LaySearch from '../lay-search/index.vue';
-  import LayNavMix from '../lay-sidebar/NavMix.vue';
-  import LaySidebarBreadCrumb from '../lay-sidebar/components/SidebarBreadCrumb.vue';
-  import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
-  import LaySidebarTopCollapse from '../lay-sidebar/components/SidebarTopCollapse.vue';
-
-  import LogoutCircleRLine from '@iconify-icons/ri/logout-circle-r-line';
-  import Setting from '@iconify-icons/ri/settings-3-line';
-
-  const { layout, device, logout, onPanel, pureApp, username, userAvatar, avatarsStyle, toggleSideBar } = useNav();
-</script>
+/** vertical 版菜单栏右侧 */
 
 <template>
   <div class="navbar bg-[#fff] shadow-sm shadow-[rgba(0,21,41,0.08)]">
@@ -29,16 +16,20 @@
     <div v-if="layout === 'vertical'" class="vertical-header-right">
       <!-- 菜单搜索 -->
       <LaySearch id="header-search" />
+
       <!-- 全屏 -->
       <LaySidebarFullScreen id="full-screen" />
+
       <!-- 消息通知 -->
       <LayNotice id="header-notice" />
+
       <!-- 退出登录 -->
-      <el-dropdown trigger="click">
+      <el-dropdown trigger="hover">
         <span class="el-dropdown-link navbar-bg-hover select-none">
           <img :src="userAvatar" :style="avatarsStyle" />
           <p v-if="username" class="dark:text-white">{{ username }}</p>
         </span>
+
         <template #dropdown>
           <el-dropdown-menu class="logout">
             <el-dropdown-item @click="logout">
@@ -48,6 +39,7 @@
           </el-dropdown-menu>
         </template>
       </el-dropdown>
+
       <span class="set-icon navbar-bg-hover" title="打开系统配置" @click="onPanel">
         <IconifyIconOffline :icon="Setting" />
       </span>
@@ -55,10 +47,25 @@
   </div>
 </template>
 
+<script setup lang="ts">
+  import { useNav } from '@/layouts/hooks/useNav';
+  import LayNotice from '../lay-notice/index.vue';
+  import LaySearch from '../lay-search/index.vue';
+  import LayNavMix from '../lay-sidebar/NavMix.vue';
+  import LaySidebarBreadCrumb from '../lay-sidebar/components/SidebarBreadCrumb.vue';
+  import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
+  import LaySidebarTopCollapse from '../lay-sidebar/components/SidebarTopCollapse.vue';
+
+  import LogoutCircleRLine from '@iconify-icons/ri/logout-circle-r-line';
+  import Setting from '@iconify-icons/ri/settings-3-line';
+
+  const { layout, device, logout, onPanel, pureApp, username, userAvatar, avatarsStyle, toggleSideBar } = useNav();
+</script>
+
 <style lang="scss" scoped>
   .navbar {
     width: 100%;
-    height: 48px;
+    height: var(--pure-menu-bar-height);
     overflow: hidden;
 
     .hamburger-container {

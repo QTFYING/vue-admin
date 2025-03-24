@@ -1,17 +1,16 @@
+<template>
+  <div v-loading="loading" class="frame" element-loading-text="加载中...">
+    <iframe ref="frameRef" :src="frameSrc" class="frame-iframe" />
+  </div>
+</template>
+
 <script setup lang="ts">
   import { nextTick, onMounted, ref, unref, watch } from 'vue';
   import { useRoute } from 'vue-router';
 
-  defineOptions({
-    name: 'LayFrame',
-  });
+  defineOptions({ name: 'LayFrame' });
 
-  const props = defineProps<{
-    frameInfo?: {
-      frameSrc?: string;
-      fullPath?: string;
-    };
-  }>();
+  const props = defineProps<{ frameInfo?: { frameSrc?: string; fullPath?: string } }>();
 
   const loading = ref(true);
   const currentRoute = useRoute();
@@ -61,12 +60,6 @@
     init();
   });
 </script>
-
-<template>
-  <div v-loading="loading" class="frame" element-loading-text="加载中...">
-    <iframe ref="frameRef" :src="frameSrc" class="frame-iframe" />
-  </div>
-</template>
 
 <style lang="scss" scoped>
   .frame {

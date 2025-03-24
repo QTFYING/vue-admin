@@ -1,9 +1,7 @@
-<script setup lang="ts">
-  defineOptions({
-    name: 'Welcome',
-  });
-</script>
-
 <template>
-  <h1>Pure-Admin-Thin（非国际化版本）</h1>
+  <h1>这里计划填充一些大屏数据</h1>
 </template>
+
+<script setup lang="ts">
+  defineOptions({ name: 'Welcome' });
+</script>

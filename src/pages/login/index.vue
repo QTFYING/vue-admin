@@ -13,31 +13,60 @@
       </div>
 
       <div class="login-box">
-        <div class="login-form">
-          <img src="@/assets/login/avatar.png" width="60" alt="avatar" />
+        <el-card style="width: 70%; margin-top: 40px">
+          <el-space size="default" spacer="|">
+            <img src="@/assets/login/avatar.png" width="25" alt="avatar" />
 
-          <Motion>
-            <h2 class="outline-none">{{ pageTitle }}</h2>
-          </Motion>
+            <div class="card-header">
+              <h2>登录</h2>
+            </div>
+          </el-space>
 
-          <el-form ref="ruleFormRef" :model="form" :rules="loginRules" size="large">
+          <el-form
+            ref="ruleFormRef"
+            :model="form"
+            :rules="loginRules"
+            size="large"
+            autocomplete="off"
+            label-position="top"
+            class="mt-8"
+          >
             <Motion :delay="100">
-              <el-form-item prop="username" :rules="[{ required: true, message: '请输入账号', trigger: 'blur' }]">
-                <el-input v-model="form.username" clearable placeholder="请输入您的账号" :prefix-icon="userIcon" />
+              <el-form-item label="账号" prop="username" :rules="[{ required: true, message: '请输入账号', trigger: 'blur' }]">
+                <el-input v-model="form.username" clearable placeholder="请输入您的账号" :prefix-icon="userIcon" maxlength="11" />
               </el-form-item>
             </Motion>
 
             <Motion :delay="150">
-              <el-form-item prop="password">
-                <el-input v-model="form.password" clearable show-password placeholder="请输入您的密码" :prefix-icon="lockIcon" />
+              <el-form-item label="密码" prop="password" :rules="[{ required: true, message: '请输入账号', trigger: 'blur' }]">
+                <el-input
+                  v-model="form.password"
+                  clearable
+                  maxlength="20"
+                  show-password
+                  placeholder="请输入您的密码"
+                  :prefix-icon="lockIcon"
+                />
               </el-form-item>
+            </Motion>
+
+            <Motion :delay="150">
+              <el-row justify="space-between">
+                <el-form-item prop="isChecked">
+                  <el-checkbox v-model="form.isChecked" label="记住密码" />
+                </el-form-item>
+
+                <el-form-item>
+                  <span class="text-sky-600 hover:text-sky-900">忘记密码 ？</span>
+                </el-form-item>
+              </el-row>
             </Motion>
 
             <Motion :delay="250">
               <el-button class="w-full mt-4" size="default" type="primary" :loading="loading" @click="onLogin"> 登录 </el-button>
             </Motion>
           </el-form>
-        </div>
+        </el-card>
       </div>
     </div>
   </div>
@@ -67,7 +96,7 @@
   const router = useRouter();
   const loading = ref(false);
   const ruleFormRef = ref<FormInstance>();
-  const form = reactive({ username: 'admin', password: '' });
+  const form = reactive({ username: '', password: '', isChecked: false });
 
   // 图标
   const userIcon = useRenderIcon(User);

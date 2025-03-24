@@ -1,20 +1,17 @@
-import { cdn } from "./cdn";
-import vue from "@vitejs/plugin-vue";
-import { viteBuildInfo } from "./info";
-import svgLoader from "vite-svg-loader";
-import type { PluginOption } from "vite";
-import vueJsx from "@vitejs/plugin-vue-jsx";
-import { configCompressPlugin } from "./compress";
-import removeNoMatch from "vite-plugin-router-warn";
-import { visualizer } from "rollup-plugin-visualizer";
-import removeConsole from "vite-plugin-remove-console";
-import { codeInspectorPlugin } from "code-inspector-plugin";
-import { vitePluginFakeServer } from "vite-plugin-fake-server";
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
+import { visualizer } from 'rollup-plugin-visualizer';
+import type { PluginOption } from 'vite';
+import { vitePluginFakeServer } from 'vite-plugin-fake-server';
+import removeConsole from 'vite-plugin-remove-console';
+import removeNoMatch from 'vite-plugin-router-warn';
+import svgLoader from 'vite-svg-loader';
+import { cdn } from './cdn';
+import { configCompressPlugin } from './compress';
+import { viteBuildInfo } from './info';
 
-export function getPluginsList(
-  VITE_CDN: boolean,
-  VITE_COMPRESSION: ViteCompression
-): PluginOption[] {
+export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompression): PluginOption[] {
   const lifecycle = process.env.npm_lifecycle_event;
   return [
     vue(),
@@ -27,8 +24,8 @@ export function getPluginsList(
      * 更多用法看 https://inspector.fe-dev.cn/guide/start.html
      */
     codeInspectorPlugin({
-      bundler: "vite",
-      hideConsole: true
+      bundler: 'vite',
+      hideConsole: true,
     }),
     viteBuildInfo(),
     /**
@@ -40,19 +37,17 @@ export function getPluginsList(
     // mock支持
     vitePluginFakeServer({
       logger: false,
-      include: "mock",
+      include: 'mock',
       infixName: false,
-      enableProd: true
+      enableProd: true,
     }),
     // svg组件化支持
     svgLoader(),
     VITE_CDN ? cdn : null,
     configCompressPlugin(VITE_COMPRESSION),
     // 线上环境删除console
-    removeConsole({ external: ["src/assets/iconfont/iconfont.js"] }),
+    removeConsole({ external: ['src/assets/iconfont/iconfont.js'] }),
     // 打包分析
-    lifecycle === "report"
-      ? visualizer({ open: true, brotliSize: true, filename: "report.html" })
-      : (null as any)
+    lifecycle === 'report' ? visualizer({ open: true, brotliSize: true, filename: 'report.html' }) : (null as any),
   ];
 }

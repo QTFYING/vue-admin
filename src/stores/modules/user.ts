@@ -4,8 +4,7 @@ import { defineStore } from 'pinia';
 import { type userType, resetRouter, router, routerArrays, storageLocal, store } from '../utils';
 import { useMultiTagsStoreHook } from './multiTags';
 
-export const useUserStore = defineStore({
-  id: 'pure-user',
+export const useUserStore = defineStore('pure-user', {
   state: (): userType => ({
     // 头像
     avatar: storageLocal().getItem<DataInfo<number>>(userKey)?.avatar ?? '',

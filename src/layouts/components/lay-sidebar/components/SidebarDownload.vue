@@ -1,7 +1,7 @@
 <!-- 下载中心 -->
 <template>
   <span class="fullscreen-icon navbar-bg-hover" @click="toggle">
-    <IconifyIconOffline :icon="DownloadIcon" style="font-weight: 900; font-size: 18px" />
+    <IconifyIconOffline :icon="DownloadIcon" style="font-size: 18px; font-weight: 900" />
   </span>
 </template>
 

@@ -41,7 +41,7 @@
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <el-space>
-          <img :src="userAvatar" width="24" style="border-radius: 15px; border: 1px solid #999" />
+          <img :src="userAvatar" width="24" style="border: 1px solid #999; border-radius: 15px" />
           <p v-if="username" class="dark:text-white">{{ username }}</p>
         </el-space>
 

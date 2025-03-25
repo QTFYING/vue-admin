@@ -26,7 +26,7 @@
       <!-- 退出登录 -->
       <el-dropdown trigger="hover">
         <span class="el-dropdown-link navbar-bg-hover select-none">
-          <img :src="userAvatar" :style="avatarsStyle" />
+          <img :src="userAvatar" />
           <p v-if="username" class="dark:text-white">{{ username }}</p>
         </span>
 
@@ -59,7 +59,7 @@
   import LogoutCircleRLine from '@iconify-icons/ri/logout-circle-r-line';
   import Setting from '@iconify-icons/ri/settings-3-line';
 
-  const { layout, device, logout, onPanel, pureApp, username, userAvatar, avatarsStyle, toggleSideBar } = useNav();
+  const { layout, device, logout, onPanel, pureApp, username, userAvatar, toggleSideBar } = useNav();
 </script>
 
 <style lang="scss" scoped>

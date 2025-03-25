@@ -1,5 +1,5 @@
 # 项目
 
-## 231
+## 打包注意事项
 
-1321132
+- 生成环境 `sudo pnpm build --mode production`

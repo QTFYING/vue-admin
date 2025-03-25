@@ -77,7 +77,7 @@ class PureHttp {
                     PureHttp.isRefreshing = true;
                     // token过期刷新
                     useUserStoreHook()
-                      .handRefreshToken({ refreshToken: data.refreshToken })
+                      .onRefreshToken({ refreshToken: data.refreshToken })
                       .then((res) => {
                         const token = res.data.accessToken;
                         config.headers['Authorization'] = formatToken(token);

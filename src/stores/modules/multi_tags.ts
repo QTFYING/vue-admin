@@ -22,11 +22,13 @@ export const useMultiTagsStore = defineStore('pure-multiTags', {
       : [...routerArrays, ...usePermissionStoreHook().flatteningRoutes.filter((v) => v?.meta?.fixedTag)],
     multiTagsCache: storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`)?.multiTagsCache,
   }),
+
   getters: {
     getMultiTagsCache(state) {
       return state.multiTagsCache;
     },
   },
+
   actions: {
     multiTagsCacheChange(multiTagsCache: boolean) {
       this.multiTagsCache = multiTagsCache;
@@ -36,9 +38,11 @@ export const useMultiTagsStore = defineStore('pure-multiTags', {
         storageLocal().removeItem(`${responsiveStorageNameSpace()}tags`);
       }
     },
+
     tagsCache(multiTags) {
       this.getMultiTagsCache && storageLocal().setItem(`${responsiveStorageNameSpace()}tags`, multiTags);
     },
+
     handleTags<T>(mode: string, value?: T | multiType, position?: positionType): T {
       switch (mode) {
         case 'equal':

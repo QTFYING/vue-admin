@@ -88,12 +88,14 @@
 
   import darkIcon from '@/assets/svg/dark.svg?component';
   import dayIcon from '@/assets/svg/day.svg?component';
+  import { useLayout } from '@/layouts/hooks/useLayout';
   import Lock from '@iconify-icons/ri/lock-fill';
   import User from '@iconify-icons/ri/user-3-fill';
 
   defineOptions({ name: 'Login' });
 
   const router = useRouter();
+  const { initStorage } = useLayout();
   const loading = ref(false);
   const ruleFormRef = ref<FormInstance>();
   const form = reactive({ username: '', password: '', isChecked: false });
@@ -103,7 +105,7 @@
   const lockIcon = useRenderIcon(Lock);
 
   // 主题
-  const { dataTheme, dataThemeChange } = useDataThemeChange();
+  const { dataTheme, dataThemeChange, overallStyle } = useDataThemeChange();
 
   // 页面标题
   const { title: pageTitle } = useNav();
@@ -113,14 +115,8 @@
 
   // 处理主题切换
   function handleThemeChange(value: string) {
-    dataThemeChange(value);
+    dataThemeChange(value ?? overallStyle.value);
   }
-
-  // const { initStorage } = useLayout();
-
-  // initStorage();
-
-  // dataThemeChange(overallStyle.value);
 
   const onLogin = async () => {
     const formEl: FormInstance = ruleFormRef?.value;
@@ -129,7 +125,7 @@
       if (valid) {
         loading.value = true;
         try {
-          const res = await useUserStoreHook().loginByUsername(form);
+          const res = await useUserStoreHook().onLogin(form);
           if (res.success) {
             await initRouter();
             const targetPath = getTopMenu(true).path;
@@ -153,6 +149,7 @@
   }
 
   onMounted(() => {
+    initStorage(); // 初始化缓存
     window.document.addEventListener('keypress', onkeypress);
   });
 

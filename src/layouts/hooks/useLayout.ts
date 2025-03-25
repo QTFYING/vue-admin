@@ -1,4 +1,4 @@
-import { useMultiTagsStore } from '@/stores/modules/multiTags';
+import { useMultiTagsStore } from '@/stores/modules/multi_tags';
 import { useGlobal } from '@pureadmin/utils';
 import { computed } from 'vue';
 import { routerArrays } from '../types';
@@ -11,6 +11,7 @@ export function useLayout() {
     if (useMultiTagsStore().multiTagsCache && (!$storage.tags || $storage.tags.length === 0)) {
       $storage.tags = routerArrays;
     }
+
     /** 导航 */
     if (!$storage.layout) {
       $storage.layout = {
@@ -23,6 +24,7 @@ export function useLayout() {
         overallStyle: $config?.OverallStyle ?? 'light',
       };
     }
+
     /** 灰色模式、色弱模式、隐藏标签页 */
     if (!$storage.configure) {
       $storage.configure = {

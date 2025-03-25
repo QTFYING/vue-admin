@@ -168,7 +168,7 @@
   import { useDataThemeChange } from '@/layouts/hooks/useDataThemeChange';
   import { useNav } from '@/layouts/hooks/useNav';
   import { useAppStoreHook } from '@/stores/modules/app';
-  import { useMultiTagsStoreHook } from '@/stores/modules/multiTags';
+  import { useMultiTagsStoreHook } from '@/stores/modules/multi_tags';
   import { emitter } from '@/utils/mitt';
   import { debounce, isNumber, useDark, useGlobal } from '@pureadmin/utils';
   import { computed, nextTick, onBeforeMount, onUnmounted, reactive, ref, unref, watch } from 'vue';

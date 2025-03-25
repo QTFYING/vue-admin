@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import EnterOutlined from '@/assets/svg/enter_outlined.svg?component';
   import { useRenderIcon } from '@/components/ReIcon/src/hooks';
-  import { useEpThemeStoreHook } from '@/stores/modules/epTheme';
+  import { useEpThemeStoreHook } from '@/stores/modules/ep_theme';
   import { useResizeObserver } from '@pureadmin/utils';
   import { computed, getCurrentInstance, onMounted, ref } from 'vue';
   import type { Props } from '../types';

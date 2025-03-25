@@ -73,7 +73,7 @@ export function useNav() {
 
   /** 退出登录 */
   function logout() {
-    useUserStoreHook().logOut();
+    useUserStoreHook().onLogout();
   }
 
   function backTopMenu() {

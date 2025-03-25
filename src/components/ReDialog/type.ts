@@ -1,4 +1,4 @@
-import type { CSSProperties, VNode, Component } from 'vue';
+import type { Component, CSSProperties, VNode } from 'vue';
 
 type DoneFn = (cancel?: boolean) => void;
 type EventType = 'open' | 'close' | 'openAutoFocus' | 'closeAutoFocus' | 'fullscreenCallBack';
@@ -211,4 +211,4 @@ interface DialogOptions extends DialogProps {
   ) => void;
 }
 
-export type { EventType, ArgsType, DialogProps, ButtonProps, DialogOptions };
+export type { ArgsType, ButtonProps, DialogOptions, DialogProps, EventType };

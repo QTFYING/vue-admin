@@ -1,5 +1,5 @@
 import { responsiveStorageNameSpace } from '@/config';
-import { useMultiTagsStoreHook } from '@/stores/modules/multiTags';
+import { useMultiTagsStoreHook } from '@/stores/modules/multi_tags';
 import { useSettingStoreHook } from '@/stores/modules/settings';
 import { hasClass, isBoolean, isEqual, storageLocal, toggleClass } from '@pureadmin/utils';
 import { computed, getCurrentInstance, onMounted, reactive, ref, unref, type CSSProperties } from 'vue';

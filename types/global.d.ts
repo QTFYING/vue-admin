@@ -23,11 +23,19 @@ declare global {
   };
 
   /**
+   * 该项目的全局属性
+   */
+  const IWindowGlobal: {
+    menus: Array<RouteConfigsTable>;
+  };
+
+  /**
    * Window 的类型提示
    */
   interface Window {
     // Global vue app instance
     __APP__: App<Element>;
+    GLOBAL: IWindowGlobal;
     webkitCancelAnimationFrame: (handle: number) => void;
     mozCancelAnimationFrame: (handle: number) => void;
     oCancelAnimationFrame: (handle: number) => void;
@@ -54,7 +62,6 @@ declare global {
 
   /**
    * 全局自定义环境变量的类型声明
-   * @see {@link https://pure-admin.cn/pages/config/#%E5%85%B7%E4%BD%93%E9%85%8D%E7%BD%AE}
    */
   interface ViteEnv {
     VITE_PORT: number;
@@ -72,7 +79,6 @@ declare global {
 
   /**
    * 对应 `public/platform-config.json` 文件的类型声明
-   * @see {@link https://pure-admin.cn/pages/config/#platform-config-json}
    */
   interface PlatformConfigs {
     Version?: string;
@@ -105,7 +111,6 @@ declare global {
 
   /**
    * 与 `PlatformConfigs` 类型不同，这里是缓存到浏览器本地存储的类型声明
-   * @see {@link https://pure-admin.cn/pages/config/#platform-config-json}
    */
   interface StorageConfigs {
     version?: string;

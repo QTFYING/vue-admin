@@ -10,7 +10,7 @@ import {
   getKeyList,
   store,
 } from '../utils';
-import { useMultiTagsStoreHook } from './multiTags';
+import { useMultiTagsStoreHook } from './multi_tags';
 
 export const usePermissionStore = defineStore('pure-permission', {
   state: () => ({
@@ -23,12 +23,14 @@ export const usePermissionStore = defineStore('pure-permission', {
     // 缓存页面keepAlive
     cachePageList: [],
   }),
+
   actions: {
     /** 组装整体路由生成的菜单 */
     handleWholeMenus(routes: any[]) {
       this.wholeMenus = filterNoPermissionTree(filterTree(ascending(this.constantMenus.concat(routes))));
       this.flatteningRoutes = formatFlatteningRoutes(this.constantMenus.concat(routes));
     },
+
     cacheOperate({ mode, name }: cacheType) {
       const delIndex = this.cachePageList.findIndex((v) => v === name);
       switch (mode) {
@@ -42,6 +44,7 @@ export const usePermissionStore = defineStore('pure-permission', {
           delIndex !== -1 && this.cachePageList.splice(delIndex, 1);
           break;
       }
+
       /** 监听缓存页面是否存在于标签页，不存在则删除 */
       debounce(() => {
         let cacheLength = this.cachePageList.length;
@@ -53,6 +56,7 @@ export const usePermissionStore = defineStore('pure-permission', {
         }
       })();
     },
+
     /** 清空缓存页面 */
     clearAllCachePage() {
       this.wholeMenus = [];

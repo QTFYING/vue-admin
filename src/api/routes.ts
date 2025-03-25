@@ -5,6 +5,8 @@ type Result = {
   data: Array<any>;
 };
 
-export const getAsyncRoutes = () => {
-  return http.request<Result>('get', '/get-async-routes');
+export const getAsyncRoutes = async () => {
+  const res = await http.request<Result>('get', '/get-async-routes');
+  window.GLOBAL = { ...window.GLOBAL, menus: res?.data };
+  return Promise.resolve(res);
 };

@@ -1,6 +1,6 @@
 import { getConfig } from '@/config';
 import { type menuType, routerArrays } from '@/layouts/types';
-import { useMultiTagsStoreHook } from '@/stores/modules/multiTags';
+import { useMultiTagsStoreHook } from '@/stores/modules/multi_tags';
 import { usePermissionStoreHook } from '@/stores/modules/permission';
 import { type DataInfo, userKey } from '@/utils/auth';
 import { buildHierarchyTree } from '@/utils/tree';
@@ -55,7 +55,7 @@ function isOneOfArray(a: Array<string>, b: Array<string>) {
   return Array.isArray(a) && Array.isArray(b) ? (intersection(a, b).length > 0 ? true : false) : true;
 }
 
-/** 从localStorage里取出当前登录1用户的角色roles，过滤无权限的菜单 */
+/** 从localStorage里取出当前登录用户的角色roles，过滤无权限的菜单 */
 function filterNoPermissionTree(data: RouteComponent[]) {
   const currentRoles = storageLocal().getItem<DataInfo<number>>(userKey)?.roles ?? [];
   const newTree = cloneDeep(data).filter((v: any) => isOneOfArray(v.meta?.roles, currentRoles));
@@ -146,7 +146,7 @@ function handleAsyncRoutes(routeList) {
 }
 
 /** 初始化路由（`new Promise` 写法防止在异步请求中造成无限循环）*/
-function initRouter() {
+async function initRouter() {
   if (getConfig()?.CachingAsyncRoutes) {
     // 开启动态路由缓存本地localStorage
     const key = 'async-routes';
@@ -157,22 +157,26 @@ function initRouter() {
         resolve(router);
       });
     } else {
-      return new Promise((resolve) => {
-        getAsyncRoutes().then(({ data }) => {
-          handleAsyncRoutes(cloneDeep(data));
-          storageLocal().setItem(key, data);
-          resolve(router);
-        });
-      });
+      return getGlobalRouters('key', true);
     }
   } else {
-    return new Promise((resolve) => {
-      getAsyncRoutes().then(({ data }) => {
-        handleAsyncRoutes(cloneDeep(data));
-        resolve(router);
-      });
-    });
+    return getGlobalRouters('key');
   }
+}
+
+/**
+ * 获取Window下的菜单数据
+ * @param storageKey 路由缓存的key值
+ * @param isInit 是否缓存路由
+ * @returns void
+ */
+
+async function getGlobalRouters(storageKey, isInit?: boolean) {
+  await getAsyncRoutes(); // 模拟后台往window中插入路由菜单数据
+  const { menus } = window.GLOBAL;
+  handleAsyncRoutes(cloneDeep(menus));
+  if (isInit) storageLocal().setItem(storageKey, menus);
+  return Promise.resolve(router);
 }
 
 /**

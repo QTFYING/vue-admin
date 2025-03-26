@@ -103,7 +103,7 @@
             style="color: var(--el-color-primary)"
           >
             <IconifyIconOffline :icon="settings.stretch ? RightArrow : LeftArrow" height="20" />
-            <div class="flex-grow border-b border-dashed" style="border-color: var(--el-color-primary)" />
+            <div class="grow border-b border-dashed" style="border-color: var(--el-color-primary)" />
             <IconifyIconOffline :icon="settings.stretch ? LeftArrow : RightArrow" height="20" />
           </div>
         </button>

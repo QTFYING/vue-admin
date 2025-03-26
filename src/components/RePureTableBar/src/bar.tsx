@@ -65,7 +65,7 @@ export default defineComponent({
     });
 
     const iconClass = computed(() => {
-      return ['text-black', 'dark:text-white', 'duration-100', 'hover:!text-primary', 'cursor-pointer', 'outline-none'];
+      return ['text-black', 'dark:text-white', 'duration-100', 'hover:!text-primary', 'cursor-pointer', 'outline-hidden'];
     });
 
     const topClass = computed(() => {

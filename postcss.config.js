@@ -2,11 +2,7 @@
 
 export default {
   plugins: {
-    'postcss-nested': {},
-    '@tailwindcss/postcss': {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
+    '@tailwindcss/postcss': {},
     ...(process.env.NODE_ENV === 'production' ? { cssnano: {} } : {}),
   },
 };

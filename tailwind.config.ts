@@ -1,19 +1,19 @@
-import type { Config } from "tailwindcss";
-
 export default {
-  darkMode: "class",
+  darkMode: 'class',
   corePlugins: {
-    preflight: false
+    preflight: false,
   },
-  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  content: {
+    files: ['./src/**/*.{vue,js,ts,jsx,tsx}', './index.html', './src/styles/tailwind.css', './src/**/*.scss'],
+  },
   theme: {
     extend: {
       colors: {
-        bg_color: "var(--el-bg-color)",
-        primary: "var(--el-color-primary)",
-        text_color_primary: "var(--el-text-color-primary)",
-        text_color_regular: "var(--el-text-color-regular)"
-      }
-    }
-  }
-} satisfies Config;
+        bg_color: 'var(--el-bg-color)',
+        primary: 'var(--el-color-primary)',
+        text_color_primary: 'var(--el-text-color-primary)',
+        text_color_regular: 'var(--el-text-color-regular)',
+      },
+    },
+  },
+};

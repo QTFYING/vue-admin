@@ -1,10 +1,10 @@
-// 根据角色动态生成路由
-import { defineFakeRoute } from 'vite-plugin-fake-server/client';
+import { MockServer } from './utils';
 
-export default defineFakeRoute([
+export default MockServer([
   {
     url: '/login',
     method: 'post',
+    timeout: 100,
     response: ({ body }) => {
       if (body.username === 'admin') {
         return {

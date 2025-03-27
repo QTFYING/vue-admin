@@ -81,6 +81,7 @@
     "gradient-string": "^3.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
+    "mockjs": "^1.1.0",
     "postcss": "^8.5.3",
     "postcss-html": "^1.8.0",
     "postcss-import": "^16.1.0",
@@ -97,6 +98,7 @@
     "svgo": "^3.3.2",
     "tailwindcss": "^4.0.16",
     "typescript": "5.8.2",
+    "version-rocket": "^1.7.4",
     "vite": "^6.2.3",
     "vite-plugin-cdn-import": "^1.0.1",
     "vite-plugin-compression": "^0.5.1",
@@ -105,8 +107,7 @@
     "vite-plugin-router-warn": "^1.0.0",
     "vite-svg-loader": "^5.1.0",
     "vue-eslint-parser": "^10.1.1",
-    "vue-tsc": "^2.2.8",
-    "version-rocket": "^1.7.4"
+    "vue-tsc": "^2.2.8"
   },
   "engines": {
     "node": "^18.18.0 || ^20.9.0 || >=22.0.0",

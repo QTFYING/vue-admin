@@ -46,13 +46,13 @@
 
   const getSectionStyle = computed(() => {
     return [
-      hideTabs.value && layout ? 'padding-top: 48px;' : '',
-      !hideTabs.value && layout ? (showModel.value == 'chrome' ? 'padding-top: 85px;' : 'padding-top: 81px;') : '',
-      hideTabs.value && !layout.value ? 'padding-top: 48px;' : '',
-      !hideTabs.value && !layout.value ? (showModel.value == 'chrome' ? 'padding-top: 85px;' : 'padding-top: 81px;') : '',
+      hideTabs.value && layout ? 'padding-top: 60px;' : '',
+      !hideTabs.value && layout ? (showModel.value == 'chrome' ? 'padding-top: 110px;' : 'padding-top: 104px;') : '',
+      hideTabs.value && !layout.value ? 'padding-top: 60px;' : '',
+      !hideTabs.value && !layout.value ? (showModel.value == 'chrome' ? 'padding-top: 110px;' : 'padding-top: 104px;') : '',
       props.fixedHeader
         ? ''
-        : `padding-top: 0;${hideTabs.value ? 'min-height: calc(100vh - 48px);' : 'min-height: calc(100vh - 86px);'}`,
+        : `padding-top: 0;${hideTabs.value ? 'min-height: calc(100vh - 60px);' : 'min-height: calc(100vh - 104px);'}`,
     ];
   });
 

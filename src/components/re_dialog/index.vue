@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
-  import Fullscreen from '~icons/ri/fullscreen-fill';
   import { isFunction } from '@pureadmin/utils';
   import { computed, ref } from 'vue';
+  import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
+  import Fullscreen from '~icons/ri/fullscreen-fill';
   import { type ButtonProps, type DialogOptions, type EventType, closeDialog, dialogStore } from './index';
 
   defineOptions({

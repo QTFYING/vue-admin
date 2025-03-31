@@ -20,6 +20,7 @@ export default defineFakeRoute([
       };
     },
   },
+
   // 账户设置-个人安全日志
   {
     url: '/mine-logs',

@@ -1,20 +1,20 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import ReAnimateSelector from '@/components/ReAnimateSelector';
   import ReCol from '@/components/ReCol';
-  import { formRules } from './utils/rule';
-  import { FormProps } from './utils/types';
   import { IconSelect } from '@/components/ReIcon';
   import Segmented from '@/components/ReSegmented';
-  import ReAnimateSelector from '@/components/ReAnimateSelector';
+  import { ref } from 'vue';
   import {
+    fixedTagOptions,
+    frameLoadingOptions,
+    hiddenTagOptions,
+    keepAliveOptions,
     menuTypeOptions,
     showLinkOptions,
-    fixedTagOptions,
-    keepAliveOptions,
-    hiddenTagOptions,
     showParentOptions,
-    frameLoadingOptions,
   } from './utils/enums';
+  import { formRules } from './utils/rule';
+  import { FormProps } from './utils/types';
 
   const props = withDefaults(defineProps<FormProps>(), {
     formInline: () => ({
@@ -79,7 +79,7 @@
             placeholder="请选择上级菜单"
           >
             <template #default="{ node, data }">
-              <span>XXXX</span>
+              <span>{{ data.title }}</span>
               <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
             </template>
           </el-cascader>

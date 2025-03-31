@@ -1,12 +1,12 @@
 <script setup lang="ts">
   import { useRenderIcon } from '@/components/ReIcon/src/hooks';
-  import { ref, computed, watch, getCurrentInstance } from 'vue';
+  import { computed, getCurrentInstance, ref, watch } from 'vue';
 
   import Dept from '~icons/ri/git-branch-line';
   // import Reset from "~icons/ri/restart-line";
-  import More2Fill from '~icons/ri/more-2-fill';
-  import OfficeBuilding from '~icons/ep/office-building';
   import LocationCompany from '~icons/ep/add-location';
+  import OfficeBuilding from '~icons/ep/office-building';
+  import More2Fill from '~icons/ri/more-2-fill';
   import ExpandIcon from './svg/expand.svg?component';
   import UnExpandIcon from './svg/unexpand.svg?component';
 

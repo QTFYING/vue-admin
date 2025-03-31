@@ -7,7 +7,7 @@ export const systemRouter = {
   },
   children: [
     {
-      path: '/system/users',
+      path: '/system/users/index',
       name: 'SystemUser',
       meta: {
         title: '用户管理',
@@ -15,7 +15,7 @@ export const systemRouter = {
       },
     },
     {
-      path: '/system/roles',
+      path: '/system/roles/index',
       name: 'SystemRoles',
       meta: {
         title: '角色管理',
@@ -23,7 +23,7 @@ export const systemRouter = {
       },
     },
     {
-      path: '/system/menus',
+      path: '/system/menus/index',
       name: 'SystemMenus',
       meta: {
         title: '菜单管理',

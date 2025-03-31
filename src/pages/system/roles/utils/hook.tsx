@@ -1,5 +1,4 @@
 import { addDialog } from '@/components/ReDialog';
-import { transformI18n } from '@/plugins/i18n';
 import { getRoleList, getRoleMenu, getRoleMenuIds } from '@/services/system';
 import { message } from '@/utils/message';
 import { handleTree } from '@/utils/tree';
@@ -252,7 +251,7 @@ export function useRole(treeRef: Ref) {
   };
 
   const filterMethod = (query: string, node) => {
-    return transformI18n(node.title)!.includes(query);
+    return node.title!.includes(query);
   };
 
   onMounted(async () => {
@@ -293,7 +292,6 @@ export function useRole(treeRef: Ref) {
     handleSave,
     handleDelete,
     filterMethod,
-    transformI18n,
     onQueryChanged,
     // handleDatabase,
     handleSizeChange,

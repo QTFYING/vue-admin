@@ -1,4 +1,4 @@
-import userAvatar from '@/assets/user.jpg';
+import userAvatar from '@/assets/login/user.png';
 import ReCropperPreview from '@/components/ReCropperPreview';
 import { addDialog } from '@/components/ReDialog';
 import { getAllRoleList, getDeptList, getRoleIds, getUserList } from '@/services/system';

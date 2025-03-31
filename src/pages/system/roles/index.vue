@@ -1,19 +1,19 @@
 <script setup lang="ts">
-  import { useRole } from './utils/hook';
-  import { ref, computed, nextTick, onMounted } from 'vue';
-  import { PureTableBar } from '@/components/RePureTableBar';
   import { useRenderIcon } from '@/components/ReIcon/src/hooks';
-  import { delay, subBefore, deviceDetection, useResizeObserver } from '@pureadmin/utils';
+  import { PureTableBar } from '@/components/RePureTableBar';
+  import { delay, deviceDetection, subBefore, useResizeObserver } from '@pureadmin/utils';
+  import { computed, nextTick, onMounted, ref } from 'vue';
+  import { useRole } from './utils/hook';
 
   // import Database from "~icons/ri/database-2-line";
   // import More from "~icons/ep/more-filled";
+  import Check from '~icons/ep/check';
+  import Close from '~icons/ep/close';
   import Delete from '~icons/ep/delete';
   import EditPen from '~icons/ep/edit-pen';
-  import Refresh from '~icons/ep/refresh';
   import Menu from '~icons/ep/menu';
+  import Refresh from '~icons/ep/refresh';
   import AddFill from '~icons/ri/add-circle-line';
-  import Close from '~icons/ep/close';
-  import Check from '~icons/ep/check';
 
   defineOptions({
     name: 'SystemRole',
@@ -65,7 +65,6 @@
     handleSave,
     handleDelete,
     filterMethod,
-    transformI18n,
     onQueryChanged,
     // handleDatabase,
     handleSizeChange,
@@ -256,7 +255,7 @@
           :filter-method="filterMethod"
         >
           <template #default="{ node }">
-            <span>{{ transformI18n(node.label) }}</span>
+            <span>{{ node.label }}</span>
           </template>
         </el-tree-v2>
       </div>

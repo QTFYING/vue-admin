@@ -1,10 +1,34 @@
+<script setup lang="ts">
+  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+  import { PureTableBar } from '@/components/RePureTableBar';
+  import { ref } from 'vue';
+  import { useMenu } from './utils/hook';
+
+  import Delete from '~icons/ep/delete';
+  import EditPen from '~icons/ep/edit-pen';
+  import Refresh from '~icons/ep/refresh';
+  import AddFill from '~icons/ri/add-circle-line';
+
+  defineOptions({
+    name: 'SystemMenu',
+  });
+
+  const formRef = ref();
+  const tableRef = ref();
+  const { form, loading, columns, dataList, onSearch, resetForm, openDialog, handleDelete, handleSelectionChange } = useMenu();
+
+  function onFullscreen() {
+    // 重置表格高度
+    tableRef.value.setAdaptive();
+  }
+</script>
+
 <template>
   <div class="main">
     <el-form ref="formRef" :inline="true" :model="form" class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto">
       <el-form-item label="菜单名称：" prop="title">
         <el-input v-model="form.title" placeholder="请输入菜单名称" clearable class="!w-[180px]" />
       </el-form-item>
-
       <el-form-item>
         <el-button type="primary" :icon="useRenderIcon('ri:search-line')" :loading="loading" @click="onSearch"> 搜索 </el-button>
         <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)"> 重置 </el-button>
@@ -22,7 +46,6 @@
       <template #buttons>
         <el-button type="primary" :icon="useRenderIcon(AddFill)" @click="openDialog()"> 新增菜单 </el-button>
       </template>
-
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
@@ -65,7 +88,7 @@
               新增
             </el-button>
             <el-popconfirm
-              :title="`是否确认删除菜单名称为的这条数据${row?.children?.length > 0 ? '。注意下级菜单也会一并删除，请谨慎操作' : ''}`"
+              :title="`是否确认删除菜单名称为${row.title}的这条数据${row?.children?.length > 0 ? '。注意下级菜单也会一并删除，请谨慎操作' : ''}`"
               @confirm="handleDelete(row)"
             >
               <template #reference>
@@ -78,31 +101,6 @@
     </PureTableBar>
   </div>
 </template>
-
-<script setup lang="ts">
-  import { ref } from 'vue';
-  import { useMenu } from './utils/hook';
-  import { PureTableBar } from '@/components/RePureTableBar';
-  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
-
-  import Delete from '~icons/ep/delete';
-  import EditPen from '~icons/ep/edit-pen';
-  import Refresh from '~icons/ep/refresh';
-  import AddFill from '~icons/ri/add-circle-line';
-
-  defineOptions({
-    name: 'SystemMenu',
-  });
-
-  const formRef = ref();
-  const tableRef = ref();
-  const { form, loading, columns, dataList, onSearch, resetForm, openDialog, handleDelete, handleSelectionChange } = useMenu();
-
-  function onFullscreen() {
-    // 重置表格高度
-    tableRef.value.setAdaptive();
-  }
-</script>
 
 <style lang="scss" scoped>
   :deep(.el-table__inner-wrapper::before) {

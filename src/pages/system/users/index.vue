@@ -1,55 +1,3 @@
-<script setup lang="ts">
-  import { ref } from 'vue';
-  import tree from './tree.vue';
-  import { useUser } from './utils/hook';
-  import { PureTableBar } from '@/components/RePureTableBar';
-  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
-
-  import Upload from '~icons/ri/upload-line';
-  import Role from '~icons/ri/admin-line';
-  import Password from '~icons/ri/lock-password-line';
-  import More from '~icons/ep/more-filled';
-  import Delete from '~icons/ep/delete';
-  import EditPen from '~icons/ep/edit-pen';
-  import Refresh from '~icons/ep/refresh';
-  import AddFill from '~icons/ri/add-circle-line';
-
-  defineOptions({
-    name: 'SystemUser',
-  });
-
-  const treeRef = ref();
-  const formRef = ref();
-  const tableRef = ref();
-
-  const {
-    form,
-    loading,
-    columns,
-    dataList,
-    treeData,
-    treeLoading,
-    selectedNum,
-    pagination,
-    buttonClass,
-    deviceDetection,
-    onSearch,
-    resetForm,
-    onbatchDel,
-    openDialog,
-    onTreeSelect,
-    handleUpdate,
-    handleDelete,
-    handleUpload,
-    handleReset,
-    handleRole,
-    handleSizeChange,
-    onSelectionCancel,
-    handleCurrentChange,
-    handleSelectionChange,
-  } = useUser(tableRef, treeRef);
-</script>
-
 <template>
   <div :class="['flex', 'justify-between', deviceDetection() && 'flex-wrap']">
     <tree
@@ -201,6 +149,58 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+  import { PureTableBar } from '@/components/RePureTableBar';
+  import { ref } from 'vue';
+  import tree from './tree.vue';
+  import { useUser } from './utils/hook';
+
+  import Delete from '~icons/ep/delete';
+  import EditPen from '~icons/ep/edit-pen';
+  import More from '~icons/ep/more-filled';
+  import Refresh from '~icons/ep/refresh';
+  import AddFill from '~icons/ri/add-circle-line';
+  import Role from '~icons/ri/admin-line';
+  import Password from '~icons/ri/lock-password-line';
+  import Upload from '~icons/ri/upload-line';
+
+  defineOptions({
+    name: 'SystemUser',
+  });
+
+  const treeRef = ref();
+  const formRef = ref();
+  const tableRef = ref();
+
+  const {
+    form,
+    loading,
+    columns,
+    dataList,
+    treeData,
+    treeLoading,
+    selectedNum,
+    pagination,
+    buttonClass,
+    deviceDetection,
+    onSearch,
+    resetForm,
+    onbatchDel,
+    openDialog,
+    onTreeSelect,
+    handleUpdate,
+    handleDelete,
+    handleUpload,
+    handleReset,
+    handleRole,
+    handleSizeChange,
+    onSelectionCancel,
+    handleCurrentChange,
+    handleSelectionChange,
+  } = useUser(tableRef, treeRef);
+</script>
 
 <style lang="scss" scoped>
   :deep(.el-dropdown-menu__item i) {

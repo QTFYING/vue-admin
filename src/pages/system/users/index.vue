@@ -151,8 +151,8 @@
 </template>
 
 <script setup lang="ts">
-  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
-  import { PureTableBar } from '@/components/RePureTableBar';
+  import { useRenderIcon } from '@/components/re_Icon/src/hooks';
+  import { PureTableBar } from '@/components/re_pure_table_bar';
   import { ref } from 'vue';
   import tree from './tree.vue';
   import { useUser } from './utils/hook';

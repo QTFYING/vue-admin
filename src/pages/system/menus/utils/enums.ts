@@ -1,4 +1,4 @@
-import type { OptionsType } from '@/components/ReSegmented';
+import type { OptionsType } from '@/components/re_segmented';
 
 const menuTypeOptions: Array<OptionsType> = [
   {
@@ -98,11 +98,11 @@ const frameLoadingOptions: Array<OptionsType> = [
 ];
 
 export {
+  fixedTagOptions,
+  frameLoadingOptions,
+  hiddenTagOptions,
+  keepAliveOptions,
   menuTypeOptions,
   showLinkOptions,
-  fixedTagOptions,
-  keepAliveOptions,
-  hiddenTagOptions,
   showParentOptions,
-  frameLoadingOptions,
 };

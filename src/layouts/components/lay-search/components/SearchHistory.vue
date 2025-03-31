@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useEpThemeStoreHook } from '@/stores/modules/ep_theme';
+  import { useEpThemeStoreHook } from '@/stores/modules/ep-theme';
   import { delay, isArray, useResizeObserver } from '@pureadmin/utils';
   import Sortable from 'sortablejs';
   import { computed, getCurrentInstance, nextTick, ref, watch } from 'vue';

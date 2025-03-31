@@ -79,8 +79,8 @@
 </template>
 
 <script setup lang="ts">
-  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
-  import { ReText } from '@/components/ReText';
+  import { useRenderIcon } from '@/components/re_Icon/src/hooks';
+  import { ReText } from '@/components/re_text';
   import { getConfig } from '@/config';
   import { useNav } from '@/layouts/hooks/useNav';
   import { menuType } from '@/layouts/types';

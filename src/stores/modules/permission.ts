@@ -10,7 +10,7 @@ import {
   getKeyList,
   store,
 } from '../utils';
-import { useMultiTagsStoreHook } from './multi_tags';
+import { useMultiTagsStoreHook } from './multi-tags';
 
 export const usePermissionStore = defineStore('pure-permission', {
   state: () => ({

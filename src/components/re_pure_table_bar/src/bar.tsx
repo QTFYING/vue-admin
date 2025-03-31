@@ -1,4 +1,4 @@
-import { useEpThemeStoreHook } from '@/stores/modules/ep_theme';
+import { useEpThemeStoreHook } from '@/stores/modules/ep-theme';
 import { cloneDeep, delay, getKeyList, isBoolean, isFunction } from '@pureadmin/utils';
 import Sortable from 'sortablejs';
 import { computed, defineComponent, getCurrentInstance, nextTick, type PropType, ref, unref } from 'vue';

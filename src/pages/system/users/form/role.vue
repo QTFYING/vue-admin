@@ -1,6 +1,6 @@
 <script setup lang="ts">
+  import ReCol from '@/components/re_col';
   import { ref } from 'vue';
-  import ReCol from '@/components/ReCol';
   import { RoleFormProps } from '../utils/types';
 
   const props = withDefaults(defineProps<RoleFormProps>(), {

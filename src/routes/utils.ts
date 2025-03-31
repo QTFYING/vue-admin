@@ -1,6 +1,6 @@
 import { getConfig } from '@/config';
 import { type menuType, routerArrays } from '@/layouts/types';
-import { useMultiTagsStoreHook } from '@/stores/modules/multi_tags';
+import { useMultiTagsStoreHook } from '@/stores/modules/multi-tags';
 import { usePermissionStoreHook } from '@/stores/modules/permission';
 import { type DataInfo, userKey } from '@/utils/auth';
 import { buildHierarchyTree } from '@/utils/tree';

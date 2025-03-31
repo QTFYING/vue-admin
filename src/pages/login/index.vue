@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+  import { useRenderIcon } from '@/components/re_Icon/src/hooks';
   import { useDataThemeChange } from '@/layouts/hooks/useDataThemeChange';
   import { useNav } from '@/layouts/hooks/useNav';
   import { getTopMenu, initRouter } from '@/routes/utils';

@@ -6,11 +6,11 @@
 </template>
 
 <script lang="ts">
-  import { ReDialog } from '@/components/ReDialog';
+  import { ReDialog } from '@/components/re_dialog';
   import { ElConfigProvider } from 'element-plus';
   import zhCn from 'element-plus/es/locale/lang/zh-cn';
-  import { defineComponent } from 'vue';
   import { checkVersion } from 'version-rocket';
+  import { defineComponent } from 'vue';
 
   export default defineComponent({
     name: 'app',

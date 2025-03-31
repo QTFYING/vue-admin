@@ -1,5 +1,5 @@
-import { addDialog } from '@/components/ReDialog';
-import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+import { addDialog } from '@/components/re_dialog';
+import { useRenderIcon } from '@/components/re_Icon/src/hooks';
 import { getMenuList } from '@/services/system';
 import { message } from '@/utils/message';
 import { handleTree } from '@/utils/tree';

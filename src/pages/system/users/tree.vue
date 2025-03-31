@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+  import { useRenderIcon } from '@/components/re_Icon/src/hooks';
   import { computed, getCurrentInstance, ref, watch } from 'vue';
 
   import Dept from '~icons/ri/git-branch-line';

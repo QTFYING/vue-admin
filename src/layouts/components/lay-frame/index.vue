@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { getConfig } from '@/config';
   import { useMultiFrame } from '@/layouts/hooks/useMultiFrame';
-  import { useMultiTagsStoreHook } from '@/stores/modules/multi_tags';
+  import { useMultiTagsStoreHook } from '@/stores/modules/multi-tags';
   import { type Component, computed, shallowRef, watch } from 'vue';
   import { type RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
 

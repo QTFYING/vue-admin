@@ -4,7 +4,7 @@ import App from './App.vue';
 import { getPlatformConfig } from './config';
 import router from './routes';
 // import { useEcharts } from "@/plugins/echarts";
-import { useElementPlus } from '@/plugins/elementPlus';
+import { useElementPlus } from '@/plugins/element-plus';
 import { injectResponsiveStorage } from '@/utils/responsive';
 import { createApp, type Directive } from 'vue';
 
@@ -31,14 +31,14 @@ Object.keys(directives).forEach((key) => {
 });
 
 // 全局注册@iconify/vue图标库
-import { FontIcon, IconifyIconOffline, IconifyIconOnline } from './components/ReIcon';
+import { FontIcon, IconifyIconOffline, IconifyIconOnline } from './components/re_Icon';
 app.component('IconifyIconOffline', IconifyIconOffline);
 app.component('IconifyIconOnline', IconifyIconOnline);
 app.component('FontIcon', FontIcon);
 
 // 全局注册按钮级别权限组件
-import { Auth } from '@/components/ReAuth';
-import { Perms } from '@/components/RePerms';
+import { Auth } from '@/components/re_auth';
+import { Perms } from '@/components/re_perms';
 app.component('Auth', Auth);
 app.component('Perms', Perms);
 

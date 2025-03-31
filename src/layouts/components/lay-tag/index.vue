@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { routerArrays } from '@/layouts/types';
   import { getTopMenu, handleAliveRoute } from '@/routes/utils';
-  import { useMultiTagsStoreHook } from '@/stores/modules/multi_tags';
+  import { useMultiTagsStoreHook } from '@/stores/modules/multi-tags';
   import { usePermissionStoreHook } from '@/stores/modules/permission';
   import { useSettingStoreHook } from '@/stores/modules/settings';
   import { emitter } from '@/utils/mitt';

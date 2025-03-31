@@ -2,7 +2,7 @@ import { type RefreshTokenResult, type UserResult, getLogin, refreshTokenApi } f
 import { type DataInfo, removeToken, setToken, userKey } from '@/utils/auth';
 import { defineStore } from 'pinia';
 import { type userType, resetRouter, router, routerArrays, storageLocal, store } from '../utils';
-import { useMultiTagsStoreHook } from './multi_tags';
+import { useMultiTagsStoreHook } from './multi-tags';
 
 export const useUserStore = defineStore('pure-user', {
   state: (): userType => ({

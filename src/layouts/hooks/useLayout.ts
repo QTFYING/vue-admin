@@ -1,4 +1,4 @@
-import { useMultiTagsStore } from '@/stores/modules/multi_tags';
+import { useMultiTagsStore } from '@/stores/modules/multi-tags';
 import { useGlobal } from '@pureadmin/utils';
 import { computed } from 'vue';
 import { routerArrays } from '../types';

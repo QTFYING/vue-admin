@@ -1,6 +1,6 @@
 <script setup lang="ts">
+  import { useRenderIcon } from '@/components/re_Icon/src/hooks';
   import { toRaw } from 'vue';
-  import { useRenderIcon } from '@/components/ReIcon/src/hooks';
 
   defineProps({
     extraIcon: {

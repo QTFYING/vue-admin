@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { findRouteByPath, getParentPaths } from '@/routes/utils';
-  import { useMultiTagsStoreHook } from '@/stores/modules/multi_tags';
+  import { useMultiTagsStoreHook } from '@/stores/modules/multi-tags';
   import { isEqual } from '@pureadmin/utils';
   import { onMounted, ref, toRaw, watch } from 'vue';
   import { useRoute, useRouter } from 'vue-router';

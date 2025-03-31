@@ -1,4 +1,4 @@
-import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+import { useRenderIcon } from '@/components/re_Icon/src/hooks';
 import { isFunction, isNumber, useDark, useResizeObserver } from '@pureadmin/utils';
 import { type PropType, defineComponent, getCurrentInstance, h, nextTick, ref, toRef, watch } from 'vue';
 import './index.css';

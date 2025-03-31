@@ -1,6 +1,6 @@
 // import "@/utils/sso";
 import { getConfig } from '@/config';
-import { useMultiTagsStoreHook } from '@/stores/modules/multi_tags';
+import { useMultiTagsStoreHook } from '@/stores/modules/multi-tags';
 import { usePermissionStoreHook } from '@/stores/modules/permission';
 import { type DataInfo, multipleTabsKey, removeToken, userKey } from '@/utils/auth';
 import NProgress from '@/utils/progress';

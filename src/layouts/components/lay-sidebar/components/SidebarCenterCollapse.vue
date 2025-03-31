@@ -3,7 +3,7 @@
   import { useGlobal } from '@pureadmin/utils';
   import { computed } from 'vue';
 
-  import ArrowLeft from '@iconify-icons/ri/arrow-left-double-fill';
+  import ArrowLeft from '~icons/ri/arrow-left-double-fill';
 
   interface Props {
     isActive: boolean;

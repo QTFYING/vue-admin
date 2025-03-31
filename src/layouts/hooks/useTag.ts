@@ -6,13 +6,13 @@ import { computed, getCurrentInstance, onMounted, reactive, ref, unref, type CSS
 import { useRoute, useRouter } from 'vue-router';
 import type { tagsViewsType } from '../types';
 
-import Close from '@iconify-icons/ep/close';
-import RefreshRight from '@iconify-icons/ep/refresh-right';
-import Fullscreen from '@iconify-icons/ri/fullscreen-fill';
-import CloseAllTags from '@iconify-icons/ri/subtract-line';
-import CloseRightTags from '@iconify-icons/ri/text-direction-l';
-import CloseLeftTags from '@iconify-icons/ri/text-direction-r';
-import CloseOtherTags from '@iconify-icons/ri/text-spacing';
+import Close from '~icons/ep/close';
+import RefreshRight from '~icons/ep/refresh-right';
+import Fullscreen from '~icons/ri/fullscreen-fill';
+import CloseAllTags from '~icons/ri/subtract-line';
+import CloseRightTags from '~icons/ri/text-direction-l';
+import CloseLeftTags from '~icons/ri/text-direction-r';
+import CloseOtherTags from '~icons/ri/text-spacing';
 
 export function useTags() {
   const route = useRoute();

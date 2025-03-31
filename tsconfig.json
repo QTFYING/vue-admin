@@ -22,7 +22,14 @@
       "@/*": ["src/*"],
       "@build/*": ["build/*"]
     },
-    "types": ["node", "vite/client", "element-plus/global", "@pureadmin/table/volar", "@pureadmin/descriptions/volar"]
+    "types": [
+      "node",
+      "vite/client",
+      "element-plus/global",
+      "@pureadmin/table/volar",
+      "unplugin-icons/types/vue",
+      "@pureadmin/descriptions/volar"
+    ]
   },
   "include": [
     "mock/*.ts",

@@ -2,7 +2,7 @@
   import { getConfig } from '@/config';
   import { useNav } from '@/layouts/hooks/useNav';
   import { usePermissionStoreHook } from '@/stores/modules/permission';
-  import SearchIcon from '@iconify-icons/ri/search-line';
+  import SearchIcon from '~icons/ri/search-line';
   import { cloneDeep, isAllEmpty, storageLocal } from '@pureadmin/utils';
   import { onKeyStroke, useDebounceFn } from '@vueuse/core';
   import { match } from 'pinyin-pro';

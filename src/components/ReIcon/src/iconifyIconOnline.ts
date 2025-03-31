@@ -1,5 +1,5 @@
+import { h, defineComponent } from 'vue';
 import { Icon as IconifyIcon } from '@iconify/vue';
-import { defineComponent, h } from 'vue';
 
 // Iconify Icon在Vue里在线使用（用于外网环境）
 export default defineComponent({
@@ -17,6 +17,7 @@ export default defineComponent({
       IconifyIcon,
       {
         icon: `${this.icon}`,
+        'aria-hidden': false,
         style: attrs?.style ? Object.assign(attrs.style, { outline: 'none' }) : { outline: 'none' },
         ...attrs,
       },

@@ -1,4 +1,4 @@
-import { type RefreshTokenResult, type UserResult, getLogin, refreshTokenApi } from '@/api/user';
+import { type RefreshTokenResult, type UserResult, getLogin, refreshTokenApi } from '@/services/user';
 import { type DataInfo, removeToken, setToken, userKey } from '@/utils/auth';
 import { defineStore } from 'pinia';
 import { type userType, resetRouter, router, routerArrays, storageLocal, store } from '../utils';

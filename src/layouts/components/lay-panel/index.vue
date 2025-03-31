@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useDataThemeChange } from '@/layouts/hooks/useDataThemeChange';
   import { emitter } from '@/utils/mitt';
-  import CloseIcon from '@iconify-icons/ep/close';
+  import CloseIcon from '~icons/ep/close';
   import { onClickOutside } from '@vueuse/core';
   import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 

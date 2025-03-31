@@ -1,5 +1,4 @@
 // 按需引入element-plus（该方法稳定且明确。当然也支持：https://element-plus.org/zh-CN/guide/quickstart.html#%E6%8C%89%E9%9C%80%E5%AF%BC%E5%85%A5）
-import type { App, Component } from 'vue';
 import {
   /**
    * 为了方便演示平台将 element-plus 导出的所有组件引入，实际使用中如果你没用到哪个组件，将其注释掉就行
@@ -7,11 +6,12 @@ import {
    * */
   ElAffix,
   ElAlert,
-  ElAutocomplete,
-  ElAutoResizer,
-  ElAvatar,
   ElAnchor,
   ElAnchorLink,
+  ElAside,
+  ElAutoResizer,
+  ElAutocomplete,
+  ElAvatar,
   ElBacktop,
   ElBadge,
   ElBreadcrumb,
@@ -35,10 +35,7 @@ import {
   ElColorPicker,
   ElConfigProvider,
   ElContainer,
-  ElAside,
-  ElFooter,
-  ElHeader,
-  ElMain,
+  ElCountdown,
   ElDatePicker,
   ElDescriptions,
   ElDescriptionsItem,
@@ -49,22 +46,36 @@ import {
   ElDropdownItem,
   ElDropdownMenu,
   ElEmpty,
+  ElFooter,
   ElForm,
   ElFormItem,
+  ElHeader,
   ElIcon,
   ElImage,
-  ElImageViewer,
+  ElImageViewer, // v-loading 指令
+  ElInfiniteScroll,
   ElInput,
   ElInputNumber,
   ElLink,
+  /**
+   * 为了方便演示平台将 element-plus 导出的所有插件引入，实际使用中如果你没用到哪个插件，将其注释掉就行
+   * 导出来源：https://github.com/element-plus/element-plus/blob/dev/packages/element-plus/plugin.ts#L11-L16
+   * */
+  ElLoading,
+  ElMain,
   ElMenu,
   ElMenuItem,
-  ElMenuItemGroup,
-  ElSubMenu,
+  ElMenuItemGroup, // v-popover 指令
+  ElMessage, // $message 全局属性对象globalProperties
+  ElMessageBox, // $msgbox、$alert、$confirm、$prompt 全局属性对象globalProperties
+  ElNotification,
+  ElOption,
+  ElOptionGroup,
   ElPageHeader,
   ElPagination,
   ElPopconfirm,
-  ElPopover,
+  ElPopover, // v-infinite-scroll 指令
+  ElPopoverDirective,
   ElPopper,
   ElProgress,
   ElRadio,
@@ -74,24 +85,23 @@ import {
   ElResult,
   ElRow,
   ElScrollbar,
+  ElSegmented,
   ElSelect,
-  ElOption,
-  ElOptionGroup,
   ElSelectV2,
   ElSkeleton,
   ElSkeletonItem,
   ElSlider,
   ElSpace,
   ElStatistic,
-  ElCountdown,
-  ElSteps,
   ElStep,
+  ElSteps,
+  ElSubMenu,
   ElSwitch,
+  ElTabPane,
   ElTable,
   ElTableColumn,
   ElTableV2,
   ElTabs,
-  ElTabPane,
   ElTag,
   ElText,
   ElTimePicker,
@@ -99,26 +109,16 @@ import {
   ElTimeline,
   ElTimelineItem,
   ElTooltip,
+  ElTour,
+  ElTourStep,
   ElTransfer,
   ElTree,
   ElTreeSelect,
   ElTreeV2,
   ElUpload,
   ElWatermark,
-  ElTour,
-  ElTourStep,
-  ElSegmented,
-  /**
-   * 为了方便演示平台将 element-plus 导出的所有插件引入，实际使用中如果你没用到哪个插件，将其注释掉就行
-   * 导出来源：https://github.com/element-plus/element-plus/blob/dev/packages/element-plus/plugin.ts#L11-L16
-   * */
-  ElLoading, // v-loading 指令
-  ElInfiniteScroll, // v-infinite-scroll 指令
-  ElPopoverDirective, // v-popover 指令
-  ElMessage, // $message 全局属性对象globalProperties
-  ElMessageBox, // $msgbox、$alert、$confirm、$prompt 全局属性对象globalProperties
-  ElNotification, // $notify 全局属性对象globalProperties
 } from 'element-plus';
+import type { App, Component } from 'vue';
 
 const components = [
   ElAffix,

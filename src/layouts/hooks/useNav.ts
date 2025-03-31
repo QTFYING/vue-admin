@@ -1,4 +1,4 @@
-import Avatar from '@/assets/user.png';
+import Avatar from '@/assets/login/user.png';
 import { getConfig } from '@/config';
 import { remainingPaths, router } from '@/routes';
 import { getTopMenu } from '@/routes/utils';
@@ -6,14 +6,14 @@ import { useAppStoreHook } from '@/stores/modules/app';
 import { usePermissionStoreHook } from '@/stores/modules/permission';
 import { useUserStoreHook } from '@/stores/modules/user';
 import { emitter } from '@/utils/mitt';
-import { default as DownloadIcon } from '@iconify-icons/ep/download';
-import { default as ExitFullscreen } from '@iconify-icons/ri/fullscreen-exit-fill';
-import Fullscreen from '@iconify-icons/ri/fullscreen-fill';
 import { isAllEmpty, useGlobal } from '@pureadmin/utils';
 import { useFullscreen } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, type CSSProperties } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { default as DownloadIcon } from '~icons/ep/download';
+import { default as ExitFullscreen } from '~icons/ri/fullscreen-exit-fill';
+import Fullscreen from '~icons/ri/fullscreen-fill';
 import type { routeMetaType } from '../types';
 
 const errorInfo = 'The current routing configuration is incorrect, please check the configuration';

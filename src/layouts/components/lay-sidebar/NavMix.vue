@@ -15,12 +15,12 @@
         :index="resolvePath(route) || route.redirect"
       >
         <template #title>
-          <h3 :style="getDivStyle">
+          <strong class="text-base" :style="getDivStyle">
             <span class="select-none">
               {{ route.meta.title }}
             </span>
             <LaySidebarExtraIcon :extraIcon="route.meta.extraIcon" />
-          </h3>
+          </strong>
         </template>
       </el-menu-item>
     </el-menu>
@@ -70,7 +70,7 @@
   import LaySidebarExtraIcon from '../lay-sidebar/components/SidebarExtraIcon.vue';
   import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
 
-  import LogoutCircleRLine from '@iconify-icons/ri/logout-circle-r-line';
+  import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
 
   const menuRef = ref();
   const defaultActive = ref(null);

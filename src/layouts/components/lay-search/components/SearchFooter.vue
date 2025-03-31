@@ -2,8 +2,8 @@
   import EnterOutlined from '@/assets/svg/enter_outlined.svg?component';
   import MdiKeyboardEsc from '@/assets/svg/keyboard_esc.svg?component';
   import { useNav } from '@/layouts/hooks/useNav';
-  import ArrowDownLine from '@iconify-icons/ri/arrow-down-line';
-  import ArrowUpLine from '@iconify-icons/ri/arrow-up-line';
+  import ArrowDownLine from '~icons/ri/arrow-down-line';
+  import ArrowUpLine from '~icons/ri/arrow-up-line';
 
   withDefaults(defineProps<{ total: number }>(), {
     total: 0,

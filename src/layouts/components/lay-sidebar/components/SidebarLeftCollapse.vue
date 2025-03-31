@@ -3,7 +3,7 @@
   import { useGlobal } from '@pureadmin/utils';
   import { computed } from 'vue';
 
-  import MenuFold from '@iconify-icons/ri/menu-fold-fill';
+  import MenuFold from '~icons/ri/menu-fold-fill';
 
   interface Props {
     isActive: boolean;

@@ -4,12 +4,13 @@ import * as parserTypeScript from '@typescript-eslint/parser';
 import configPrettier from 'eslint-config-prettier';
 import pluginPrettier from 'eslint-plugin-prettier';
 import pluginVue from 'eslint-plugin-vue';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import * as parserVue from 'vue-eslint-parser';
 
-export default [
+export default defineConfig([
+  globalIgnores(['**/.*', 'dist/*', '*.d.ts', 'public/*', 'src/assets/**', 'src/**/iconfont/**']),
   {
     ...js.configs.recommended,
-    ignores: ['**/.*', 'dist/*', '*.d.ts', 'public/*', 'src/assets/**', 'src/**/iconfont/**'],
     languageOptions: {
       globals: {
         // index.d.ts
@@ -148,6 +149,7 @@ export default [
     rules: {
       ...pluginVue.configs.base.rules,
       ...pluginVue.configs['vue3-essential']?.rules,
+      ...pluginVue.configs['vue3-recommended']?.rules,
       'no-undef': 'off',
       'no-unused-vars': 'off',
       'vue/no-v-html': 'off',
@@ -165,4 +167,4 @@ export default [
       ],
     },
   },
-];
+]);

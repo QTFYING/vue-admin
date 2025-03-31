@@ -56,8 +56,8 @@
   import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
   import LaySidebarTopCollapse from '../lay-sidebar/components/SidebarTopCollapse.vue';
 
-  import LogoutCircleRLine from '@iconify-icons/ri/logout-circle-r-line';
-  import Setting from '@iconify-icons/ri/settings-3-line';
+  import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
+  import Setting from '~icons/ri/settings-3-line';
 
   const { layout, device, logout, onPanel, pureApp, username, userAvatar, toggleSideBar } = useNav();
 </script>

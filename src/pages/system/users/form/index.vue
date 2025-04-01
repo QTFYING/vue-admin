@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import ReCol from '@/components/re_col';
+  import ReCol from '@/components/re-col';
   import { ref } from 'vue';
   import { usePublicHooks } from '../../hooks';
   import { formRules } from '../utils/rule';

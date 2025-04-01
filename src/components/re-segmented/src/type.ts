@@ -1,4 +1,4 @@
-import type { iconType } from '@/components/re_Icon/src/types';
+import type { iconType } from '@/components/re-icon/src/types';
 import type { Component, VNode } from 'vue';
 
 export interface OptionsType {

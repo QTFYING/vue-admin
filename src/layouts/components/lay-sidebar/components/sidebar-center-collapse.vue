@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useNav } from '@/layouts/hooks/useNav';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import { useGlobal } from '@pureadmin/utils';
   import { computed } from 'vue';
 

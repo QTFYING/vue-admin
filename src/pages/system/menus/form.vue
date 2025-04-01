@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import ReAnimateSelector from '@/components/re_animate_selector';
-  import ReCol from '@/components/re_col';
-  import { IconSelect } from '@/components/re_Icon';
-  import Segmented from '@/components/re_segmented';
+  import ReAnimateSelector from '@/components/re-animate-selector';
+  import ReCol from '@/components/re-col';
+  import { IconSelect } from '@/components/re-icon';
+  import Segmented from '@/components/re-segmented';
   import { ref } from 'vue';
   import {
     fixedTagOptions,

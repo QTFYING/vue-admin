@@ -1,17 +1,17 @@
 <script setup lang="ts">
   import { getConfig } from '@/config';
-  import { useNav } from '@/layouts/hooks/useNav';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import { usePermissionStoreHook } from '@/stores/modules/permission';
-  import SearchIcon from '~icons/ri/search-line';
   import { cloneDeep, isAllEmpty, storageLocal } from '@pureadmin/utils';
   import { onKeyStroke, useDebounceFn } from '@vueuse/core';
   import { match } from 'pinyin-pro';
   import { computed, ref, shallowRef, watch } from 'vue';
   import { useRouter } from 'vue-router';
+  import SearchIcon from '~icons/ri/search-line';
   import type { dragItem, optionsItem } from '../types';
-  import SearchFooter from './SearchFooter.vue';
-  import SearchHistory from './SearchHistory.vue';
-  import SearchResult from './SearchResult.vue';
+  import SearchFooter from './search-footer.vue';
+  import SearchHistory from './search-history.vue';
+  import SearchResult from './search-result.vue';
 
   interface Props {
     /** 弹窗显隐 */

@@ -1,6 +1,6 @@
 import userAvatar from '@/assets/login/user.png';
-import ReCropperPreview from '@/components/re_cropper_preview';
-import { addDialog } from '@/components/re_dialog';
+import ReCropperPreview from '@/components/re-cropper-preview';
+import { addDialog } from '@/components/re-dialog';
 import { getAllRoleList, getDeptList, getRoleIds, getUserList } from '@/services/system';
 import { message } from '@/utils/message';
 import { handleTree } from '@/utils/tree';

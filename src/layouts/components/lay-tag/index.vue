@@ -8,9 +8,9 @@
   import { delay, isAllEmpty, isEqual, useResizeObserver } from '@pureadmin/utils';
   import { onClickOutside } from '@vueuse/core';
   import { nextTick, onBeforeUnmount, ref, toRaw, unref, watch } from 'vue';
-  import { useTags } from '../../hooks/useTag';
+  import { useTags } from '../../hooks/use-tag';
   import { RouteConfigs } from '../../types';
-  import TagChrome from './components/TagChrome.vue';
+  import TagChrome from './components/tag-chrome.vue';
 
   import ArrowDown from '~icons/ri/arrow-down-s-line';
   import ArrowLeftSLine from '~icons/ri/arrow-left-s-line';

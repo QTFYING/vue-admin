@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useNav } from '@/layouts/hooks/useNav';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import { getTopMenu } from '@/routes/utils';
 
   defineProps({

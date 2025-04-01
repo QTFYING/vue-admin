@@ -4,7 +4,7 @@
   import Sortable from 'sortablejs';
   import { computed, getCurrentInstance, nextTick, ref, watch } from 'vue';
   import type { dragItem, optionsItem, Props } from '../types';
-  import SearchHistoryItem from './SearchHistoryItem.vue';
+  import SearchHistoryItem from './search-history-item.vue';
 
   interface Emits {
     (e: 'update:value', val: string): void;

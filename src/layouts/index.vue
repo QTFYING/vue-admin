@@ -36,20 +36,20 @@
 <script setup lang="ts">
   import 'animate.css';
   // 引入 src/components/ReIcon/src/offlineIcon.ts 文件中所有使用addIcon添加过的本地图标
-  import '@/components/re_Icon/src/offlineIcon';
-  import { useDataThemeChange } from '@/layouts/hooks/useDataThemeChange';
+  import '@/components/re-icon/src/offlineIcon';
+  import { useDataThemeChange } from '@/layouts/hooks/use-data-theme-change';
   import { useAppStoreHook } from '@/stores/modules/app';
   import { useSettingStoreHook } from '@/stores/modules/settings';
   import { deviceDetection, useDark, useGlobal, useResizeObserver } from '@pureadmin/utils';
   import { computed, defineComponent, h, onBeforeMount, onMounted, reactive, ref } from 'vue';
-  import { useLayout } from './hooks/useLayout';
+  import { useLayout } from './hooks/use-layout';
   import { setType } from './types';
 
   import BackTopIcon from '@/assets/svg/back_top.svg?component';
   import LayContent from './components/lay-content/index.vue';
   import LayNavbar from './components/lay-navbar/index.vue';
-  import NavHorizontal from './components/lay-sidebar/NavHorizontal.vue';
-  import NavVertical from './components/lay-sidebar/NavVertical.vue';
+  import NavHorizontal from './components/lay-sidebar/nav-horizontal.vue';
+  import NavVertical from './components/lay-sidebar/nav-vertical.vue';
   import LayTag from './components/lay-tag/index.vue';
 
   const appWrapperRef = ref();

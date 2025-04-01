@@ -79,15 +79,15 @@
 </template>
 
 <script setup lang="ts">
-  import { useRenderIcon } from '@/components/re_Icon/src/hooks';
-  import { ReText } from '@/components/re_text';
+  import { useRenderIcon } from '@/components/re-icon/src/hooks';
+  import { ReText } from '@/components/re-text';
   import { getConfig } from '@/config';
-  import { useNav } from '@/layouts/hooks/useNav';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import { menuType } from '@/layouts/types';
   import { posix } from 'path-browserify';
   import { computed, type CSSProperties, type PropType, ref, toRaw, useAttrs } from 'vue';
-  import SidebarExtraIcon from './SidebarExtraIcon.vue';
-  import SidebarLinkItem from './SidebarLinkItem.vue';
+  import SidebarExtraIcon from './sidebar-extra-icon.vue';
+  import SidebarLinkItem from './sidebar-link-item.vue';
 
   import EpArrowDown from '~icons/ep/arrow-down-bold';
   import ArrowLeft from '~icons/ep/arrow-left-bold';

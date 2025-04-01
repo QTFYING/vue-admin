@@ -1,2 +1,2 @@
-export * from './permission_routes';
-export * from './system_routes';
+export * from './permission-routes';
+export * from './system-routes';

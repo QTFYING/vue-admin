@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-  import ReCropper from '@/components/re_cropper';
+  import ReCropper from '@/components/re-cropper';
   import { formatBytes } from '@pureadmin/utils';
   import { ref } from 'vue';
 

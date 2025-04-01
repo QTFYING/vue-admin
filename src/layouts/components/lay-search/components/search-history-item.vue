@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useRenderIcon } from '@/components/re_Icon/src/hooks';
+  import { useRenderIcon } from '@/components/re-icon/src/hooks';
   import CloseIcon from '~icons/ep/close';
   import StarIcon from '~icons/ep/star';
   import type { optionsItem } from '../types';

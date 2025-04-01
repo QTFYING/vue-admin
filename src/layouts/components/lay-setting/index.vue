@@ -164,9 +164,9 @@
 </template>
 
 <script setup lang="ts">
-  import Segmented, { type OptionsType } from '@/components/re_segmented';
-  import { useDataThemeChange } from '@/layouts/hooks/useDataThemeChange';
-  import { useNav } from '@/layouts/hooks/useNav';
+  import Segmented, { type OptionsType } from '@/components/re-segmented';
+  import { useDataThemeChange } from '@/layouts/hooks/use-data-theme-change';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import { useAppStoreHook } from '@/stores/modules/app';
   import { useMultiTagsStoreHook } from '@/stores/modules/multi-tags';
   import { emitter } from '@/utils/mitt';

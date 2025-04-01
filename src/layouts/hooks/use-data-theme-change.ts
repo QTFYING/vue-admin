@@ -8,7 +8,7 @@ import { removeToken } from '@/utils/auth';
 import { darken, lighten, storageLocal, useGlobal } from '@pureadmin/utils';
 import { ref } from 'vue';
 import type { themeColorsType } from '../types';
-import { useLayout } from './useLayout';
+import { useLayout } from './use-layout';
 
 export function useDataThemeChange() {
   const { layoutTheme, layout } = useLayout();

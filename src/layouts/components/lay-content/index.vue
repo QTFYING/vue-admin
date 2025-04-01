@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import BackTopIcon from '@/assets/svg/back_top.svg?component';
-  import { useTags } from '@/layouts/hooks/useTag';
+  import { useTags } from '@/layouts/hooks/use-tag';
   import { usePermissionStoreHook } from '@/stores/modules/permission';
   import { isNumber, useGlobal } from '@pureadmin/utils';
   import { computed, defineComponent, h, Transition } from 'vue';

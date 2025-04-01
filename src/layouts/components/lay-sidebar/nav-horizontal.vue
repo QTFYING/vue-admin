@@ -55,15 +55,15 @@
 
 <script setup lang="ts">
   import { responsiveStorageNameSpace } from '@/config';
-  import { useNav } from '@/layouts/hooks/useNav';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import { usePermissionStoreHook } from '@/stores/modules/permission';
   import { emitter } from '@/utils/mitt';
   import { isAllEmpty, storageLocal } from '@pureadmin/utils';
   import { computed, nextTick, onMounted, ref } from 'vue';
   import LayNotice from '../lay-notice/index.vue';
   import LaySearch from '../lay-search/index.vue';
-  import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
-  import LaySidebarItem from '../lay-sidebar/components/SidebarItem.vue';
+  import LaySidebarFullScreen from '../lay-sidebar/components/sidebar-full-screen.vue';
+  import LaySidebarItem from '../lay-sidebar/components/sidebar-item.vue';
 
   import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
   import Setting from '~icons/ri/settings-3-line';

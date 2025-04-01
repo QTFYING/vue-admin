@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  import { useDataThemeChange } from '@/layouts/hooks/useDataThemeChange';
+  import { useDataThemeChange } from '@/layouts/hooks/use-data-theme-change';
   import { emitter } from '@/utils/mitt';
-  import CloseIcon from '~icons/ep/close';
   import { onClickOutside } from '@vueuse/core';
   import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+  import CloseIcon from '~icons/ep/close';
 
   const target = ref(null);
   const show = ref<Boolean>(false);

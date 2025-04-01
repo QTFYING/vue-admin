@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import { useRenderIcon } from '@/components/re_Icon/src/hooks';
-  import { PureTableBar } from '@/components/re_pure_table_bar';
+  import { useRenderIcon } from '@/components/re-icon/src/hooks';
+  import { PureTableBar } from '@/components/re-pure-table-bar';
   import { delay, deviceDetection, subBefore, useResizeObserver } from '@pureadmin/utils';
   import { computed, nextTick, onMounted, ref } from 'vue';
   import { useRole } from './utils/hook';

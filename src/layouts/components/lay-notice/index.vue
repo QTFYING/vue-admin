@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue';
   import { noticesData } from './data';
-  import NoticeList from './components/NoticeList.vue';
+  import NoticeList from './components/notice-list.vue';
   import BellIcon from '~icons/ep/bell';
 
   const noticesNum = ref(0);

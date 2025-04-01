@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-  import { ReDialog } from '@/components/re_dialog';
+  import { ReDialog } from '@/components/re-dialog';
   import { ElConfigProvider } from 'element-plus';
   import zhCn from 'element-plus/es/locale/lang/zh-cn';
   import { checkVersion } from 'version-rocket';

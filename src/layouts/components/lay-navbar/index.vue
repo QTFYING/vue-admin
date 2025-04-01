@@ -48,13 +48,13 @@
 </template>
 
 <script setup lang="ts">
-  import { useNav } from '@/layouts/hooks/useNav';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import LayNotice from '../lay-notice/index.vue';
   import LaySearch from '../lay-search/index.vue';
-  import LayNavMix from '../lay-sidebar/NavMix.vue';
-  import LaySidebarBreadCrumb from '../lay-sidebar/components/SidebarBreadCrumb.vue';
-  import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
-  import LaySidebarTopCollapse from '../lay-sidebar/components/SidebarTopCollapse.vue';
+  import LayNavMix from '../lay-sidebar/nav-mix.vue';
+  import LaySidebarBreadCrumb from '../lay-sidebar/components/sidebar-bread-crumb.vue';
+  import LaySidebarFullScreen from '../lay-sidebar/components/sidebar-full-screen.vue';
+  import LaySidebarTopCollapse from '../lay-sidebar/components/sidebar-top-collapse.vue';
 
   import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
   import Setting from '~icons/ri/settings-3-line';

@@ -59,16 +59,16 @@
 </template>
 
 <script setup lang="ts">
-  import { useNav } from '@/layouts/hooks/useNav';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import { findRouteByPath, getParentPaths } from '@/routes/utils';
   import { usePermissionStoreHook } from '@/stores/modules/permission';
   import { isAllEmpty } from '@pureadmin/utils';
   import { nextTick, onMounted, ref, watch } from 'vue';
   import LayNotice from '../lay-notice/index.vue';
   import LaySearch from '../lay-search/index.vue';
-  import LaySidebarDownload from '../lay-sidebar/components/SidebarDownload.vue';
-  import LaySidebarExtraIcon from '../lay-sidebar/components/SidebarExtraIcon.vue';
-  import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
+  import LaySidebarDownload from '../lay-sidebar/components/sidebar-download.vue';
+  import LaySidebarExtraIcon from '../lay-sidebar/components/sidebar-extra-icon.vue';
+  import LaySidebarFullScreen from '../lay-sidebar/components/sidebar-full-screen.vue';
 
   import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
 

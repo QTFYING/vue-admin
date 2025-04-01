@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useNav } from '@/layouts/hooks/useNav';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import { deviceDetection } from '@pureadmin/utils';
   import { PropType, nextTick, ref } from 'vue';
   import { ListItem } from '../data';

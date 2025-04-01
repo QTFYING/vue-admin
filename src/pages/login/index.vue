@@ -73,9 +73,9 @@
 </template>
 
 <script setup lang="ts">
-  import { useRenderIcon } from '@/components/re_Icon/src/hooks';
-  import { useDataThemeChange } from '@/layouts/hooks/useDataThemeChange';
-  import { useNav } from '@/layouts/hooks/useNav';
+  import { useRenderIcon } from '@/components/re-icon/src/hooks';
+  import { useDataThemeChange } from '@/layouts/hooks/use-data-theme-change';
+  import { useNav } from '@/layouts/hooks/use-nav';
   import { getTopMenu, initRouter } from '@/routes/utils';
   import { useUserStoreHook } from '@/stores/modules/user';
   import { message } from '@/utils/message';
@@ -88,7 +88,7 @@
 
   import darkIcon from '@/assets/svg/dark.svg?component';
   import dayIcon from '@/assets/svg/day.svg?component';
-  import { useLayout } from '@/layouts/hooks/useLayout';
+  import { useLayout } from '@/layouts/hooks/use-layout';
   import Lock from '~icons/ri/lock-fill';
   import User from '~icons/ri/user-3-fill';
 

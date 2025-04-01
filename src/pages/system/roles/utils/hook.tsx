@@ -1,4 +1,4 @@
-import { addDialog } from '@/components/re_dialog';
+import { addDialog } from '@/components/re-dialog';
 import { getRoleList, getRoleMenu, getRoleMenuIds } from '@/services/system';
 import { message } from '@/utils/message';
 import { handleTree } from '@/utils/tree';

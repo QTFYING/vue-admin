@@ -38,10 +38,10 @@
     "src/**/*.vue",
     "types/*.d.ts",
     "vite.config.ts",
-    "mock/system_routests",
+    "mock/system-routes",
     "mock/utils/mock.ts",
-    "mock/routes/permission_routes.ts",
-    "mock/routes/system_routes.ts"
+    "mock/routes/permission-routes.ts",
+    "mock/routes/system-routes.ts"
   ],
   "exclude": ["dist", "**/*.js", "node_modules"]
 }

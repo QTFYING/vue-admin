@@ -42,7 +42,7 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
       logger: false,
       include: 'mock',
       infixName: false,
-      basename: 'api',
+      basename: '', // VITE_HTTP_PROXY 开启为空，不开启填'api'
       enableProd: false,
     }),
     // svg组件化支持

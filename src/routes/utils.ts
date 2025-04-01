@@ -172,8 +172,7 @@ async function initRouter() {
  */
 
 async function getGlobalRouters(storageKey, isInit?: boolean) {
-  await getAsyncRoutes(); // 模拟后台往window中插入路由菜单数据
-  const { menus } = window.GLOBAL;
+  const menus = await getAsyncRoutes();
   handleAsyncRoutes(cloneDeep(menus));
   if (isInit) storageLocal().setItem(storageKey, menus);
   return Promise.resolve(router);

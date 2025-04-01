@@ -23,19 +23,11 @@ declare global {
   };
 
   /**
-   * 该项目的全局属性
-   */
-  const IWindowGlobal: {
-    menus: Array<RouteConfigsTable>;
-  };
-
-  /**
    * Window 的类型提示
    */
   interface Window {
     // Global vue app instance
     __APP__: App<Element>;
-    GLOBAL: IWindowGlobal;
     webkitCancelAnimationFrame: (handle: number) => void;
     mozCancelAnimationFrame: (handle: number) => void;
     oCancelAnimationFrame: (handle: number) => void;
@@ -70,6 +62,7 @@ declare global {
     VITE_CDN: boolean;
     VITE_HIDE_HOME: string;
     VITE_COMPRESSION: ViteCompression;
+    VITE_API_BASE_URL: string;
   }
 
   /**

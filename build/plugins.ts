@@ -42,7 +42,8 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
       logger: false,
       include: 'mock',
       infixName: false,
-      enableProd: true,
+      basename: 'api',
+      enableProd: false,
     }),
     // svg组件化支持
     svgLoader(),

@@ -17,4 +17,4 @@ interface Props {
   options: Array<optionsItem>;
 }
 
-export type { optionsItem, dragItem, Props };
+export type { dragItem, optionsItem, Props };

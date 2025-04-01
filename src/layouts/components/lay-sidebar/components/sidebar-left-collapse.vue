@@ -33,7 +33,7 @@
   const { tooltipEffect } = useNav();
 
   const iconClass = computed(() => {
-    return ['ml-4', 'mb-1', 'w-[16px]', 'h-[16px]', 'inline-block', 'align-middle', 'cursor-pointer', 'duration-[100ms]'];
+    return ['mb-1', 'w-[20px]', 'h-[20px]', 'cursor-pointer', 'duration-[100ms]'];
   });
 
   const { $storage } = useGlobal<GlobalPropertiesApi>();
@@ -52,6 +52,9 @@
   .left-collapse {
     position: absolute;
     bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 40px;
     line-height: 40px;

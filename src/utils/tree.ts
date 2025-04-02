@@ -169,3 +169,33 @@ export const handleTree = (data: any[], id?: string, parentId?: string, children
   }
   return tree;
 };
+
+/**
+ * @desc  - 仿照antd的fieldNames的方法，将后台的数据转为组件需要的目标树
+ * @returns tree
+ */
+export const fieldNamesLoop = function (data, fieldNames?, level?) {
+  const hasChildrenKey = Object.prototype.hasOwnProperty.call(fieldNames, 'children');
+  const _data = data?.map((item) => {
+    const child = hasChildrenKey ? item[fieldNames.children] : item.children;
+    const needLoop = child?.length > 0 && (level ? item.level < level : true);
+    let _obj = {};
+
+    if (!(fieldNames && Object.keys(fieldNames).length === 0)) {
+      for (const key in fieldNames) _obj[key] = item[fieldNames[key]];
+    } else {
+      _obj = { ...item };
+    }
+
+    const _children = hasChildrenKey ? item[fieldNames['children']] : item.children;
+
+    const options = {
+      ..._obj,
+      children: needLoop ? fieldNamesLoop(_children, fieldNames, level) : null,
+    };
+
+    return options;
+  });
+
+  return _data;
+};

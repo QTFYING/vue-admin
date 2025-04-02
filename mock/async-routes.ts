@@ -4,12 +4,22 @@ import { MockServer } from './utils';
 
 export default MockServer([
   {
-    url: '/get-async-routes',
-    method: 'get',
+    url: '/resource/query',
+    method: 'post',
     response: () => {
       return {
         success: true,
         data: [permissionRouter, systemRouter],
+      };
+    },
+  },
+  {
+    url: '/resource/update',
+    method: 'post',
+    response: () => {
+      return {
+        success: true,
+        data: null,
       };
     },
   },

@@ -12,7 +12,7 @@ const defaultConfig: AxiosRequestConfig = {
   timeout: 10000,
   headers: {
     Accept: '*/*',
-    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
   },
   // 数组格式参数序列化（https://github.com/axios/axios/issues/5142）

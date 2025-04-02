@@ -28,11 +28,11 @@ export const getAsyncRoutes = async () => {
           Object.assign(options, { meta: { ...options.meta, rank: index + 1 }, children: loop(_children) });
         } else {
           Object.assign(options, {
+            name: item.name,
             meta: {
               ...options.meta,
               roles: ['admin'],
               showParent: item.siblingsNo === 1,
-              name: item.name,
               auths: item.buttonList ?? [],
             },
           });
@@ -54,12 +54,13 @@ export const getAsyncRoutes = async () => {
       {
         path: '/system',
         meta: {
-          title: '用户管理',
+          title: '系统管理',
           rank: 7,
         },
         children: [
           {
             path: '/system/users/index',
+            name: 'SystemUser',
             meta: {
               title: '用户管理',
               roles: ['admin'],

@@ -119,14 +119,19 @@ function createViteProxy(viteEnv: ImportMetaEnv) {
 
   const { http } = getEnvConfig(viteEnv);
 
-  console.log('xxxx-2', http.proxy, http.url);
-
   const proxy: Record<string, string | ProxyOptions> = {
     [http.proxy]: {
       target: http.url,
       changeOrigin: true,
-      rewrite: (path) => path.replace(new RegExp(`^${http.proxy}`), '/api'),
-      secure: false, // 如果目标是 HTTPS，设置为 false
+      rewrite: (path) => {
+        return path.replace(new RegExp(`^${http.proxy}`), '/api');
+      },
+      // secure: false, // 如果目标是 HTTPS，设置为 false
+      configure: (proxy, _options) => {
+        proxy.on('proxyReq', function (proxyReq, _req, _res) {
+          proxyReq.setHeader('Host', 'ops.citsgbt.com');
+        });
+      },
       bypass(req, res, options) {
         const proxyUrl = new URL(options.rewrite(req.url) || '', options.target as string)?.href || '';
         req.headers['x-req-proxyUrl'] = proxyUrl;

@@ -8,37 +8,69 @@ type Result = {
 export const getAsyncRoutes = async () => {
   return http.post<Result, object>('/resource/query').then((res) => {
     const routes = res.data;
+
+    // 路由加工
     const loop = (data) => {
       const _data = data?.map((item, index) => {
         const { childrenList: children } = item;
 
         const _children = children?.map((record) => ({
           ...record,
-          parentId: item.parentId,
           siblingsNo: item?.childrenList?.length ?? 0,
         }));
 
         const options = {
-          id: item.id,
           path: item.path,
-          name: item.name, // 组件名称，必填
-          meta: {
-            title: item.title,
-            roles: ['common'],
-            auths: item.buttonList ?? [],
-            rank: index + 1,
-            showParent: item.siblingsNo === 1,
-          },
+          meta: { title: item.title },
         };
 
         if (_children?.length > 0) {
-          Object.assign(options, { children: loop(_children) });
+          Object.assign(options, { meta: { ...options.meta, rank: index + 1 }, children: loop(_children) });
+        } else {
+          Object.assign(options, {
+            meta: {
+              ...options.meta,
+              roles: ['admin'],
+              showParent: item.siblingsNo === 1,
+              name: item.name,
+              auths: item.buttonList ?? [],
+            },
+          });
+        }
+
+        if (item?.parentId === 0) {
+          Object.assign(options, { showLink: true });
         }
 
         return options;
       });
+
       return _data;
     };
-    return loop(routes);
+
+    console.log('后台返回路由', loop(routes));
+
+    return [
+      {
+        path: '/system',
+        meta: {
+          title: '用户管理',
+          rank: 7,
+        },
+        children: [
+          {
+            path: '/system/users/index',
+            meta: {
+              title: '用户管理',
+              roles: ['admin'],
+              showParent: true,
+              name: 'SystemUser',
+              auths: [],
+            },
+          },
+        ],
+        showLink: false,
+      },
+    ];
   });
 };

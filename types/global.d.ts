@@ -63,6 +63,9 @@ declare global {
     VITE_HIDE_HOME: string;
     VITE_COMPRESSION: ViteCompression;
     VITE_API_BASE_URL: string;
+    VITE_ENABLE_HTTP_PROXY: `${boolean}`;
+    VITE_HTTP_PROXY_PATH: string;
+    VITE_HTTP_PROXY_URL: string;
   }
 
   /**

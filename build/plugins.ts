@@ -13,7 +13,11 @@ import { cdn } from './cdn';
 import { configCompressPlugin } from './compress';
 import { viteBuildInfo } from './info';
 
-export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompression): PluginOption[] {
+export function getPluginsList(
+  VITE_CDN: boolean,
+  VITE_COMPRESSION: ViteCompression,
+  VITE_ENABLE_HTTP_PROXY: `${boolean}`,
+): PluginOption[] {
   const lifecycle = process.env.npm_lifecycle_event;
   return [
     vue(),
@@ -42,7 +46,7 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
       logger: false,
       include: 'mock',
       infixName: false,
-      basename: '', // VITE_HTTP_PROXY 开启为空，不开启填'api'
+      basename: `${VITE_ENABLE_HTTP_PROXY}` === 'true' ? '' : 'api',
       enableProd: false,
     }),
     // svg组件化支持

@@ -4,7 +4,7 @@ import { removeToken, setToken, type DataInfo } from './auth';
 /**
  * 简版前端单点登录，根据实际业务自行编写，平台启动后本地可以跳后面这个链接进行测试 http://localhost:8848/#/permission/page/index?username=sso&roles=admin&accessToken=eyJhbGciOiJIUzUxMiJ9.admin
  * 划重点：
- * 判断是否为单点登录，不为则直接返回不再进行任何逻辑处理，下面是单点登录1后的逻辑处理
+ * 判断是否为单点登录，不为则直接返回不再进行任何逻辑处理，下面是单点登录后的逻辑处理
  * 1.清空本地旧信息；
  * 2.获取url中的重要参数信息，然后通过 setToken 保存在本地；
  * 3.删除不需要显示在 url 的参数
@@ -17,7 +17,7 @@ import { removeToken, setToken, type DataInfo } from './auth';
   const mustLength = must.length;
   if (Object.keys(params).length !== mustLength) return;
 
-  // url 参数满足 must 里的全部值，才判定为单点登录，避免非单点登录1时刷新页面无限循环
+  // url 参数满足 must 里的全部值，才判定为单点登录，避免非单点登录时刷新页面无限循环
   let sso = [];
   let start = 0;
 

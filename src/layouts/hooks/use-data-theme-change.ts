@@ -105,7 +105,7 @@ export function useDataThemeChange() {
     }
   }
 
-  /** 清空缓存并返回登录1页 */
+  /** 清空缓存并返回登录页 */
   function onReset() {
     removeToken();
     storageLocal().clear();

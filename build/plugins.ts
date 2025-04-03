@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { codeInspectorPlugin } from 'code-inspector-plugin';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import { visualizer } from 'rollup-plugin-visualizer';
 import Icons from 'unplugin-icons/vite';
 import type { PluginOption } from 'vite';
@@ -59,5 +60,31 @@ export function getPluginsList(
     removeConsole({ external: ['src/assets/iconfont/iconfont.js'] }),
     // 打包分析
     lifecycle === 'report' ? visualizer({ open: true, brotliSize: true, filename: 'report.html' }) : (null as any),
+    // API代理
+    {
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          const env: string = req?.headers?.['x-request-env'] as '';
+
+          const enums = {
+            qa: 'http://ops.citsgbt.com',
+            dev: 'http://ops.citsgbt.com',
+          };
+
+          const target = env ? enums[env] : '';
+
+          if (target && env) {
+            const proxy = createProxyMiddleware({
+              target: enums[env],
+              changeOrigin: true,
+              pathRewrite: { '^/api': '/api' },
+            });
+            return proxy(req, res, next);
+          }
+
+          next();
+        });
+      },
+    },
   ];
 }

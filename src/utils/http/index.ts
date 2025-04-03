@@ -2,6 +2,7 @@ import { useUserStoreHook } from '@/stores/modules/user';
 import { formatToken, getToken } from '@/utils/auth';
 import Axios, { type AxiosInstance, type AxiosRequestConfig, type CustomParamsSerializer } from 'axios';
 import { stringify } from 'qs';
+import { getUrlParams } from '../get-url-params';
 import NProgress from '../progress';
 import type { PureHttpError, PureHttpRequestConfig, PureHttpResponse, RequestMethods } from './types.d';
 
@@ -145,6 +146,10 @@ class PureHttp {
     param?: AxiosRequestConfig,
     axiosConfig?: PureHttpRequestConfig,
   ): Promise<T> {
+    const { env = '' } = getUrlParams();
+
+    if (env) axiosConfig = { ...axiosConfig, headers: { ...axiosConfig?.headers, 'x-request-env': env } };
+
     const config = {
       method,
       url,

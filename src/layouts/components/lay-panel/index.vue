@@ -68,7 +68,7 @@
       <div class="flex justify-end p-3 border-t-[1px] border-solid border-[var(--pure-border-color)]">
         <el-button
           v-tippy="{
-            content: '清空缓存并返回登录1页',
+            content: '清空缓存并返回登录页',
             placement: 'left-start',
             zIndex: 41000,
           }"

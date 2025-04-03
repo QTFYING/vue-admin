@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { readdir, stat } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { ProxyOptions } from 'vite';
 import { dependencies, devDependencies, engines, name, version } from '../package.json';
 
 /** 启动`node`进程时所在工作目录的绝对路径 */
@@ -104,42 +103,4 @@ const getPackageSize = (options) => {
   });
 };
 
-function getEnvConfig(viteEnv: ImportMetaEnv) {
-  return {
-    http: {
-      proxy: viteEnv.VITE_HTTP_PROXY_PATH || '/api', // 默认代理路径
-      url: viteEnv.VITE_HTTP_PROXY_URL || 'http://localhost:8848', // 默认代理目标地址
-    },
-  };
-}
-
-function createViteProxy(viteEnv: ImportMetaEnv) {
-  const isOpenProxy = viteEnv.VITE_ENABLE_HTTP_PROXY === 'true';
-  if (!isOpenProxy) return undefined;
-
-  const { http } = getEnvConfig(viteEnv);
-
-  const proxy: Record<string, string | ProxyOptions> = {
-    [http.proxy]: {
-      target: http.url,
-      changeOrigin: true,
-      rewrite: (path) => {
-        return path.replace(new RegExp(`^${http.proxy}`), '/api');
-      },
-      // secure: false, // 如果目标是 HTTPS，设置为 false
-      // configure: (proxy, _options) => {
-      //   proxy.on('proxyReq', function (proxyReq, _req, _res) {
-      //     proxyReq.setHeader('Host', 'ops.citsgbt.com');
-      //   });
-      // },
-      bypass(req, res, options) {
-        const proxyUrl = new URL(options.rewrite(req.url) || '', options.target as string)?.href || '';
-        req.headers['x-req-proxyUrl'] = proxyUrl;
-        res.setHeader('x-res-proxyUrl', proxyUrl);
-      },
-    },
-  };
-  return proxy;
-}
-
-export { __APP_INFO__, alias, createViteProxy, getPackageSize, pathResolve, root, wrapperEnv };
+export { __APP_INFO__, alias, getPackageSize, pathResolve, root, wrapperEnv };

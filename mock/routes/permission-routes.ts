@@ -1,49 +1,37 @@
-// 模拟后端动态生成路由
-
-/**
- * roles：页面级别权限，这里模拟二种 "admin"、"common"
- * admin：管理员角色
- * common：普通角色
- */
 export const permissionRouter = {
+  id: 11,
+  parentId: 0,
+  title: '权限管理',
   path: '/permission',
-  meta: {
-    title: '权限管理',
-    icon: 'ep:lollipop',
-    rank: 10,
-  },
-  children: [
+  childrenList: [
     {
-      path: '/permission/page/index',
+      id: 111,
+      parentId: 11,
+      title: '页面权限',
       name: 'PermissionPage',
-      meta: {
-        title: '页面权限',
-        roles: ['admin', 'common'],
-      },
+      path: '/permission/page/index',
+      bound: ['admin'],
     },
     {
+      id: 112,
+      parentId: 11,
+      title: '按钮权限',
       path: '/permission/button',
-      meta: {
-        title: '按钮权限',
-        roles: ['admin', 'common'],
-      },
-      children: [
+      childrenList: [
         {
+          id: 1121,
+          parentId: 112,
+          title: '路由返回按钮权限',
+          name: 'PermissionButtonMenus',
           path: '/permission/button/router',
-          component: 'permission/button/index',
-          name: 'PermissionButtonRouter',
-          meta: {
-            title: '路由返回按钮权限',
-            auths: ['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'],
-          },
+          buttonList: ['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'],
         },
         {
-          path: '/permission/button/login',
-          component: 'permission/button/perms',
-          name: 'PermissionButtonLogin',
-          meta: {
-            title: '登录1接口返回按钮权限',
-          },
+          id: 1122,
+          parentId: 112,
+          title: '登录接口返回按钮权限',
+          name: 'PermissionButtonPerms',
+          path: '/permission/button/perms',
         },
       ],
     },

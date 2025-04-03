@@ -1,11 +1,11 @@
 import { type ConfigEnv, loadEnv, type UserConfigExport } from 'vite';
 import { exclude, include } from './build/optimize';
 import { getPluginsList } from './build/plugins';
-import { __APP_INFO__, alias, createViteProxy, pathResolve, root, wrapperEnv } from './build/utils';
+import { __APP_INFO__, alias, pathResolve, root, wrapperEnv } from './build/utils';
 
 export default ({ mode }: ConfigEnv): UserConfigExport => {
   const { VITE_CDN, VITE_PORT, VITE_COMPRESSION, VITE_PUBLIC_PATH, VITE_ENABLE_HTTP_PROXY } = wrapperEnv(loadEnv(mode, root));
-  const viteEnv = loadEnv(mode, root) as ImportMetaEnv;
+  // const viteEnv = loadEnv(mode, root) as ImportMetaEnv;
   return {
     base: VITE_PUBLIC_PATH,
     root,
@@ -18,7 +18,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       port: VITE_PORT,
       host: '0.0.0.0',
       // 本地跨域代理 https://cn.vitejs.dev/config/server-options.html#server-proxy
-      proxy: createViteProxy(viteEnv),
+      // proxy: createViteProxy(viteEnv),
       // 预热文件以提前转换和缓存结果，降低启动期间的初始页面加载时长并防止转换瀑布
       warmup: {
         clientFiles: ['./index.html', './src/{pages,components}/*'],

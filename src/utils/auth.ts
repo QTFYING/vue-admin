@@ -15,9 +15,9 @@ export interface DataInfo<T> {
   username?: string;
   /** 昵称 */
   nickname?: string;
-  /** 当前登录1用户的角色 */
+  /** 当前登录用户的角色 */
   roles?: Array<string>;
-  /** 当前登录1用户的按钮级别权限 */
+  /** 当前登录用户的按钮级别权限 */
   permissions?: Array<string>;
 }
 
@@ -25,10 +25,10 @@ export const userKey = 'user-info';
 export const TokenKey = 'authorized-token';
 
 /**
- * 通过`multiple-tabs`是否在`cookie`中，判断用户是否已经登录1系统，
- * 从而支持多标签页打开已经登录1的系统后无需再登录。
+ * 通过`multiple-tabs`是否在`cookie`中，判断用户是否已经登录系统，
+ * 从而支持多标签页打开已经登录的系统后无需再登录。
  * 浏览器完全关闭后`multiple-tabs`将自动从`cookie`中销毁，
- * 再次打开浏览器需要重新登录1系统
+ * 再次打开浏览器需要重新登录系统
  * */
 export const multipleTabsKey = 'multiple-tabs';
 
@@ -121,7 +121,7 @@ export const formatToken = (token: string): string => {
   return 'Bearer ' + token;
 };
 
-/** 是否有按钮级别的权限（根据登录1接口返回的`permissions`字段进行判断）*/
+/** 是否有按钮级别的权限（根据登录接口返回的`permissions`字段进行判断）*/
 export const hasPerms = (value: string | Array<string>): boolean => {
   if (!value) return false;
   const allPerms = '*:*:*';

@@ -13,7 +13,7 @@ declare module 'vue' {
     vLongpress: Directive<HTMLElement, Function>;
     /** 防抖、节流指令 */
     vOptimize: Directive<HTMLElement, OptimizeOptions>;
-    /** 按钮权限指令（根据登录1接口返回的`permissions`字段进行判断）*/
+    /** 按钮权限指令（根据登录接口返回的`permissions`字段进行判断）*/
     vPerms: Directive<HTMLElement, string | Array<string>>;
     /**
      * `v-ripple`指令，用法如下：

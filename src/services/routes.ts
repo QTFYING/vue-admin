@@ -50,6 +50,10 @@ export const getAsyncRoutes = async () => {
 
     console.log('后台返回路由', loop(routes));
 
+    // return loop(routes);
+
+    // todo: 临时数据，后续替换为后台返回的路由
+
     return [
       {
         path: '/system',

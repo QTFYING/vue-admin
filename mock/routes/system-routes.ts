@@ -1,34 +1,35 @@
 export const systemRouter = {
+  id: 12,
+  parentId: 0,
+  title: '系统管理',
   path: '/system',
-  meta: {
-    title: '系统管理',
-    icon: 'ep:lollipop',
-    rank: 11,
-  },
-  children: [
+  childrenList: [
     {
-      path: '/system/users/index',
+      id: 121,
+      parentId: 12,
+      title: '用户管理',
       name: 'SystemUser',
-      meta: {
-        title: '用户管理',
-        roles: ['admin'],
-      },
+      path: '/system/users/index',
+      bound: ['admin'],
+      buttonList: [],
     },
     {
-      path: '/system/roles/index',
+      id: 122,
+      parentId: 12,
+      title: '角色管理',
       name: 'SystemRoles',
-      meta: {
-        title: '角色管理',
-        roles: ['admin'],
-      },
+      path: '/system/roles/index',
+      bound: ['admin'],
+      buttonList: [],
     },
     {
-      path: '/system/menus/index',
+      id: 123,
+      parentId: 12,
+      title: '菜单管理',
       name: 'SystemMenus',
-      meta: {
-        title: '菜单管理',
-        roles: ['admin'],
-      },
+      path: '/system/menus/index',
+      bound: ['admin'],
+      buttonList: [],
     },
   ],
 };

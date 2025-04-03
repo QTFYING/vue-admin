@@ -127,11 +127,11 @@ function createViteProxy(viteEnv: ImportMetaEnv) {
         return path.replace(new RegExp(`^${http.proxy}`), '/api');
       },
       // secure: false, // 如果目标是 HTTPS，设置为 false
-      configure: (proxy, _options) => {
-        proxy.on('proxyReq', function (proxyReq, _req, _res) {
-          proxyReq.setHeader('Host', 'ops.citsgbt.com');
-        });
-      },
+      // configure: (proxy, _options) => {
+      //   proxy.on('proxyReq', function (proxyReq, _req, _res) {
+      //     proxyReq.setHeader('Host', 'ops.citsgbt.com');
+      //   });
+      // },
       bypass(req, res, options) {
         const proxyUrl = new URL(options.rewrite(req.url) || '', options.target as string)?.href || '';
         req.headers['x-req-proxyUrl'] = proxyUrl;

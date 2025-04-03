@@ -47,8 +47,10 @@ export function getPluginsList(
       logger: false,
       include: 'mock',
       infixName: false,
-      basename: `${VITE_ENABLE_HTTP_PROXY}` === 'true' ? '' : 'api',
+      basename: 'api',
       enableProd: false,
+      enableDev: !(`${VITE_ENABLE_HTTP_PROXY}` === 'true'),
+      timeout: 1000,
     }),
     // svg组件化支持
     svgLoader(),
@@ -73,12 +75,13 @@ export function getPluginsList(
 
           const target = env ? enums[env] : '';
 
-          if (target && env) {
+          if (target && env && env !== 'me') {
             const proxy = createProxyMiddleware({
               target: enums[env],
               changeOrigin: true,
               pathRewrite: { '^/api': '/api' },
             });
+
             return proxy(req, res, next);
           }
 

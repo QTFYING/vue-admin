@@ -64,6 +64,11 @@ export function getPluginsList(
     lifecycle === 'report' ? visualizer({ open: true, brotliSize: true, filename: 'report.html' }) : (null as any),
     // API代理
     {
+      /**
+       * 配置服务器中间件
+       *
+       * @param server 服务器实例
+       */
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           const env: string = req?.headers?.['x-request-env'] as '';

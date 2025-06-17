@@ -63,6 +63,7 @@
   import { getTopMenu, initRouter } from '@/routes/utils';
   import { useUserStoreHook } from '@/stores/modules/user';
   import { message } from '@/utils/message';
+  import { IgnorePrefix, Prefix, Transformer, Type } from '@airpower/transformer';
   import type { FormInstance } from 'element-plus';
   import { onBeforeUnmount, onMounted, reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
@@ -138,6 +139,44 @@
   onBeforeUnmount(() => {
     window.document.removeEventListener('keypress', onkeypress);
   });
+
+  @Prefix('role____')
+  class Role extends Transformer {
+    id!: number;
+    name!: string;
+  }
+
+  @Prefix('user_')
+  class User1 extends Transformer {
+    id!: number;
+    name!: string;
+    @IgnorePrefix()
+    age!: number;
+    @Type(Role) // 指定 role 属性的类型为 Role
+    role!: Role;
+    @Type(Role, true) // 指定 roleList 属性的类型为 Role 数组
+    roleList: Role[] = [];
+  }
+
+  // 使用示例
+  const user = new User1();
+  user.id = 1;
+  user.name = 'Hamm';
+  user.age = 18;
+
+  const role = new Role();
+  role.name = 'Admin';
+  user.role = role;
+
+  const roleItem = new Role();
+  roleItem.name = 'User';
+  user.roleList.push(roleItem);
+
+  const json = user.copy().toJson(); // 将 User 实例转换为 JSON 对象
+  console.warn('json', JSON.stringify(json));
+
+  const user2 = User1.fromJson(json); // 从 JSON 对象转换回 User 实例
+  console.warn('user2', user2);
 </script>
 
 <style lang="scss" scoped>

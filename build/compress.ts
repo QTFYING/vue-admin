@@ -15,6 +15,7 @@ export const configCompressPlugin = (compress: ViteCompression): Plugin | Plugin
     // 压缩后是否删除原始文件
     deleteOriginFile: false,
   };
+
   const br = {
     ext: '.br',
     algorithm: 'brotliCompress',

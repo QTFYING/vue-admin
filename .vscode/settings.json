@@ -32,5 +32,6 @@
   "vscodeCustomCodeColor.highlightValueColor": "#b392f0",
   "cSpell.words": ["backtop", "cits", "citsgbt", "iconfont", "iconify", "maxlength", "popconfirm", "pureadmin", "VITE", "vueuse"],
   "vue-i18n.i18nPaths": "locales",
-  "i18n-ally.localesPaths": ["locales"]
+  "i18n-ally.localesPaths": ["locales"],
+  "i18n-ally.sourceLanguage": "zh-CN"
 }

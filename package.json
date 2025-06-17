@@ -23,6 +23,7 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
+    "@airpower/transformer": "^0.1.13",
     "@pureadmin/descriptions": "^1.2.1",
     "@pureadmin/table": "^3.2.1",
     "@pureadmin/utils": "^2.6.0",

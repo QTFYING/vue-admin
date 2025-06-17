@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@airpower/transformer':
+        specifier: ^0.1.13
+        version: 0.1.13
       '@pureadmin/descriptions':
         specifier: ^1.2.1
         version: 1.2.1(echarts@5.6.0)(element-plus@2.9.9(vue@3.5.13(typescript@5.8.3)))(typescript@5.8.3)
@@ -272,6 +275,9 @@ importers:
         version: 2.2.10(typescript@5.8.3)
 
 packages:
+
+  '@airpower/transformer@0.1.13':
+    resolution: {integrity: sha512-ALxyiPBiqQf8HEjjau+wBbWEXch4q2DuKT/G0w95WpDuj2J72oxcORz8/Wy1/vUeXjWfo65F4fZS3j61H73vVA==}
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -4303,6 +4309,8 @@ packages:
     resolution: {integrity: sha512-OFXkDJKcrlx5su2XbzJvj/34Q3m6PvyCZkVPHGYpcCJ52ek4U/ymZyfuV1nKE23AyBJ51E/6Yr0mhZ7xGTO4ag==}
 
 snapshots:
+
+  '@airpower/transformer@0.1.13': {}
 
   '@alloc/quick-lru@5.2.0': {}
 

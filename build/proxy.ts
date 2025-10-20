@@ -25,9 +25,15 @@ function createViteProxy(viteEnv: ImportMetaEnv) {
         return path.replace(new RegExp(`^${http.proxy}`), '/api');
       },
       // secure: false, // 如果目标是 HTTPS，设置为 false
-      // configure: (proxy, _options) => {
+      // configure: (proxy, options) => {
       //   proxy.on('proxyReq', function (proxyReq, _req, _res) {
+      //     const env = req.query.env;
       //     proxyReq.setHeader('Host', 'ops.citsgbt.com');
+      //     if (env === 'qa') {
+      //       options.target = 'http://qa.example.com';
+      //     } else if (env === 'dev') {
+      //       options.target = 'http://dev.example.com';
+      //
       //   });
       // },
       bypass(req, res, options: any) {

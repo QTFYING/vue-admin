@@ -76,6 +76,27 @@ export const getAsyncRoutes = async () => {
         ],
         showLink: false,
       },
+      {
+        path: '/jdk',
+        meta: {
+          title: 'JSAPI',
+          rank: 10,
+        },
+        children: [
+          {
+            path: '/jdk/pay/index',
+            name: 'JdkPay',
+            meta: {
+              title: '支付中台',
+              roles: ['admin'],
+              showParent: true,
+              name: 'JdkPay',
+              auths: [],
+            },
+          },
+        ],
+        showLink: true,
+      },
     ];
   });
 };

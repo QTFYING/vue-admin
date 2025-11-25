@@ -1,6 +1,6 @@
-import { HttpProxy } from '../core/HttpProxy';
 import type { PaymentProvider, PaymentRequest, PaymentResult } from '../types/PaymentProvider';
 import type { PaymentPlugin } from '../types/PluginTypes';
+import { HttpProxy } from './HttpProxy';
 
 export class PaymentManager {
   /** channel → provider 映射 */
@@ -24,6 +24,12 @@ export class PaymentManager {
   /** 支付主流程 */
   async pay(request: PaymentRequest): Promise<PaymentResult> {
     const provider = this.providers[request.channel];
+    console.log('xxx-1-2', HttpProxy);
+    const http = HttpProxy;
+
+    if (!http) {
+      throw new Error('HttpClient 未注入，请调用 PaymentManager.setHttp()');
+    }
 
     if (!provider) {
       return {
@@ -38,7 +44,7 @@ export class PaymentManager {
     for (const plugin of this.plugins) {
       if (plugin.beforePay) {
         try {
-          modified = await plugin.beforePay(modified, HttpProxy);
+          modified = await plugin.beforePay(modified, http);
         } catch (e) {
           return {
             status: 'FAILED',

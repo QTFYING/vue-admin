@@ -8,7 +8,7 @@ import { PaymentContext } from './PaymentContext';
  * - calls instance.onRequest / onResponse hooks
  * - calls client's get/post/request via HttpClient
  */
-export class HttpProxy {
+export const HttpProxy = {
   async request(ctxName: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, data?: any, opts?: any) {
     const ctx = PaymentContext.get(ctxName);
     const http = ctx.getHttp();
@@ -70,12 +70,14 @@ export class HttpProxy {
       throw new Error(e);
       return res;
     }
-  }
+  },
 
   get(ctxName: string, url: string, opts?: any) {
     return this.request(ctxName, 'GET', url, undefined, opts);
-  }
+  },
+
   post(ctxName: string, url: string, data?: any, opts?: any) {
+    console.log('xxx-1-1', this);
     return this.request(ctxName, 'POST', url, data, opts);
-  }
-}
+  },
+};

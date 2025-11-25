@@ -30,7 +30,19 @@
   "iconify.excludes": ["el"],
   "vscodeCustomCodeColor.highlightValue": ["v-loading", "v-auth", "v-copy", "v-longpress", "v-optimize", "v-perms", "v-ripple"],
   "vscodeCustomCodeColor.highlightValueColor": "#b392f0",
-  "cSpell.words": ["backtop", "cits", "citsgbt", "iconfont", "iconify", "maxlength", "popconfirm", "pureadmin", "VITE", "vueuse"],
+  "cSpell.words": [
+    "backtop",
+    "cits",
+    "citsgbt",
+    "iconfont",
+    "iconify",
+    "maxlength",
+    "popconfirm",
+    "pureadmin",
+    "VITE",
+    "vueuse",
+    "Wechat"
+  ],
   "vue-i18n.i18nPaths": "locales",
   "i18n-ally.localesPaths": ["locales"],
   "i18n-ally.sourceLanguage": "zh-CN"

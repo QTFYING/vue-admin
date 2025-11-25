@@ -44,39 +44,29 @@
 </template>
 
 <script lang="ts">
-  import axios from 'axios';
-  import { PaymentContext } from '../src/core/PaymentContext';
-  import { PaymentManager } from '../src/manager/PaymentManager';
-  import { PointsDeductionPlugin } from '../src/plugins/PointsDeductionPlugin';
-  import { RebatePlugin } from '../src/plugins/RebatePlugin';
-  import { WechatPayProvider } from '../src/providers/WechatPayProvider';
+  import { PaymentContext, PaymentManager, PointsDeductionPlugin, RebatePlugin, WechatPayProvider } from '@/sdk/cashier';
+  import { HttpClient } from '@/sdk/cashier/core/HttpClient';
+  import { http } from '@/utils/http';
 
   // create axios adapter implementing HttpClient contract
-  const axiosAdapter = {
-    get: (url: string, opts?: any) => axios.get(url, { headers: opts?.headers, params: opts?.params }).then((r) => r.data),
-    post: (url: string, data?: any, opts?: any) =>
-      axios.post(url, data, { headers: opts?.headers, params: opts?.params }).then((r) => r.data),
-  };
+  // const axiosAdapter = {
+  //   get: (url: string, opts?: any) => axios.get(url, { headers: opts?.headers, params: opts?.params }).then((r) => r.data),
+  //   post: (url: string, data?: any, opts?: any) =>
+  //     axios.post(url, data, { headers: opts?.headers, params: opts?.params }).then((r) => r.data),
+  // };
 
   // register contexts
   PaymentContext.create('pay', {
-    http: axiosAdapter,
+    http: http as unknown as HttpClient,
     apiBaseUrl: 'https://pay-api.example.com',
     getToken: () => localStorage.getItem('pay_token') || '',
   });
 
   // optional: register points service context
   PaymentContext.create('points', {
-    http: axiosAdapter,
+    http: http as unknown as HttpClient,
     apiBaseUrl: 'https://points-api.example.com',
     getToken: () => localStorage.getItem('points_token') || '',
-  });
-
-  // register global decorator (e.g. geo + signature)
-  PaymentContext.registerGlobalDecorator(async ({ headers }) => {
-    // compute dynamic headers here (call navigator.geolocation or platform-specific)
-    headers['X-Client-Version'] = '1.2.3';
-    // signature logic left to integrator or global decorator
   });
 
   // use manager

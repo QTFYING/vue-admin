@@ -55,7 +55,7 @@ export class PaymentExecutor {
     // 3. 执行 afterPay 插件（不阻断主流程）
     for (const plugin of this.plugins) {
       if (plugin.afterPay) {
-        plugin.afterPay(modifiedReq, result, this.http).catch((err) => {
+        plugin.afterPay(modifiedReq, result, this.http, this.paymentCtx).catch((err) => {
           logger.log(`[plugin afterPay error] ${plugin.name}`, err);
         });
       }

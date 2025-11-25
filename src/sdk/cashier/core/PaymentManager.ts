@@ -3,7 +3,7 @@ import { PaymentExecutor } from '../core/PaymentExecutor';
 import type { HttpClient } from '../http/HttpClient';
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
 import type { PaymentProvider } from '../providers/PaymentProvider';
-import type { PaymentRequest, PaymentResult } from '../types';
+import { PaymentStatus, type PaymentRequest, type PaymentResult } from '../types';
 import type { IPluginContext } from '../types/PluginContext';
 
 export class PaymentManager {
@@ -38,7 +38,9 @@ export class PaymentManager {
     const provider = this.providers[request.channel];
     if (!provider) {
       return {
-        status: 'FAILED',
+        channel: request.channel,
+        status: PaymentStatus['Failure'],
+        orderId: request.orderId,
         message: `未找到支付渠道: ${request.channel}`,
       };
     }

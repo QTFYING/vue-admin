@@ -1,5 +1,3 @@
-import type { HttpClient } from '../http/HttpClient';
-
 export type RequestDecorator = (opts: {
   url: string;
   method: string;
@@ -10,7 +8,6 @@ export type RequestDecorator = (opts: {
 export type ResponseHandler<T = any, R = any> = (res: T) => R;
 
 export interface PaymentSDKConfig {
-  http: HttpClient;
   apiBase: string;
   getToken?: () => string | Promise<string | null | undefined>;
   decorators?: RequestDecorator[];
@@ -29,13 +26,11 @@ export class PaymentContext {
   public constructor(private readonly config: PaymentSDKConfig) {}
 
   /**
-   * 获取已注册的实例
+   * 快捷工厂方法：创建并自动注册 (兼容以前的写法)
    */
-  static get(name: string): PaymentContext {
-    const inst = PaymentContext.instances.get(name);
-    if (!inst) {
-      throw new Error(`[PaymentSDK] Context '${name}' not found. Ensure it is created or registered.`);
-    }
+  static create(name: string, config: PaymentSDKConfig): PaymentContext {
+    const inst = new PaymentContext(config);
+    PaymentContext.register(name, inst);
     return inst;
   }
 
@@ -50,11 +45,13 @@ export class PaymentContext {
   }
 
   /**
-   * 快捷工厂方法：创建并自动注册 (兼容以前的写法)
+   * 获取已注册的实例
    */
-  static create(name: string, config: PaymentSDKConfig): PaymentContext {
-    const inst = new PaymentContext(config);
-    PaymentContext.register(name, inst);
+  static get(name: string): PaymentContext {
+    const inst = PaymentContext.instances.get(name);
+    if (!inst) {
+      throw new Error(`[PaymentSDK] Context '${name}' not found. Ensure it is created or registered.`);
+    }
     return inst;
   }
 
@@ -62,12 +59,8 @@ export class PaymentContext {
     return PaymentContext.instances.delete(name);
   }
 
-  static registerGlobalDecorator(d: RequestDecorator): void {
-    PaymentContext.globalDecorators.push(d);
-  }
-
-  getHttp(): HttpClient {
-    return this.config.http;
+  getConfig(): PaymentSDKConfig {
+    return this.config;
   }
 
   getBaseUrl(): string {
@@ -79,6 +72,10 @@ export class PaymentContext {
     const t = this.config.getToken();
     const tokenStr = t instanceof Promise ? await t : t;
     return tokenStr || undefined;
+  }
+
+  static registerGlobalDecorator(d: RequestDecorator): void {
+    PaymentContext.globalDecorators.push(d);
   }
 
   getDecorators(): RequestDecorator[] {
@@ -100,9 +97,5 @@ export class PaymentContext {
 
   getResponseHandler(): ResponseHandler | undefined {
     return this.config.onResponse;
-  }
-
-  getConfig(): PaymentSDKConfig {
-    return this.config;
   }
 }

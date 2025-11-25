@@ -1,3 +1,5 @@
+import type { PaymentContext } from '../core/PaymentContext';
+import type { HttpClient } from '../http/HttpClient';
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
 import type { PaymentRequest } from '../types/PaymentRequest';
 import type { PaymentResult } from '../types/PaymentResult';
@@ -6,14 +8,13 @@ export class RebatePlugin implements PaymentPlugin {
   name = 'rebate';
   constructor(private opts: { endpoint: string; ratio?: number }) {}
 
-  async afterPay(req: PaymentRequest, res: PaymentResult, http?: any) {
-    if (res.status === 'SUCCESS') {
-      try {
-        const rebate = (req.amount || 0) * (this.opts.ratio ?? 0.02);
-        await http.post('points', this.opts.endpoint, { userId: req.userId, orderId: req.orderId, rebate });
-      } catch (e) {
-        throw new Error(e);
-      }
+  async afterPay(req: PaymentRequest, _res: PaymentResult, http: HttpClient, ctx: PaymentContext) {
+    try {
+      const rebate = (req.amount || 0) * (this.opts.ratio ?? 0.02);
+      const path = ctx.getConfig().apiBase + '/api' + this.opts.endpoint;
+      await http.post(path, { orderId: req.orderId, rebate });
+    } catch (e) {
+      throw new Error(e);
     }
   }
 }

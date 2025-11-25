@@ -11,10 +11,10 @@ export function fetchAdapter(fetchFn: any): HttpClient {
       return res.json();
     },
     get: async (url, config) => {
-      fetchFn(url, { method: 'GET', headers: config.headers }).then((r) => r.json());
+      return fetchFn(url, { method: 'GET', headers: config.headers }).then((r) => r.json());
     },
     post: async (url, data, config) => {
-      fetchFn(url, { method: 'POST', headers: config.headers, body: JSON.stringify(data) }).then((r) => r.json());
+      return fetchFn(url, { method: 'POST', headers: config.headers, body: JSON.stringify(data) }).then((r) => r.json());
     },
   };
 }

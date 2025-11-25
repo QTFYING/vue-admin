@@ -16,5 +16,5 @@ export interface PaymentPlugin {
    * 支付后处理
    * 不能修改 result，但可以记录日志、上报埋点等
    */
-  afterPay?(request: PaymentRequest, result: PaymentResult, http: HttpClient): Promise<void>;
+  afterPay?(request: PaymentRequest, result: PaymentResult, http: HttpClient, ctx: PaymentContext): Promise<void>;
 }

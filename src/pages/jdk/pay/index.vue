@@ -20,6 +20,7 @@
     axiosAdapter,
     PaymentContext,
     PaymentManager,
+    PaymentProviderType,
     PointsDeductionPlugin,
     RebatePlugin,
     WechatPayProvider,
@@ -33,8 +34,8 @@
   //     axios.post(url, data, { headers: opts?.headers, params: opts?.params }).then((r) => r.data),
   // };
 
-  // 注入插件的上下文
-  const paymentV1 = PaymentContext.create('v1', { http: axiosAdapter(http), apiBase: 'http://localhost:8848' });
+  // 注入支付上下文 - v1版本，其他页面可以注册v2版本，可以根据不同的页面注册不同的版本
+  const paymentV1 = PaymentContext.create('v1', { apiBase: 'http://localhost:8848' });
 
   const mgr = new PaymentManager();
   mgr.init({ http: axiosAdapter(http), context: paymentV1 });
@@ -45,14 +46,14 @@
 
   // 发起支付
   const handleAliPay = async () => {
-    await mgr.pay({ channel: 'alipay', orderId: 'O1', amount: 100, userId: 'U1' });
+    await mgr.pay({ channel: PaymentProviderType['Wechat'], orderId: 'O1', amount: 100 });
   };
 
   const handleWeChat = async () => {
-    await mgr.pay({ channel: 'wechat', orderId: 'O2', amount: 100, userId: 'U1' });
+    await mgr.pay({ channel: PaymentProviderType['Wechat'], orderId: 'O2', amount: 100 });
   };
 
   const handleUniApp = async () => {
-    await mgr.pay({ channel: 'uniapp', orderId: 'O3', amount: 100, userId: 'U1' });
+    await mgr.pay({ channel: PaymentProviderType['Wechat'], orderId: 'O3', amount: 100 });
   };
 </script>

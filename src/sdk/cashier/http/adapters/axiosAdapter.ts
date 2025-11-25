@@ -1,6 +1,6 @@
-import type { HttpProxy } from '../HttpProxy';
+import type { HttpClient } from '../HttpClient';
 
-export function axiosAdapter(axiosInstance: any): typeof HttpProxy {
+export function axiosAdapter(axiosInstance: any): HttpClient {
   return {
     request: (config) => axiosInstance.request(config),
     get: (url, cfg) => axiosInstance.get(url, cfg),

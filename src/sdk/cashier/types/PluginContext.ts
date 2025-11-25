@@ -10,7 +10,7 @@ import type { SDKConfig } from './SDKConfig';
  * 所有插件在 beforePay / afterPay 中，都会收到同一个上下文对象。
  * 上下文不随插件变化，是 SDK 为插件提供的“能力注入点”。
  */
-export interface PluginContext {
+export interface IPluginContext {
   /**
    * 客户端传入的 HTTP 实例（Axios/uni.request/Fetch 封装）
    */

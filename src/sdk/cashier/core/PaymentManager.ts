@@ -1,22 +1,22 @@
 import type { PaymentContext } from '../core/PaymentContext';
 import { PaymentExecutor } from '../core/PaymentExecutor';
-import type { HttpProxy } from '../http/HttpProxy';
+import type { HttpClient } from '../http/HttpClient';
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
 import type { PaymentProvider } from '../providers/PaymentProvider';
 import type { PaymentRequest, PaymentResult } from '../types';
-import type { PluginContext } from '../types/PluginContext';
+import type { IPluginContext } from '../types/PluginContext';
 
 export class PaymentManager {
   private providers: Record<string, PaymentProvider> = {};
   private plugins: PaymentPlugin[] = [];
-  private http!: typeof HttpProxy;
+  private http!: HttpClient;
   private paymentCtx!: PaymentContext;
-  private pluginsCtx!: PluginContext;
+  private pluginsCtx!: IPluginContext;
 
   /**
    * 初始化一个 SDK 实例（可支持多实例）
    */
-  init(config: { http: typeof HttpProxy; context?: PaymentContext }) {
+  init(config: { http: HttpClient; context?: PaymentContext }) {
     this.http = config.http;
     this.paymentCtx = config.context;
   }

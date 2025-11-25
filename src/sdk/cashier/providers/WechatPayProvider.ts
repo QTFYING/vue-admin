@@ -1,10 +1,12 @@
-import type { HttpProxy } from '../http/HttpProxy';
+import type { PaymentContext } from '../core/PaymentContext';
+import type { HttpClient } from '../http/HttpClient';
 import type { PaymentRequest, PaymentResult } from '../types';
 import type { PaymentProvider } from './PaymentProvider';
 
 export class WechatPayProvider implements PaymentProvider {
-  async pay(req: PaymentRequest, http: typeof HttpProxy): Promise<PaymentResult> {
-    const prepay = await http.post('pay', '/pay/wechat/prepay', req);
+  async pay(req: PaymentRequest, http: HttpClient, ctx: PaymentContext): Promise<PaymentResult> {
+    const path = ctx.getConfig().apiBase + '/api' + '/pay/wechat/prepay';
+    const prepay = await http.post(path, req);
     return { status: 'UNKNOWN', raw: prepay };
   }
 }

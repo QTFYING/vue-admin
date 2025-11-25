@@ -34,14 +34,10 @@
   // };
 
   // 注入插件的上下文
-  PaymentContext.create('payment-methods-1', {
-    http: axiosAdapter(http),
-    apiBaseUrl: 'https://pay-api1.example.com',
-    getToken: () => localStorage.getItem('pay_token') || '',
-  });
+  const paymentV1 = PaymentContext.create('v1', { http: axiosAdapter(http), apiBase: 'http://localhost:8848' });
 
   const mgr = new PaymentManager();
-  mgr.init({ http: axiosAdapter(http), context: PaymentContext.get('payment-methods-1') });
+  mgr.init({ http: axiosAdapter(http), context: paymentV1 });
   mgr.use(new PointsDeductionPlugin({ endpoint: '/deduct' }));
   mgr.use(new RebatePlugin({ endpoint: '/rebate', ratio: 0.03 }));
 

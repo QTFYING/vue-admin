@@ -5,18 +5,6 @@
  */
 export interface HttpClient {
   request?(opts: { method: string; url: string; headers?: Record<string, string>; data?: any; params?: any }): Promise<any>;
-  get?(url: string, opts?: { headers?: Record<string, string>; params?: any }): Promise<any>;
-  post?(url: string, data?: any, opts?: { headers?: Record<string, string>; params?: any }): Promise<any>;
-}
-
-export function callGet(http: HttpClient, url: string, opts?: any) {
-  if (http.get) return http.get(url, opts);
-  if (http.request) return http.request({ method: 'GET', url, headers: opts?.headers, params: opts?.params });
-  throw new Error('HttpClient must implement get or request');
-}
-
-export function callPost(http: HttpClient, url: string, data?: any, opts?: any) {
-  if (http.post) return http.post(url, data, opts);
-  if (http.request) return http.request({ method: 'POST', url, headers: opts?.headers, data, params: opts?.params });
-  throw new Error('HttpClient must implement post or request');
+  get?(url: string, params?: any): Promise<any>;
+  post?(url: string, params?: any): Promise<any>;
 }

@@ -17,7 +17,6 @@ export * from './plugins/RebatePlugin';
 
 // http
 export * from './http/HttpClient';
-export * from './http/HttpProxy';
 
 // 类型
 export * from './types';

@@ -1,13 +1,6 @@
 import { PaymentContext } from '../core/PaymentContext';
 import { callGet, callPost } from './HttpClient';
 
-/**
- * HttpProxy: unified network entry for the SDK.
- * - handles token injection
- * - executes registered decorators (global + instance)
- * - calls instance.onRequest / onResponse hooks
- * - calls client's get/post/request via HttpClient
- */
 export const HttpProxy = {
   async request(ctxName: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, data?: any, opts?: any) {
     const ctx = PaymentContext.get(ctxName);

@@ -1,27 +1,25 @@
-import type { HttpClient } from '../http/HttpClient';
+import type { HttpProxy } from '../http/HttpProxy';
 
 export type RequestDecorator = (opts: {
   url: string;
   method: string;
   headers: Record<string, string>;
-  data?: any;
+  data?: unknown;
 }) => Promise<void> | void;
-export type ResponseHandler = (res: any) => any;
+
+export type ResponseHandler<T = any, R = any> = (res: T) => R;
 
 export interface PaymentSDKConfig {
-  http: HttpClient;
+  http: typeof HttpProxy;
   apiBaseUrl: string;
-  getToken?: () => string | Promise<string>;
-  decorators?: RequestDecorator[]; // per-instance decorators
-  onRequest?: RequestDecorator; // single instance-level hook
-  onResponse?: ResponseHandler; // instance-level response transform
+  getToken?: () => string | Promise<string | null | undefined>;
+  decorators?: RequestDecorator[];
+  onRequest?: RequestDecorator;
+  onResponse?: ResponseHandler;
 }
 
 /**
  * PaymentContext: multi-instance context manager
- * - create(name, config)
- * - get(name)
- * - registerGlobalDecorator(decorator)
  */
 export class PaymentContext {
   private static instances: Map<string, PaymentContext> = new Map();
@@ -30,6 +28,9 @@ export class PaymentContext {
   private constructor(private config: PaymentSDKConfig) {}
 
   static create(name: string, config: PaymentSDKConfig) {
+    if (PaymentContext.instances.has(name)) {
+      console.warn(`[PaymentSDK] Context '${name}' already exists. It will be overwritten.`);
+    }
     const inst = new PaymentContext(config);
     PaymentContext.instances.set(name, inst);
     return inst;
@@ -37,8 +38,12 @@ export class PaymentContext {
 
   static get(name: string) {
     const inst = PaymentContext.instances.get(name);
-    if (!inst) throw new Error(`PaymentContext '${name}' not found`);
+    if (!inst) throw new Error(`PaymentContext '${name}' not found. Make sure to call create() first.`);
     return inst;
+  }
+
+  static remove(name: string) {
+    return PaymentContext.instances.delete(name);
   }
 
   static registerGlobalDecorator(d: RequestDecorator) {
@@ -53,14 +58,28 @@ export class PaymentContext {
     return this.config.apiBaseUrl;
   }
 
-  async getToken(): Promise<string> {
-    if (!this.config.getToken) return '';
+  // 优化 5: 更严谨的 Token 获取逻辑
+  async getToken(): Promise<string | undefined> {
+    if (!this.config.getToken) return undefined;
+
     const t = this.config.getToken();
-    return typeof t === 'string' ? t : await t;
+    const tokenStr = t instanceof Promise ? await t : t;
+
+    return tokenStr || undefined;
   }
 
-  getDecorators() {
-    return [...PaymentContext.globalDecorators, ...(this.config.decorators || [])];
+  getDecorators(): RequestDecorator[] {
+    const list = [...PaymentContext.globalDecorators];
+
+    if (this.config.decorators) {
+      list.push(...this.config.decorators);
+    }
+
+    if (this.config.onRequest) {
+      list.push(this.config.onRequest);
+    }
+
+    return list;
   }
 
   getConfig() {

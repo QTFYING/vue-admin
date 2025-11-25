@@ -1,15 +1,16 @@
+import type { PaymentContext } from '../core/PaymentContext';
 import type { HttpProxy } from '../http/HttpProxy';
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
 import type { PaymentRequest } from '../types/PaymentRequest';
-import type { PluginContext } from '../types/PluginContext';
 
 export class PointsDeductionPlugin implements PaymentPlugin {
   name = 'points-deduction';
   constructor(private opts: { endpoint: string }) {}
 
-  async beforePay(req: PaymentRequest, http: typeof HttpProxy, _ctx: PluginContext) {
+  async beforePay(req: PaymentRequest, http: typeof HttpProxy, ctx: PaymentContext) {
     try {
-      const resp = await http.post('points', this.opts.endpoint, { userId: req.userId, amount: req.amount });
+      const path = ctx.getConfig().apiBaseUrl + '/points' + this.opts.endpoint;
+      const resp = await http.post(path, this.opts.endpoint, { userId: req.userId, amount: req.amount });
       if (resp?.deductedAmount) {
         return {
           ...req,

@@ -7,46 +7,17 @@
         </div>
       </template>
       <div>
-        <p class="text item">支付前：优惠券、积分</p>
-        <p class="text item">去支付：支付中、支付成功（核销优惠券、积分等）、支付失败（回滚优惠券、积分等）</p>
-        <p class="text item">支付后：积分返点</p>
-      </div>
-    </el-card>
-
-    <el-card style="margin-top: 12px">
-      <template #header>
-        <div class="card-header">
-          <span>设计思路（策略模式 & 单例模式）</span>
-        </div>
-      </template>
-      <div>
-        <p class="text item">抵扣计算</p>
-        <p class="text item">支付上下文</p>
-        <p class="text item">订单服务</p>
-        <p class="text item">支付策略</p>
-        <p class="text item">积分返点</p>
-      </div>
-    </el-card>
-
-    <el-card style="margin-top: 12px">
-      <template #header>
-        <div class="card-header">
-          <span>兼容性</span>
-        </div>
-      </template>
-      <div>
-        <p class="text item">平台差异（微信小程序、支付宝小程序、UniAPP、Taro等）</p>
-        <p class="text item">HTTP请求方式的差异</p>
-        <p class="text item">不能支付的登陆问题</p>
+        <el-button type="primary" @click="handleAliPay">支付宝</el-button>
+        <el-button type="primary" @click="handleWeChat">微信</el-button>
+        <el-button type="primary" @click="handleUniApp">UniApp支付</el-button>
       </div>
     </el-card>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
   import {
     axiosAdapter,
-    HttpClient,
     PaymentContext,
     PaymentManager,
     PointsDeductionPlugin,
@@ -62,94 +33,30 @@
   //     axios.post(url, data, { headers: opts?.headers, params: opts?.params }).then((r) => r.data),
   // };
 
-  // register contexts
-  PaymentContext.create('pay', {
-    http: http as unknown as HttpClient,
-    apiBaseUrl: 'https://pay-api.example.com',
+  // 注入插件的上下文
+  PaymentContext.create('payment-methods-1', {
+    http: axiosAdapter(http),
+    apiBaseUrl: 'https://pay-api1.example.com',
     getToken: () => localStorage.getItem('pay_token') || '',
   });
 
-  // optional: register points service context
-  PaymentContext.create('points', {
-    http: http as unknown as HttpClient,
-    apiBaseUrl: 'https://points-api.example.com',
-    getToken: () => localStorage.getItem('points_token') || '',
-  });
-
-  // use manager
   const mgr = new PaymentManager();
-  mgr.init({ http: axiosAdapter(http) });
+  mgr.init({ http: axiosAdapter(http), context: PaymentContext.get('payment-methods-1') });
   mgr.use(new PointsDeductionPlugin({ endpoint: '/deduct' }));
   mgr.use(new RebatePlugin({ endpoint: '/rebate', ratio: 0.03 }));
-  mgr.registerProvider('wechat', new WechatPayProvider());
 
-  const res = await mgr.pay({ channel: 'wechat', orderId: 'O1', amount: 100, userId: 'U1' });
+  mgr.registerProvider('wechat', new WechatPayProvider()); // 执行微信支付
+
+  // 发起支付
+  const handleAliPay = async () => {
+    await mgr.pay({ channel: 'alipay', orderId: 'O1', amount: 100, userId: 'U1' });
+  };
+
+  const handleWeChat = async () => {
+    await mgr.pay({ channel: 'wechat', orderId: 'O2', amount: 100, userId: 'U1' });
+  };
+
+  const handleUniApp = async () => {
+    await mgr.pay({ channel: 'uniapp', orderId: 'O3', amount: 100, userId: 'U1' });
+  };
 </script>
-
-<style lang="scss" scoped>
-  .text.item {
-    line-height: 30px;
-    color: #999;
-  }
-
-  .enhanced-payment-container {
-    max-width: 400px;
-    padding: 20px;
-    margin: 0 auto;
-  }
-
-  .amount-section {
-    padding: 15px;
-    margin: 10px 0;
-    border: 1px solid #eee;
-  }
-
-  .amount-row {
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 0;
-  }
-
-  .discount {
-    color: #f56c6c;
-  }
-
-  .final-amount {
-    padding-top: 10px;
-    margin-top: 10px;
-    font-size: 1.2em;
-    font-weight: bold;
-    border-top: 1px solid #eee;
-  }
-
-  .deduction-options,
-  .payment-methods {
-    padding: 15px;
-    margin: 20px 0;
-    border: 1px solid #eee;
-    border-radius: 4px;
-  }
-
-  .pay-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    color: white;
-    cursor: pointer;
-    background-color: #409eff;
-    border: none;
-    border-radius: 4px;
-  }
-
-  .pay-button:disabled {
-    cursor: not-allowed;
-    background-color: #c0c4cc;
-  }
-
-  .full-deduction {
-    margin: 10px 0;
-    font-weight: bold;
-    color: #67c23a;
-    text-align: center;
-  }
-</style>

@@ -28,7 +28,7 @@ export class PaymentExecutor {
     for (const plugin of this.plugins) {
       if (plugin.beforePay) {
         try {
-          modifiedReq = await plugin.beforePay(modifiedReq, this.http);
+          modifiedReq = await plugin.beforePay(modifiedReq, this.http, this.paymentCtx);
         } catch (error) {
           return {
             status: 'FAILED',
@@ -43,7 +43,7 @@ export class PaymentExecutor {
     let result: PaymentResult;
 
     try {
-      result = await this.provider.pay(modifiedReq, this.http);
+      result = await this.provider.pay(modifiedReq, this.http, this.paymentCtx);
     } catch (error) {
       return {
         status: 'FAILED',

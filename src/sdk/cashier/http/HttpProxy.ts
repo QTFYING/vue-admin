@@ -1,5 +1,5 @@
+import { PaymentContext } from '../core/PaymentContext';
 import { callGet, callPost } from './HttpClient';
-import { PaymentContext } from './PaymentContext';
 
 /**
  * HttpProxy: unified network entry for the SDK.
@@ -77,7 +77,6 @@ export const HttpProxy = {
   },
 
   post(ctxName: string, url: string, data?: any, opts?: any) {
-    console.log('xxx-1-1', this);
     return this.request(ctxName, 'POST', url, data, opts);
   },
 };

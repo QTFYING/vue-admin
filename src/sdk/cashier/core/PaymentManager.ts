@@ -1,81 +1,50 @@
-import type { PaymentProvider, PaymentRequest, PaymentResult } from '../types/PaymentProvider';
-import type { PaymentPlugin } from '../types/PluginTypes';
-import { HttpProxy } from './HttpProxy';
+import type { PaymentContext } from '../core/PaymentContext';
+import { PaymentExecutor } from '../core/PaymentExecutor';
+import type { HttpProxy } from '../http/HttpProxy';
+import type { PaymentPlugin } from '../plugins/PaymentPlugin';
+import type { PaymentProvider } from '../providers/PaymentProvider';
+import type { PaymentRequest, PaymentResult } from '../types';
+import type { PluginContext } from '../types/PluginContext';
 
 export class PaymentManager {
-  /** channel → provider 映射 */
   private providers: Record<string, PaymentProvider> = {};
-
-  /** 插件队列 */
   private plugins: PaymentPlugin[] = [];
+  private http!: typeof HttpProxy;
+  private paymentCtx!: PaymentContext;
+  private pluginsCtx!: PluginContext;
 
-  /** 注册支付 provider */
+  /**
+   * 初始化一个 SDK 实例（可支持多实例）
+   */
+  init(config: { http: typeof HttpProxy; context?: PaymentContext }) {
+    this.http = config.http;
+    this.paymentCtx = config.context;
+  }
+
+  use(plugin: PaymentPlugin) {
+    this.plugins.push(plugin);
+    return this;
+  }
+
   registerProvider(channel: string, provider: PaymentProvider) {
     this.providers[channel] = provider;
     return this;
   }
 
-  /** 插件注册：use() 是更语义化的写法 */
-  use(plugin: PaymentPlugin) {
-    this.plugins.push(plugin);
-    return this; // 支持链式调用
-  }
-
-  /** 支付主流程 */
+  /**
+   * 调用支付：完全交由 PaymentExecutor 执行
+   */
   async pay(request: PaymentRequest): Promise<PaymentResult> {
     const provider = this.providers[request.channel];
-    console.log('xxx-1-2', HttpProxy);
-    const http = HttpProxy;
-
-    if (!http) {
-      throw new Error('HttpClient 未注入，请调用 PaymentManager.setHttp()');
-    }
-
     if (!provider) {
       return {
         status: 'FAILED',
-        message: `未注册支付渠道: ${request.channel}`,
+        message: `未找到支付渠道: ${request.channel}`,
       };
     }
 
-    let modified = { ...request };
+    const executor = new PaymentExecutor(provider, this.plugins, this.http, this.paymentCtx, this.pluginsCtx);
 
-    /** 1. beforePay 插件执行（可修改 request） */
-    for (const plugin of this.plugins) {
-      if (plugin.beforePay) {
-        try {
-          modified = await plugin.beforePay(modified, http);
-        } catch (e) {
-          return {
-            status: 'FAILED',
-            message: `插件执行失败(beforePay)：${(e as Error).message}`,
-          };
-        }
-      }
-    }
-
-    /** 2. 调用 provider.pay */
-    let result: PaymentResult;
-    try {
-      result = await provider.pay(modified, HttpProxy);
-    } catch (e) {
-      return {
-        status: 'FAILED',
-        message: `支付失败：${(e as Error).message}`,
-      };
-    }
-
-    /** 3. afterPay 插件执行（不影响主流程） */
-    for (const plugin of this.plugins) {
-      if (plugin.afterPay) {
-        try {
-          await plugin.afterPay(modified, result, HttpProxy);
-        } catch (e) {
-          throw new Error(e);
-        }
-      }
-    }
-
-    return result;
+    return executor.execute(request);
   }
 }

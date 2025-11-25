@@ -1,4 +1,4 @@
-import type { HttpClient } from './HttpClient';
+import type { HttpClient } from '../http/HttpClient';
 
 export type RequestDecorator = (opts: {
   url: string;

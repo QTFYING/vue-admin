@@ -1,6 +1,6 @@
+import type { PaymentPlugin } from '../plugins/PaymentPlugin';
 import type { PaymentRequest } from '../types/PaymentRequest';
 import type { PaymentResult } from '../types/PaymentResult';
-import type { PaymentPlugin } from '../types/PluginTypes';
 
 export class RebatePlugin implements PaymentPlugin {
   name = 'rebate';

@@ -44,8 +44,15 @@
 </template>
 
 <script lang="ts">
-  import { PaymentContext, PaymentManager, PointsDeductionPlugin, RebatePlugin, WechatPayProvider } from '@/sdk/cashier';
-  import { HttpClient } from '@/sdk/cashier/core/HttpClient';
+  import {
+    axiosAdapter,
+    HttpClient,
+    PaymentContext,
+    PaymentManager,
+    PointsDeductionPlugin,
+    RebatePlugin,
+    WechatPayProvider,
+  } from '@/sdk/cashier';
   import { http } from '@/utils/http';
 
   // create axios adapter implementing HttpClient contract
@@ -71,13 +78,12 @@
 
   // use manager
   const mgr = new PaymentManager();
+  mgr.init({ http: axiosAdapter(http) });
   mgr.use(new PointsDeductionPlugin({ endpoint: '/deduct' }));
   mgr.use(new RebatePlugin({ endpoint: '/rebate', ratio: 0.03 }));
   mgr.registerProvider('wechat', new WechatPayProvider());
 
-  // call pay
   const res = await mgr.pay({ channel: 'wechat', orderId: 'O1', amount: 100, userId: 'U1' });
-  // integrator receives prepay in res.raw and triggers platform payment (wx/uni/web) using their own PaymentExecutor
 </script>
 
 <style lang="scss" scoped>

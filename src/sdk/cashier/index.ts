@@ -7,9 +7,7 @@ export * from './providers/PaymentProvider';
 export * from './providers/WechatPayProvider';
 
 // adapter
-export * from './http/adapters/axiosAdapter';
-export * from './http/adapters/fetchAdapter';
-export * from './http/adapters/uniAdapter';
+export * from './adapters';
 
 // 插件
 export * from './plugins/PointsDeductionPlugin';

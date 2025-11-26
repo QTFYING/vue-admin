@@ -42,7 +42,9 @@
   mgr.use(new PointsDeductionPlugin({ endpoint: '/deduct' }));
   mgr.use(new RebatePlugin({ endpoint: '/rebate', ratio: 0.03 }));
 
-  mgr.registerProvider('wechat', new WechatPayProvider()); // 执行微信支付
+  // mgr.registerProvider('wechat', new WechatPayProvider(axiosAdapter(http), myExecutor)); // 执行微信支付
+
+  mgr.registerProvider('wechat', new WechatPayProvider(axiosAdapter(http), 'h5')); // 执行微信支付
 
   // 发起支付
   const handleAliPay = async () => {

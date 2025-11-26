@@ -2,14 +2,20 @@ import type { PaymentContext } from '../core/PaymentContext';
 import { PaymentExecutor } from '../core/PaymentExecutor';
 import type { HttpClient } from '../http/HttpClient';
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
-import type { PaymentProvider } from '../providers/PaymentProvider';
+import type { PaymentProvider, PaymentProviderType } from '../providers/PaymentProvider';
 import { PaymentStatus, type PaymentRequest, type PaymentResult } from '../types';
 import type { IPluginContext } from '../types/PluginContext';
 
+/**
+ * @class PaymentManager
+ * SDK 的核心协调器和门面 (Facade)。
+ * 负责管理依赖、路由支付请求、执行插件链。
+ */
 export class PaymentManager {
-  private providers: Record<string, PaymentProvider> = {};
+  private readonly providers = new Map<PaymentProviderType, PaymentProvider>();
   private plugins: PaymentPlugin[] = [];
   private http!: HttpClient;
+  /** 必需：业务方实现的客户端支付执行器 */
   private paymentCtx!: PaymentContext;
   private pluginsCtx!: IPluginContext;
 
@@ -36,10 +42,11 @@ export class PaymentManager {
    */
   async pay(request: PaymentRequest): Promise<PaymentResult> {
     const provider = this.providers[request.channel];
+
     if (!provider) {
       return {
-        channel: request.channel,
         status: PaymentStatus['Failure'],
+        channel: request.channel,
         orderId: request.orderId,
         message: `未找到支付渠道: ${request.channel}`,
       };

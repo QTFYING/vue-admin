@@ -95,10 +95,10 @@ export class WechatPayProvider extends BaseProvider implements PaymentProvider {
           if (res.err_msg === 'get_brand_wcpay_request:ok') {
             resolve({ status: PaymentStatus['Success'], channel: PaymentProviderType['Wechat'], orderId: req.orderId });
           } else if (res.err_msg === 'get_brand_wcpay_request:cancel') {
-            resolve({ status: PaymentStatus['Success'], channel: PaymentProviderType['Wechat'], orderId: req.orderId });
+            resolve({ status: PaymentStatus['Canceled'], channel: PaymentProviderType['Wechat'], orderId: req.orderId });
           } else {
             resolve({
-              status: PaymentStatus['Success'],
+              status: PaymentStatus['Failure'],
               channel: PaymentProviderType['Wechat'],
               message: res.err_msg,
               orderId: req.orderId,
@@ -132,7 +132,7 @@ export class WechatPayProvider extends BaseProvider implements PaymentProvider {
       window.location.href = res.mweb_url;
       // 注意：跳转后当前页面可能会卸载，PENDING 状态仅供参考
       return {
-        status: PaymentStatus['Success'],
+        status: PaymentStatus['Pending'],
         channel: PaymentProviderType['Wechat'],
         orderId: req.orderId,
         message: '正在跳转微信支付...',
@@ -140,7 +140,7 @@ export class WechatPayProvider extends BaseProvider implements PaymentProvider {
     }
 
     return {
-      status: PaymentStatus['Success'],
+      status: PaymentStatus['Failure'],
       channel: PaymentProviderType['Wechat'],
       orderId: req.orderId,
       message: '服务端未返回 mweb_url',

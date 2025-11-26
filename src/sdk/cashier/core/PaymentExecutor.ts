@@ -1,6 +1,6 @@
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
 import type { PaymentProvider } from '../providers/PaymentProvider';
-import type { HttpClient, IPluginContext, PaymentExecutorResult, PaymentRequest, PaymentResult } from '../types';
+import type { HttpClient, PaymentExecutorResult, PaymentRequest, PaymentResult } from '../types';
 import { PaymentStatus } from '../types';
 import { logger } from '../utils/logger';
 import type { PaymentContext } from './PaymentContext';
@@ -28,8 +28,7 @@ export class PaymentExecutor {
     private provider: PaymentProvider,
     private plugins: PaymentPlugin[],
     private http: HttpClient,
-    private paymentCtx: PaymentContext, // 单次支付上下文
-    private pluginCtx: IPluginContext, // 插件运行上下文
+    private paymentCtx: PaymentContext,
   ) {}
 
   /**
@@ -44,11 +43,12 @@ export class PaymentExecutor {
         try {
           modifiedReq = await plugin.beforePay(modifiedReq, this.http, this.paymentCtx);
         } catch (error) {
+          console.log('Something went wrong in beforePay plugin:', error);
           return {
             channel: request.channel,
             orderId: request.orderId,
             status: PaymentStatus['Failure'],
-            message: error.message ?? '失败',
+            message: 'Failure',
           };
         }
       }
@@ -60,11 +60,12 @@ export class PaymentExecutor {
     try {
       result = await this.provider.pay(modifiedReq, this.http, this.paymentCtx);
     } catch (error) {
+      console.log('Something went wrong in provider pay method:', error);
       return {
         channel: request.channel,
         orderId: request.orderId,
         status: PaymentStatus['Failure'],
-        message: error.message ?? '失败',
+        message: 'Failure',
       };
     }
 

@@ -28,7 +28,7 @@ export abstract class BaseProvider {
         success: (res: any) => {
           resolve({
             status: PaymentStatus['Success'],
-            channel: providerName === 'wxpay' ? PaymentProviderType['Wechat'] : PaymentProviderType['alipay'],
+            channel: providerName === 'wxpay' ? PaymentProviderType['Wechat'] : PaymentProviderType['Alipay'],
             rawResponse: res,
             orderId: '', // 上层调用者负责回填
           });
@@ -40,8 +40,8 @@ export abstract class BaseProvider {
           const isCancel = errMsg.indexOf('cancel') > -1 || errMsg.indexOf('取消') > -1;
 
           resolve({
-            status: isCancel ? PaymentStatus['CANCELED'] : PaymentStatus['FAILURE'],
-            channel: providerName === 'wxpay' ? PaymentProviderType['Wechat'] : PaymentProviderType['alipay'],
+            status: isCancel ? PaymentStatus['Canceled'] : PaymentStatus['Failure'],
+            channel: providerName === 'wxpay' ? PaymentProviderType['Wechat'] : PaymentProviderType['Alipay'],
             message: errMsg,
             rawResponse: err,
             orderId: '',

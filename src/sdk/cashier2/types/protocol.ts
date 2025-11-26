@@ -1,0 +1,40 @@
+// src/types/protocol.ts
+
+/**
+ * 统一支付入参
+ * 业务层调用 SDK 时只需要关注这些字段
+ */
+export interface UnifiedPaymentParams {
+  orderId: string; // 你的业务侧订单号
+  amount: number; // 金额（建议统一单位：分）
+  description?: string; // 商品描述
+  currency?: string; // 币种，默认 CNY
+
+  // 扩展字段：用于透传某些渠道特有的参数
+  // 例如：微信可能需要 openid，支付宝可能需要 return_url
+  extra?: Record<string, any>;
+}
+
+/**
+ * 统一支付结果状态
+ */
+export type PaymentStatus = 'success' | 'fail' | 'cancel' | 'pending';
+
+/**
+ * 统一支付结果
+ * 屏蔽了具体 SDK (微信/支付宝) 的返回差异
+ */
+export interface PaymentResult {
+  status: PaymentStatus;
+  transactionId?: string; // 第三方流水号 (Wechat Transaction ID / Alipay Trade No)
+  message?: string; // 描述信息
+  raw?: any; // 原始返回数据 (作为逃生舱，方便调试)
+}
+
+/**
+ * 策略的基本配置接口
+ */
+export interface StrategyOptions {
+  name?: string; // 允许覆盖默认策略名
+  debug?: boolean;
+}

@@ -1,4 +1,4 @@
-import type { HttpClient } from '../HttpClient';
+import type { HttpClient } from '../types';
 
 export function axiosAdapter(axiosInstance: any): HttpClient {
   return {

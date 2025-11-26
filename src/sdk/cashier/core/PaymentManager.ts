@@ -3,7 +3,6 @@ import { PaymentExecutor } from '../core/PaymentExecutor';
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
 import type { PaymentProvider, PaymentProviderType } from '../providers/PaymentProvider';
 import { PaymentStatus, type HttpClient, type PaymentRequest, type PaymentResult } from '../types';
-import type { IPluginContext } from '../types/PluginContext';
 
 /**
  * @class PaymentManager
@@ -16,14 +15,12 @@ export class PaymentManager {
   private http!: HttpClient;
   /** 必需：业务方实现的客户端支付执行器 */
   private paymentCtx!: PaymentContext;
-  private pluginsCtx!: IPluginContext;
 
   /**
    * 初始化一个 SDK 实例（可支持多实例）
    */
   init(config: { http: HttpClient; context?: PaymentContext }) {
     this.http = config.http;
-    this.paymentCtx = config.context;
   }
 
   use(plugin: PaymentPlugin) {
@@ -31,8 +28,8 @@ export class PaymentManager {
     return this;
   }
 
-  registerProvider(channel: string, provider: PaymentProvider) {
-    this.providers[channel] = provider;
+  registerProvider(channel: PaymentProviderType, provider: PaymentProvider) {
+    this.providers.set(channel, provider);
     return this;
   }
 
@@ -40,7 +37,7 @@ export class PaymentManager {
    * 调用支付：完全交由 PaymentExecutor 执行
    */
   async pay(request: PaymentRequest): Promise<PaymentResult> {
-    const provider = this.providers[request.channel];
+    const provider = this.providers.get(request.channel);
 
     if (!provider) {
       return {
@@ -51,7 +48,7 @@ export class PaymentManager {
       };
     }
 
-    const executor = new PaymentExecutor(provider, this.plugins, this.http, this.paymentCtx, this.pluginsCtx);
+    const executor = new PaymentExecutor(provider, this.plugins, this.http, this.paymentCtx);
 
     return executor.execute(request);
   }

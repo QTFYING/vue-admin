@@ -1,7 +1,6 @@
 // src/providers/PaymentProvider.ts
 import type { PaymentContext } from '../core/PaymentContext';
-import type { HttpClient } from '../http/HttpClient';
-import type { PaymentRequest, PaymentResult } from '../types';
+import type { HttpClient, PaymentRequest, PaymentResult } from '../types';
 
 /**
  * @enum PaymentProviderType

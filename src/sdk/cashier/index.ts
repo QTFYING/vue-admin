@@ -13,8 +13,5 @@ export * from './adapters';
 export * from './plugins/PointsDeductionPlugin';
 export * from './plugins/RebatePlugin';
 
-// http
-export * from './http/HttpClient';
-
 // 类型
 export * from './types';

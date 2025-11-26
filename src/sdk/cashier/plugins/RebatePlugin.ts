@@ -1,8 +1,6 @@
 import type { PaymentContext } from '../core/PaymentContext';
-import type { HttpClient } from '../http/HttpClient';
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
-import type { PaymentRequest } from '../types/PaymentRequest';
-import type { PaymentResult } from '../types/PaymentResult';
+import type { HttpClient, PaymentRequest, PaymentResult } from '../types';
 
 export class RebatePlugin implements PaymentPlugin {
   name = 'rebate';

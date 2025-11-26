@@ -1,10 +1,7 @@
-import type { HttpClient } from '../http/HttpClient';
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
 import type { PaymentProvider } from '../providers/PaymentProvider';
-import type { PaymentRequest, PaymentResult } from '../types';
-import type { PaymentExecutorResult } from '../types/PaymentExecutorResult';
-import { PaymentStatus } from '../types/PaymentResult';
-import type { IPluginContext } from '../types/PluginContext';
+import type { HttpClient, IPluginContext, PaymentExecutorResult, PaymentRequest, PaymentResult } from '../types';
+import { PaymentStatus } from '../types';
 import { logger } from '../utils/logger';
 import type { PaymentContext } from './PaymentContext';
 

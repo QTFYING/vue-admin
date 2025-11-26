@@ -1,9 +1,8 @@
 import type { PaymentContext } from '../core/PaymentContext';
 import { PaymentExecutor } from '../core/PaymentExecutor';
-import type { HttpClient } from '../http/HttpClient';
 import type { PaymentPlugin } from '../plugins/PaymentPlugin';
 import type { PaymentProvider, PaymentProviderType } from '../providers/PaymentProvider';
-import { PaymentStatus, type PaymentRequest, type PaymentResult } from '../types';
+import { PaymentStatus, type HttpClient, type PaymentRequest, type PaymentResult } from '../types';
 import type { IPluginContext } from '../types/PluginContext';
 
 /**

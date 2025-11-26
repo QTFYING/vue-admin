@@ -1,4 +1,4 @@
-import type { HttpClient } from '../http/HttpClient';
+import type { HttpClient } from '../types';
 
 // src/adapters/uniAdapter.ts
 

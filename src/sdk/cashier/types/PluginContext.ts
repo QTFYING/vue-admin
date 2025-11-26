@@ -1,6 +1,6 @@
 // src/types/PluginContext.ts
 
-import type { HttpClient } from '../http/HttpClient';
+import type { HttpClient } from './HttpClient';
 import type { Logger } from './Logger';
 import type { SDKConfig } from './SDKConfig';
 

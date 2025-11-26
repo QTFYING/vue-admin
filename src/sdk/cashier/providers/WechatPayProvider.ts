@@ -1,7 +1,6 @@
 import type { PaymentContext } from '../core/PaymentContext';
-import type { HttpClient } from '../http/HttpClient';
-import type { PaymentRequest, PaymentResult } from '../types';
-import { PaymentStatus } from '../types/PaymentResult';
+import type { HttpClient, PaymentRequest, PaymentResult } from '../types';
+import { PaymentStatus } from '../types';
 import { BaseProvider } from './BaseProvider';
 import type { PaymentProvider } from './PaymentProvider';
 import { PaymentProviderType } from './PaymentProvider';

@@ -36,10 +36,8 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
 
       // 2. 结果标准化 (Normalization)
       if (mockWechatResponse.err_code === 'SUCCESS') {
-        console.log('xxx-1-3', '------1');
         return this.success(mockWechatResponse.transaction_id, mockWechatResponse);
       } else {
-        console.log('xxx-1-3', '------2');
         return this.fail('Wechat payment failed', mockWechatResponse);
       }
     } catch (error: any) {

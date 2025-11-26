@@ -24,8 +24,52 @@ async function main() {
     console.log('支付成功，上报埋点', res.transactionId);
   });
 
+  // “环绕”逻辑:全局 Loading 中间件
+  cashier.useMiddleware(async (ctx, next) => {
+    console.log('>>> [Loading Middleware] Loading Start', ' 开启遮罩');
+    try {
+      await next(); // 等待后续逻辑（包括真的去支付）执行完毕
+    } finally {
+      console.log('<<< [Loading Middleware] Loading End', ' 关闭遮罩');
+    }
+  });
+
+  // “阻断”逻辑:前置校验拦截
+  cashier.useMiddleware(async (ctx, next) => {
+    console.log('>>> [Auth Middleware] Checking Login Start', '检查用户登录状态');
+
+    if (2 < 1) {
+      // 直接抛错，不再执行 next()，所有的后续支付流程都不会发生
+      throw new Error('User not authorized');
+    }
+
+    // 修改入参：自动带上 token
+    ctx.params.extra = { ...ctx.params.extra, token: 'xxxx-xxxx-xxxx-xxxx' };
+
+    await next();
+
+    console.log('<<< [Auth Middleware] Checking Login End', '用户登录成功');
+  });
+
+  // “结果读取”逻辑:日志上报
+  cashier.useMiddleware(async (ctx, next) => {
+    const startTime = Date.now();
+
+    await next(); // 先让它去付
+
+    const duration = Date.now() - startTime;
+    console.log(`>>> [Logger Middleware] Start`, '开始上报支付日志');
+
+    // 此时 ctx.result 已经被填充了，可以上报
+    if (ctx.result) {
+      console.log('日志上报插件', `支付耗时: ${duration}ms`, ctx.result.status);
+    }
+
+    console.log(`<<< [Logger Middleware] End`, '上报支付日志成功');
+  });
+
   // 页面销毁或者组件销毁的时候可以调用这个方法
-  // sdk.clear();
+  // cashier.clear();
 
   // 4. 业务层调用 (Execution)
   // 业务层完全不知道 WechatStrategy 内部发生了什么，只管传标准参数

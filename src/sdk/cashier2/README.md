@@ -32,6 +32,7 @@ your-payment-sdk/
 │   │   ├── env.ts                   # 环境检测 (isWechat, isMobile)
 │   │   ├── sign.ts                  # 签名算法工具 (MD5, SHA256)
 │   │   ├── compose.ts               # 洋葱模型组合器，用于把数组形式的中间件 [fn1, fn2, fn3] 组合成一个可以执行的 Promise 链
+│   │   ├── Poller.ts                # 轮询查单机制
 │   │   └── errors.ts                # 自定义错误类 (PaymentError)
 │   │
 │   └── index.ts                     # [Entry] 库入口，负责导出 Context 和 Strategies

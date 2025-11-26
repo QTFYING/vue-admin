@@ -14,7 +14,7 @@ export class AlipayStrategy extends BaseStrategy<AlipayConfig> {
   async pay(params: UnifiedPaymentParams): Promise<PaymentResult> {
     console.log(`[WechatStrategy] 开始处理订单: ${params.orderId}`);
 
-    // 1. 这里写微信特有的逻辑：参数转换 -> 签名 -> 调起微信JSSDK
+    // 1. 这里写微信特有的逻辑：参数转换 -> 签名 -> 调起微信tsdk
     // const payload = this.transformToWechatPayload(params);
 
     // 模拟返回

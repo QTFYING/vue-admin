@@ -81,6 +81,12 @@ async function main() {
 
   if (result.status === 'success') {
     console.log('支付成功，流水号:', result.transactionId);
+  } else if (result.status === 'pending') {
+    // result.raw.qrcode: 二维码，这种场景一般是用户扫码支付
+    console.log('用户拿出手机，扫码支付～～～');
+    cashier.startPolling('wechat', '123');
+    // 组件销毁时，注意停止轮询
+    // cashier.stopPolling()
   } else {
     console.error('支付失败:', result.message);
   }

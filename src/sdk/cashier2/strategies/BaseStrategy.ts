@@ -1,4 +1,3 @@
-// src/strategies/BaseStrategy.ts
 import type { PaymentResult, StrategyOptions, UnifiedPaymentParams } from '../types/protocol';
 
 /**
@@ -22,6 +21,12 @@ export abstract class BaseStrategy<TConfig = any> {
    * 子类必须实现这个方法
    */
   abstract pay(params: UnifiedPaymentParams): Promise<PaymentResult>;
+
+  /**
+   * 定义查单的标准接口
+   */
+
+  abstract getPaymentStatus(orderId: string): Promise<PaymentResult>;
 
   /**
    * 钩子方法：参数预校验

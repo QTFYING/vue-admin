@@ -1,0 +1,328 @@
+{
+  "code": "0",
+  "data": {
+    "position": {
+      "index_category_root": {
+        "contents": [
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/327cf7075bd14ddba4dae4541c97f97b.png",
+            "title": "美妆个护",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=504"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/9c7b9151a45642a79db6b8c4820e9887.png",
+            "title": "家电数码",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=496"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/740acd8f66394686b31d8c5301fc72e5.png",
+            "title": "食品生鲜",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=538"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/b59e6bcdac774a5cb61908c107f1dcdd.png",
+            "title": "乳饮酒水",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=539"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/d5d6a7d406a549199fe957b1766ff3b6.png",
+            "title": "家居家纺",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=511"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/34d72c72e0c74e6abdca2467dfe3240b.png",
+            "title": "乡村振兴",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=497"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/c43977d6413949faace5692beaab5e00.png",
+            "title": "趋势好物",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=331"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/c58cbb2e569d420087f807531fb36254.png",
+            "title": "随时尚新",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=349"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/b31f825a350f4f65b354f746734a3fd4.png",
+            "title": "9.9封顶",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=194"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/08/cc6bbdfce31145429697a92c8691537d.png",
+            "title": "发现好店",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=469"
+          }
+        ]
+      },
+      "index_super_brand_root": {
+        "type": "image",
+        "imageUrl": "https://img.shwoody.com/2024/04/5a18edaa6882425794c434d7b6517a8f.png",
+        "contents": [
+          {
+            "name": "红袖HOPESHOW",
+            "jumpUrl": "wx://page/packageMain/pages/ikc/brandList/brandList?platCategoryId=1785118493960892423"
+          },
+          {
+            "name": "ABC kids",
+            "jumpUrl": "wx://page/packageMain/pages/ikc/brandList/brandList?platCategoryId=1785118670394290185"
+          },
+          {
+            "name": "杉杉FIRS ",
+            "jumpUrl": "wx://page/packageMain/pages/ikc/brandList/brandList?platCategoryId=1785118571475824648"
+          },
+          {
+            "name": "奥康AOKANG",
+            "jumpUrl": "wx://page/packageMain/pages/ikc/brandList/brandList?platCategoryId=1785118999504547851"
+          },
+          {
+            "name": "迪士尼DISNEY",
+            "jumpUrl": "wx://page/packageMain/pages/ikc/brandList/brandList?platCategoryId=1785119317382459405"
+          },
+          {
+            "name": "耐克NIKE",
+            "jumpUrl": "wx://page/packageMain/pages/ikc/brandList/brandList?platCategoryId=1785119153926238220"
+          }
+        ]
+      },
+      "index_ace_goods_root": {
+        "type": "image",
+        "imageUrl": "https://img.shwoody.com/2024/10/153b752f7bb74121a09162f04a116302.png",
+        "jumpUrl": "",
+        "contents": [
+          {
+            "imageUrl": "https://img.shwoody.com/2024/10/a7cbcec74daf47bfb0e83b4ac72897dd.png",
+            "name": "美的",
+            "jumpUrl": "wx://page/packageMain/pages/ikc/index?brandId=1004747619000561682"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/10/9def92df8f824f9193ed6eda7123edab.png",
+            "name": "骆驼",
+            "jumpUrl": "wx://page/packageMain/pages/ikc/index?brandId=1061906754078306306"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/10/ed779ebd706c4c098648214a8fc09771.png",
+            "name": "摩飞",
+            "jumpUrl": "wx://page/packageMain/pages/ikc/index?brandId=1063351994681585666"
+          }
+        ]
+      },
+      "index_recommend_box_root": {
+        "autotrophy": {
+          "imageUrl": "https://img.shwoody.com/2024/10/412fd1b523a2407db611b02928cd1494.png",
+          "title": "超级品牌",
+          "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=746"
+        },
+        "recommendList": [
+          {
+            "imageUrl": "https://img.shwoody.com/2024/10/5db9c1cbd6f649bf801b5b2f23c24801.png",
+            "title": "超级爆款",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=192"
+          },
+          {
+            "imageUrl": "https://img.shwoody.com/2024/10/5bb14172e6144d5baf62d76220975709.png",
+            "title": "爱逛超市",
+            "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=410"
+          }
+        ]
+      },
+      "index_activity_box_root": {
+        "contents": []
+      },
+      "home_activity": {
+        "imgUrl": "https://img.shwoody.com/2024/10/27118083210a4958b2f258b21575899b.png",
+        "isShow": false,
+        "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=734"
+      },
+      "index_search_goods_info_arr": {
+        "contents": [
+          "养生",
+          "自营",
+          "柿子",
+          "四件套",
+          "栗子",
+          "牛奶",
+          "坚果",
+          "外套",
+          "豆浆机",
+          "按摩仪",
+          "围炉煮茶",
+          "换季",
+          "取暖"
+        ]
+      }
+    },
+    "announcement": {
+      "version": "1.0.1",
+      "isShow": false,
+      "text": "",
+      "imgUrl": "https://img.shwoody.com/2024/05/cd13b14971ed4931b10beda5650385c0.png"
+    },
+    "popup": {
+      "version": "1.0.1",
+      "isShow": false,
+      "text": "",
+      "imgUrl": "https://img.shwoody.com/2024/07/e9679066b64d4bc182ded8e2cae8bd92.png",
+      "btnUrl": "asdasdad",
+      "jumpUrl": "wx://page/packageMain/pages/zoneList/zoneList?zoneId=341"
+    },
+    "brand_float_window": {
+      "isShow": false,
+      "imgUrl": "https://img.shwoody.com/2024/06/f73e505facec4891bb7d4df79ca6fb96.png",
+      "jumpUrl": "wx://page/packageMain/pages/ikc/brandList/brandList"
+    },
+    "cool_off_festival": {
+      "bannerIsShow": false,
+      "bannerImgUrl": "https://img.shwoody.com/2024/08/59c93174350e41aa8d5aa4e582fc3fa4.png",
+      "version": "1.0.30",
+      "isShow": false,
+      "imgUrl": "https://file.shwoody.com/prod/image/in_coming/life_plat/2025/06/12/20250612-131932_1749705640276.gif",
+      "jumpUrl": "wx://page/packageMain/pages/activePage/activePage?id=4927",
+      "acitveArr": [
+        {
+          "version": "1.0.34 ",
+          "imgUrl": "https://file.shwoody.com/prod/image/in_coming/life_plat/2025/09/08/20250908-164054_1757320895369.gif",
+          "jumpUrl": "wx://page/packageMain/pages/activePage/activePage?id=7248",
+          "isShowTime": ["2025-09-16 00:00:00", "2025-09-18 23:59:59"]
+        }
+      ]
+    },
+    "travel_festival": {
+      "bannerIsShow": false,
+      "bgColor": "#14A3FF",
+      "type": "travelFestival",
+      "bannerImgUrl": "https://img.shwoody.com/2024/12/c0bb87897b4140adb852eff9b2bdd834.png",
+      "jumpUrl": "/packageMain/pages/travelFestival/introduce",
+      "popup": {
+        "version": "1.0.0",
+        "isShow": false,
+        "imgUrl": "https://img.shwoody.com/2024/12/3ca95aa7669140299ba80f6f8b9ebe8e.png",
+        "jumpUrl": "/packageMain/pages/travelFestival/introduce"
+      }
+    },
+    "living_circle_popup": {
+      "isShow": true,
+      "imgUrl": "https://file.shwoody.com/prod/image/in_coming/life_plat/2025/09/08/20250908-164054_1757320895369.gif",
+      "jumpUrl": "wx://page/packageMain/pages/activePage/activePage?id=7248",
+      "isShowTime": ["2025-09-16", "2025-09-18"],
+      "isOnlyOne": false,
+      "version": "1.0.0",
+      "acitveArr": [
+        {
+          "version": "1.1.3",
+          "imgUrl": "https://file.shwoody.com/prod/image/in_coming/life_plat/2025/10/21/20251021-164524_1761036496387.gif",
+          "jumpUrl": "wx://page/packageMain/pages/activePage/activePage?id=7675",
+          "isShowTime": ["2025-10-27", "2025-10-30"],
+          "isOnlyOne": false
+        },
+        {
+          "version": "1.1.4",
+          "imgUrl": "https://file.shwoody.com/prod/image/in_coming/life_plat/2025/10/28/20251028-161325_1761639327501.gif",
+          "jumpUrl": "wx://page/packageMain/pages/activePage/activePage?id=7668",
+          "isShowTime": ["2025-10-31", "2025-10-31"],
+          "isOnlyOne": false
+        },
+        {
+          "version": "1.1.5",
+          "imgUrl": "https://file.shwoody.com/prod/image/in_coming/life_plat/2025/10/28/20251028-161417_1761639327504.gif",
+          "jumpUrl": "wx://page/packageMain/pages/activePage/activePage?id=7706",
+          "isShowTime": ["2025-11-01", "2025-11-04"],
+          "isOnlyOne": false
+        },
+        {
+          "version": "1.1.6",
+          "imgUrl": "https://file.shwoody.com/prod/image/in_coming/life_plat/2025/11/04/20251104-132120_1762233774638.gif",
+          "jumpUrl": "wx://page/packageMain/pages/activePage/activePage?id=7736",
+          "isShowTime": ["2025-11-05", "2025-11-08"],
+          "isOnlyOne": false
+        },
+        {
+          "version": "1.1.7",
+          "imgUrl": "https://file.shwoody.com/prod/image/in_coming/life_plat/2025/11/04/20251104-132214_1762233774607.gif",
+          "jumpUrl": "wx://page/packageMain/pages/activePage/activePage?id=7716",
+          "isShowTime": ["2025-11-09", "2025-11-12"],
+          "isOnlyOne": false
+        }
+      ]
+    },
+    "preferred": {
+      "isShowPreferred": false,
+      "id": "1010"
+    },
+    "tabConfig": {
+      "tabbarList": [
+        {
+          "pagePath": "pages/index/index",
+          "text": "首页",
+          "iconPath": "/static/images/tabs/tab_home.png",
+          "selectedIconPath": "/static/images/tabs/tab_home_sel.png"
+        },
+        {
+          "pagePath": "pages/goldMall/goldMall",
+          "text": "金币商城",
+          "iconPath": "/static/images/tabs/tab_category.png",
+          "selectedIconPath": "/static/images/tabs/tab_category_sel.png"
+        },
+        {
+          "pagePath": "pages/tidebeanlife/tidebeanlife",
+          "text": "生活圈",
+          "iconPath": "/static/images/tabs/tab_beans.png",
+          "selectedIconPath": "/static/images/tabs/tab_beans_sel.png"
+        },
+        {
+          "pagePath": "pages/shopcar/shopcar",
+          "text": "购物车",
+          "iconPath": "/static/images/tabs/tab_shopcar.png",
+          "selectedIconPath": "/static/images/tabs/tab_shopcar_sel.png"
+        },
+        {
+          "pagePath": "pages/me/me",
+          "text": "我的",
+          "iconPath": "/static/images/tabs/tab_user.png",
+          "selectedIconPath": "/static/images/tabs/tab_user_sel.png"
+        }
+      ],
+      "liveTabbarList": [
+        {
+          "pagePath": "pages/index/index",
+          "text": "首页",
+          "iconPath": "/static/images/tabs/tab_home.png",
+          "selectedIconPath": "/static/images/tabs/tab_home_sel.png"
+        },
+        {
+          "pagePath": "pages/live/live",
+          "text": "我店直播",
+          "iconPath": "/static/images/tabs/tab_live.png",
+          "selectedIconPath": "/static/images/tabs/tab_live_sel.png"
+        },
+        {
+          "pagePath": "pages/tidebeanlife/tidebeanlife",
+          "text": "生活圈",
+          "iconPath": "/static/images/tabs/tab_beans.png",
+          "selectedIconPath": "/static/images/tabs/tab_beans_sel.png"
+        },
+        {
+          "pagePath": "pages/goldMall/goldMall",
+          "text": "金币商城",
+          "iconPath": "/static/images/tabs/tab_category.png",
+          "selectedIconPath": "/static/images/tabs/tab_category_sel.png"
+        },
+        {
+          "pagePath": "pages/me/me",
+          "text": "我的",
+          "iconPath": "/static/images/tabs/tab_user.png",
+          "selectedIconPath": "/static/images/tabs/tab_user_sel.png"
+        }
+      ],
+      "setTabBarStyle": {
+        "color": "#8B8B8B",
+        "selectedColor": "#39CD90",
+        "backgroundColor": "#ffffff",
+        "iconWidth": "50px"
+      },
+      "indexBackgroudColor": "#f5f6f7",
+      "isShowTabBar": false
+    }
+  }
+}

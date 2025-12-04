@@ -1,7 +1,7 @@
 import type { BaseStrategy } from '../strategies/BaseStrategy';
-import type { Middleware, MiddlewareContext } from '../types/middleware';
-import type { PaymentResult, UnifiedPaymentParams } from '../types/protocol';
+import type { Middleware, MiddlewareContext, PaymentPlugin, PaymentResult, UnifiedPaymentParams } from '../types';
 import { compose } from '../utils/compose';
+import { Poller } from '../utils/Poller';
 import { EventBus } from './EventBus';
 
 export class PaymentContext extends EventBus {
@@ -9,6 +9,8 @@ export class PaymentContext extends EventBus {
   private strategies: Map<string, BaseStrategy> = new Map();
   // 存储注册的中间件
   private middlewares: Middleware[] = [];
+  private activePoller: Poller | null = null;
+  private plugins: PaymentPlugin[] = [];
 
   /**
    * 注册策略 (use)
@@ -30,6 +32,59 @@ export class PaymentContext extends EventBus {
     if (typeof fn !== 'function') throw new TypeError('Middleware must be composed of functions!');
     this.middlewares.push(fn);
     return this;
+  }
+
+  /**
+   * 开启轮询模式
+   * 适合场景：二维码展示后，由业务层手动调用，或者做成一个 Middleware 自动调用
+   */
+  startPolling(strategyName: string, orderId: string) {
+    // 1. 防御性编程：先停掉上一个（防止多开）
+    this.stopPolling();
+
+    const strategy = this.strategies.get(strategyName);
+    if (!strategy) return;
+
+    // 2. 创建实例
+    this.activePoller = new Poller({ interval: 5000 });
+
+    console.log(`[PaymentContext] Start polling for order: ${orderId}`);
+    let count = 1;
+
+    // 3. 跑起来
+    this.activePoller
+      .start(
+        // Task
+        async () => {
+          // 调用 Strategy 的查单接口
+          const res = await strategy.getPaymentStatus(orderId);
+          // 每查一次，抛出一个事件，UI 可以用来做“正在查询...”的动画
+          this.emit('statusChange', { status: res.status, result: res });
+          console.log('开始轮询查询订单状态，这是第', count++, '次查询');
+          return res;
+        },
+        // Validator
+        (res) => res.status === 'success' || res.status === 'fail',
+      )
+      .then((finalResult) => {
+        // 4. 最终拿到结果，抛出 success/fail 事件
+        if (finalResult.status === 'success') {
+          this.emit('success', finalResult);
+        } else {
+          this.emit('fail', finalResult);
+        }
+      })
+      .catch((err) => {
+        console.warn('[PaymentContext] Polling stopped:', err.message);
+      });
+  }
+
+  // 停止轮询
+  stopPolling() {
+    if (this.activePoller) {
+      this.activePoller.stop();
+      this.activePoller = null;
+    }
   }
 
   /**

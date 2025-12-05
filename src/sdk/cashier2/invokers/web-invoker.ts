@@ -1,8 +1,8 @@
-import { PaymentError } from '../core/PaymentError';
+import { PaymentError } from '../core/payment-error';
 import type { PaymentResult } from '../types';
 import { PaymentErrorCode } from '../types/errors';
 import type { PaymentInvoker } from '../types/invoker';
-import { ScriptLoader } from '../utils/ScriptLoader';
+import { ScriptLoader } from '../utils/script-loader';
 
 // 声明全局对象防止 TS 报错
 declare const wx: any;

@@ -1,7 +1,7 @@
 // src/core/PollingManager.ts
 import type { PaymentContextState } from '../types';
-import { Poller } from '../utils/Poller';
-import type { PaymentContext } from './PaymentContext';
+import { Poller } from '../utils/poller';
+import type { PaymentContext } from './payment-context';
 
 export class PollingManager {
   private activePoller: Poller | null = null;

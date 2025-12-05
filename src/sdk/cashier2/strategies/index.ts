@@ -1,2 +1,2 @@
-export { AlipayStrategy } from './AlipayStrategy';
-export { WechatStrategy } from './WechatStrategy';
+export { AlipayStrategy } from './alipay-strategy';
+export { WechatStrategy } from './wechat-strategy';

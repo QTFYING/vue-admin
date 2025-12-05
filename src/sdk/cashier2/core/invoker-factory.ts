@@ -1,5 +1,5 @@
 import { WebInvoker } from '../invokers';
-import { UniAppInvoker } from '../invokers/UniAppInvoker';
+import { UniAppInvoker } from '../invokers/uni-invoker';
 import type { PaymentInvoker } from '../types';
 
 declare const uni: any;

@@ -1,4 +1,4 @@
-import { PaymentContext } from './core/PaymentContext';
+import { PaymentContext } from './core/payment-context';
 import { AlipayStrategy, WechatStrategy } from './strategies';
 import { PaymentErrorCode, type PaymentPlugin } from './types';
 

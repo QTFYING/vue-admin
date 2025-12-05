@@ -1,8 +1,8 @@
 // src/strategies/AlipayStrategy.ts
-import { PaymentError } from '../core/PaymentError';
+import { PaymentError } from '../core/payment-error';
 import { PaymentErrorCode } from '../types/errors';
 import type { PaymentResult, UnifiedPaymentParams } from '../types/protocol';
-import { BaseStrategy } from './BaseStrategy';
+import { BaseStrategy } from './base-strategy';
 
 export class AlipayStrategy extends BaseStrategy {
   readonly name = 'alipay';

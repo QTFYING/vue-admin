@@ -1,5 +1,5 @@
 // src/invokers/UniAppInvoker.ts
-import { PaymentError } from '../core/PaymentError';
+import { PaymentError } from '../core/payment-error';
 import { type PaymentInvoker, type PaymentResult, PaymentErrorCode } from '../types';
 
 // 声明 uni 对象，防止 TS 报错

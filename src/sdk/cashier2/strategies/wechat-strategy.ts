@@ -1,8 +1,8 @@
-import { InvokerFactory } from '../core/InvokerFactory';
-import type { SDKConfig } from '../core/PaymentContext';
+import { InvokerFactory } from '../core/invoker-factory';
+import type { SDKConfig } from '../core/payment-context';
 import type { HttpClient, PaymentInvoker, PaymentResult, UnifiedPaymentParams } from '../types';
-import { Poller } from '../utils/Poller';
-import { BaseStrategy } from './BaseStrategy';
+import { Poller } from '../utils/poller';
+import { BaseStrategy } from './base-strategy';
 
 // 定义微信策略需要的配置类型
 interface WechatConfig {

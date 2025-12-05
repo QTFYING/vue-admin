@@ -1,11 +1,11 @@
-import type { BaseStrategy } from '../strategies/BaseStrategy';
+import type { BaseStrategy } from '../strategies/base-strategy';
 import type { HttpClient, PaymentContextState, PaymentPlugin, PaymentResult, UnifiedPaymentParams } from '../types';
 import { PaymentErrorCode } from '../types';
-import { createDefaultFetcher } from '../utils/http';
-import { EventBus } from './EventBus';
-import { PaymentError } from './PaymentError';
-import { PluginDriver } from './PluginDriver';
-import { PollingManager } from './PollingManager';
+import { createDefaultFetcher } from '../utils/fetcher';
+import { EventBus } from './event-bus';
+import { PaymentError } from './payment-error';
+import { PluginDriver } from './plugin-driver';
+import { PollingManager } from './polling-manager';
 
 export interface SDKConfig {
   debug?: boolean;

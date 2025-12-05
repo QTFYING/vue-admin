@@ -1,27 +1,84 @@
-import type { PaymentResult, UnifiedPaymentParams } from '../types';
+// src/strategies/AlipayStrategy.ts
+import { PaymentError } from '../core/PaymentError';
+import { PaymentErrorCode } from '../types/errors';
+import type { PaymentResult, UnifiedPaymentParams } from '../types/protocol';
 import { BaseStrategy } from './BaseStrategy';
 
-// 定义支付宝策略需要的配置类型
-interface AlipayConfig {
-  appId: string;
-  mchId: string;
-  notifyUrl?: string;
-}
+export class AlipayStrategy extends BaseStrategy {
+  readonly name = 'alipay';
+  private startTime = Date.now();
 
-export class AlipayStrategy extends BaseStrategy<AlipayConfig> {
-  public readonly name = 'alipay';
+  // 实现单次查单逻辑
+  async getPaymentStatus(_orderId: string): Promise<PaymentResult> {
+    // 模拟调用你的后端查单API
+    // const res = await axios.get(`/api/pay/query?id=${orderId}`);
+    // return normalize(res);
 
-  async pay(params: UnifiedPaymentParams): Promise<PaymentResult> {
-    console.log(`[WechatStrategy] 开始处理订单: ${params.orderId}`);
+    // Mock逻辑：在首次调用后的 10 秒内返回 pending，之后返回 success
 
-    // 1. 这里写微信特有的逻辑：参数转换 -> 签名 -> 调起微信tsdk
-    // const payload = this.transformToWechatPayload(params);
+    const elapsed = Date.now() - this.startTime;
 
-    // 模拟返回
-    return {
-      status: 'success',
-      transactionId: `wx_${Date.now()}`,
-      message: '支付宝支付唤起成功',
-    };
+    if (elapsed < 10000) {
+      return { status: 'pending', message: 'User is paying' };
+    }
+
+    console.log('有订单号了，支付成功啦～');
+
+    return this.success(`MOCK_11111`, { source: 'mock', elapsed });
+  }
+
+  async pay(_params: UnifiedPaymentParams): Promise<PaymentResult> {
+    // ... 前置逻辑 ...
+
+    try {
+      // 假设这是调用支付宝后的原始返回
+      // const rawRes = await this.invokeAlipay(params);
+
+      const rawRes = await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // --- 关键点：错误码映射层 ---
+      return this.normalizeResult(rawRes);
+    } catch (error: any) {
+      // 如果是网络层抛出的 JS Error
+      throw new PaymentError(PaymentErrorCode.UNKNOWN, error.message || 'Alipay invoke failed', this.name, error);
+    }
+  }
+
+  /**
+   * 专门负责“翻译”的方法
+   */
+  private normalizeResult(res: any): PaymentResult {
+    // 支付宝返回码示例：
+    // 9000: 成功
+    // 6001: 用户取消
+    // 4000: 系统异常
+    // 6002: 网络异常
+
+    const code = res.resultCode;
+
+    switch (code) {
+      case '9000':
+        return {
+          status: 'success',
+          transactionId: res.tradeNo,
+          raw: res,
+        };
+
+      case '8000': // 正在处理中
+        return { status: 'pending', raw: res };
+
+      case '6001':
+        // [映射]：6001 -> USER_CANCEL
+        throw new PaymentError(PaymentErrorCode.USER_CANCEL, '用户取消支付', this.name, res);
+
+      case '6002':
+        // [映射]：6002 -> NETWORK_ERROR
+        throw new PaymentError(PaymentErrorCode.NETWORK_ERROR, '网络连接出错', this.name, res);
+
+      case '4000':
+      default:
+        // [映射]：其他 -> PROVIDER_INTERNAL_ERROR
+        throw new PaymentError(PaymentErrorCode.PROVIDER_INTERNAL_ERROR, `支付宝渠道异常: ${res.memo || code}`, this.name, res);
+    }
   }
 }

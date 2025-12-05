@@ -1,6 +1,6 @@
 import type { PaymentResult, UnifiedPaymentParams } from '../types';
 import { Poller } from '../utils/Poller';
-import { BaseStrategy } from './BaseStrategy';
+import { BaseStrategy, type StateCallBack } from './BaseStrategy';
 
 // 定义微信策略需要的配置类型
 interface WechatConfig {
@@ -24,7 +24,7 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
     const elapsed = Date.now() - this.startTime;
 
     if (elapsed < 10000) {
-      return { status: 'pending', message: 'User is paying' };
+      return { status: 'pending', message: 'User is paying2' };
     }
 
     console.log('有订单号了，支付成功啦～');
@@ -36,9 +36,9 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
    * 扩展：带轮询能力的支付
    * 这种模式下，pay() 会一直挂起，直到用户扫码成功才 resolve
    */
-  async payWithPolling(params: UnifiedPaymentParams): Promise<PaymentResult> {
+  async payWithPolling(params: UnifiedPaymentParams, onStateChange: StateCallBack): Promise<PaymentResult> {
     // 1. 先获取二维码链接
-    const prepareResult = await this.pay(params);
+    const prepareResult = await this.pay(params, onStateChange);
 
     // 如果不是 pending (比如直接失败了)，直接返回
     if (prepareResult.status !== 'pending') {
@@ -67,13 +67,15 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
     }
   }
 
-  async pay(params: UnifiedPaymentParams): Promise<PaymentResult> {
+  async pay(params: UnifiedPaymentParams, onStateChange: StateCallBack): Promise<PaymentResult> {
     // 1. 调用父类通用校验
     this.validateParams(params);
 
     if (this.options.debug) {
       console.log(`[WechatStrategy] Preparing payment for Order: ${params.orderId}`);
     }
+
+    if (onStateChange) onStateChange('pending');
 
     try {
       // --- 模拟：适配层逻辑 ---
@@ -87,7 +89,7 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
       const elapsed = Date.now() - this.startTime;
 
       if (elapsed < 10000) {
-        return { status: 'pending', message: 'User is paying' };
+        return { status: 'pending', message: 'User is paying1' };
       }
 
       return this.success(`MOCK_${params.orderId}`, { source: 'mock', elapsed });

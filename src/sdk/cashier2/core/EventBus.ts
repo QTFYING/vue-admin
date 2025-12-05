@@ -7,7 +7,6 @@ import type { PaymentResult, PaymentStatus, UnifiedPaymentParams } from '../type
 export interface SDKEventMap {
   // 支付开始前（适合做埋点、开启 Loading）
   beforePay: UnifiedPaymentParams;
-
   // 支付动作发起（此时通常意味着用户跳转走了，或者弹窗出来了）
   payStart: { strategyName: string };
 

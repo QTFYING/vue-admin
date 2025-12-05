@@ -1,94 +1,103 @@
-// playground.ts
 import { PaymentContext } from './core/PaymentContext';
 import { WechatStrategy } from './strategies/WechatStrategy';
+import { PaymentErrorCode, type PaymentPlugin } from './types';
 
 async function main() {
-  // 1. 初始化 Context
+  // 1. 初始化 Context (必须注入 HTTP 实例)
   const cashier = new PaymentContext();
 
-  // 2. 组装策略 (Strategy Configuration)
-  // 这里注入的是具体的配置，比如不同环境的 AppID
-  const wechatProd = new WechatStrategy({ appId: 'wx888888', mchId: '123456' }, { debug: true });
+  // 2. 注册策略
+  const wechatProd = new WechatStrategy({ appId: 'wx888888', mchId: '123456' });
+  cashier.registerStrategy(wechatProd);
 
-  // 3. 注册 (Registration)
-  cashier.use(wechatProd);
+  // --- 3. 定义并注册插件 (Plugins) ---
 
+  // 插件 A: 全局 Loading (对应原“环绕逻辑”)
+  const LoadingPlugin: PaymentPlugin = {
+    name: 'global-loading',
+    onBeforePay() {
+      console.log('>>> [Loading Plugin] 开启全局遮罩');
+    },
+    onCompleted() {
+      // 无论成功失败，都在这里关闭，相当于 finally
+      console.log('<<< [Loading Plugin] 关闭全局遮罩');
+    },
+  };
+
+  // 插件 B: 权限校验 (对应原“阻断逻辑”)
+  const AuthPlugin: PaymentPlugin = {
+    name: 'auth-check',
+    enforce: 'pre', // 强制最先执行
+    async onBeforePay(ctx) {
+      console.log('>>> [Auth Plugin] 检查登录状态...');
+      const isLogin = true;
+
+      if (!isLogin) {
+        throw new Error('User not authorized'); // 抛错会直接中断流程
+      }
+
+      // 修改 Context: 自动带上 token
+      console.log('>>> [Auth Plugin] 注入 Token');
+      ctx.params.extra = { ...ctx.params.extra, token: 'xxxx-xxxx-xxxx' };
+    },
+    // 还可以顺便做个网络层拦截
+    async onBeforeSign(_ctx) {
+      console.log('>>> [Auth Plugin] 准备请求后端签名，Header已就绪');
+    },
+  };
+
+  // 插件 C: 日志上报 (对应原“结果读取逻辑”)
+  const LoggerPlugin: PaymentPlugin = {
+    name: 'logger',
+    onBeforePay(ctx) {
+      ctx.state.startTime = Date.now(); // 记录开始时间
+      console.log('>>> [Logger Plugin] 计时开始');
+    },
+    onSuccess(ctx, res) {
+      const duration = Date.now() - ctx.state.startTime;
+      console.log(`✅ [Logger Plugin] 支付成功! 耗时: ${duration}ms`, res.transactionId);
+      // Analytics.report('PAY_SUCCESS', ...)
+    },
+    onFail(_ctx, _error) {
+      console.log(`❌ [Logger Plugin] 支付失败/取消`);
+    },
+  };
+
+  // 注册所有插件
+  cashier.use(LoadingPlugin).use(AuthPlugin).use(LoggerPlugin);
+
+  // --- 4. 监听事件 (可选，用于 UI 组件通信) ---
   cashier.on('beforePay', (params) => {
-    console.log('准备支付，金额：', params.amount);
-    // 这里搞点自己的事情，比如弹框让用户安全认证
-    console.log('去扫脸认证～');
+    console.log('✨ [UI Event] 收到准备支付通知，金额:', params.amount);
   });
 
-  cashier.once('success', (res) => {
-    // 这里的 res 自动推导为 PaymentResult 类型
-    console.log('支付成功，上报埋点', res.transactionId);
-  });
+  // --- 5. 业务层调用 (Execution) ---
+  try {
+    console.log('\n------ 🚀 开始支付流程 ------\n');
 
-  // “环绕”逻辑:全局 Loading 中间件
-  cashier.useMiddleware(async (ctx, next) => {
-    console.log('>>> [Loading Middleware] Loading Start', ' 开启遮罩');
-    try {
-      await next(); // 等待后续逻辑（包括真的去支付）执行完毕
-    } finally {
-      console.log('<<< [Loading Middleware] Loading End', ' 关闭遮罩');
+    const result = await cashier.execute('wechat', {
+      orderId: 'ORDER_2025_001',
+      amount: 100,
+      description: 'Premium Subscription',
+    });
+
+    // 处理最终结果 (其实大部分逻辑已经被插件处理了，这里做最后跳转)
+    if (result.status === 'success') {
+      console.log('\n🎉 最终结果: 跳转成功页');
+    } else if (result.status === 'pending') {
+      console.log('\n⏳ 最终结果: 等待用户扫码...');
+
+      // 模拟: 如果是扫码模式，手动开启轮询
+      // 注意：现在的 startPolling 也会触发插件钩子 (onStateChange)
+      cashier.startPolling('wechat', 'ORDER_2025_001');
     }
-  });
-
-  // “阻断”逻辑:前置校验拦截
-  cashier.useMiddleware(async (ctx, next) => {
-    console.log('>>> [Auth Middleware] Checking Login Start', '检查用户登录状态');
-
-    if (2 < 1) {
-      // 直接抛错，不再执行 next()，所有的后续支付流程都不会发生
-      throw new Error('User not authorized');
+  } catch (err: any) {
+    // 统一错误处理
+    if (err.code === PaymentErrorCode.USER_CANCEL) {
+      console.log('用户取消了');
+    } else {
+      console.error('业务层捕获异常:', err.message);
     }
-
-    // 修改入参：自动带上 token
-    ctx.params.extra = { ...ctx.params.extra, token: 'xxxx-xxxx-xxxx-xxxx' };
-
-    await next();
-
-    console.log('<<< [Auth Middleware] Checking Login End', '用户登录成功');
-  });
-
-  // “结果读取”逻辑:日志上报
-  cashier.useMiddleware(async (ctx, next) => {
-    const startTime = Date.now();
-
-    await next(); // 先让它去付
-
-    const duration = Date.now() - startTime;
-    console.log(`>>> [Logger Middleware] Start`, '开始上报支付日志');
-
-    // 此时 ctx.result 已经被填充了，可以上报
-    if (ctx.result) {
-      console.log('日志上报插件', `支付耗时: ${duration}ms`, ctx.result.status);
-    }
-
-    console.log(`<<< [Logger Middleware] End`, '上报支付日志成功');
-  });
-
-  // 页面销毁或者组件销毁的时候可以调用这个方法
-  // cashier.clear();
-
-  // 4. 业务层调用 (Execution)
-  // 业务层完全不知道 WechatStrategy 内部发生了什么，只管传标准参数
-  const result = await cashier.execute('wechat', {
-    orderId: 'ORDER_2025_001',
-    amount: 100, // 1元
-    description: 'Premium Subscription',
-  });
-
-  if (result.status === 'success') {
-    console.log('支付成功，流水号:', result.transactionId);
-  } else if (result.status === 'pending') {
-    // result.raw.qrcode: 二维码，这种场景一般是用户扫码支付
-    console.log('用户拿出手机，扫码支付～～～');
-    cashier.startPolling('wechat', '123');
-    // 组件销毁时，注意停止轮询
-    // cashier.stopPolling()
-  } else {
-    console.error('支付失败:', result.message);
   }
 }
 

@@ -64,20 +64,20 @@ export interface PaymentPlugin {
    * 状态变更时触发 (主要用于轮询或长连接场景)
    * 场景：UI 更新 "正在查询结果..."
    */
-  onStateChange?(status: PaymentStatus, ctx: PaymentContextState): void;
+  onStateChange?(ctx: PaymentContextState, status: PaymentStatus): void;
 
   // --- Stage 5: 结算 (Settlement) ---
   /**
    * 支付成功时触发
    * 场景：埋点"支付成功"、跳转成功页
    */
-  onSuccess?(result: PaymentResult, ctx: PaymentContextState): Promise<void> | void;
+  onSuccess?(ctx: PaymentContextState, result: PaymentResult): Promise<void> | void;
 
   /**
    * 支付失败时触发 (包含用户取消)
    * 场景：错误上报 Sentry、Toast 提示
    */
-  onFail?(error: Error | PaymentResult, ctx: PaymentContextState): Promise<void> | void;
+  onFail?(ctx: PaymentContextState, error: Error | PaymentResult): Promise<void> | void;
 
   /**
    * 流程结束触发 (无论成功失败，类似 finally)

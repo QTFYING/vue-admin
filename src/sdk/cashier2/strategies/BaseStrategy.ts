@@ -1,4 +1,6 @@
-import type { PaymentResult, StrategyOptions, UnifiedPaymentParams } from '../types/protocol';
+import type { PaymentResult, PaymentStatus, StrategyOptions, UnifiedPaymentParams } from '../types';
+
+export type StateCallBack = (status: PaymentStatus) => void;
 
 /**
  * 策略抽象基类
@@ -20,7 +22,7 @@ export abstract class BaseStrategy<TConfig = any> {
    * 核心抽象方法：执行支付
    * 子类必须实现这个方法
    */
-  abstract pay(params: UnifiedPaymentParams): Promise<PaymentResult>;
+  abstract pay(params: UnifiedPaymentParams, onStateChange?: StateCallBack): Promise<PaymentResult>;
 
   /**
    * 定义查单的标准接口

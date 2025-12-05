@@ -45,7 +45,7 @@ export class PaymentContext extends EventBus {
   /**
    * 注册策略 (use Strategy)
    */
-  registerStrategy(strategy: BaseStrategy): this {
+  register(strategy: BaseStrategy): this {
     // 关键：注入 Context 引用，让 Strategy 能调用 this.context.request
     // @ts-ignore
     strategy.context = this;

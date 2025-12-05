@@ -6,27 +6,10 @@ async function main() {
   // 1. 初始化 Context (必须注入 HTTP 实例)
   const cashier = new PaymentContext();
 
-  const PAYMENT_CONFIG = {
-    wechat: { appId: 'wx888888', mchId: '123456' },
-    alipay: { appId: '2021000000', privateKey: '...' },
-  };
-
-  const strategyMap = {
-    wechat: WechatStrategy,
-    alipay: AlipayStrategy,
-  };
-
-  // 2. 批量注册策略
-  Object.entries(PAYMENT_CONFIG).forEach(([name, config]) => {
-    const Strategy = strategyMap[name];
-    if (!Strategy) return;
-    const strategy = new Strategy(config);
-    cashier.registerStrategy(strategy);
-  });
-
   // 2. 单个注册策略
-  // const wechatProd = new WechatStrategy({ appId: 'wx888888', mchId: '123456' });
-  // cashier.registerStrategy(wechatProd);
+  const wechatProd = new WechatStrategy({ appId: 'wx888888', mchId: '123456' });
+  const alipayProd = new AlipayStrategy({ appId: '2021000000', privateKey: '...' });
+  cashier.register(wechatProd).register(alipayProd);
 
   // --- 3. 定义并注册插件 (Plugins) ---
 

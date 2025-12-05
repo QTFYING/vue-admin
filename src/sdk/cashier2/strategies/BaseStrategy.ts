@@ -1,4 +1,5 @@
-import type { PaymentResult, PaymentStatus, StrategyOptions, UnifiedPaymentParams } from '../types';
+import type { SDKConfig } from '../core/PaymentContext';
+import type { HttpClient, PaymentResult, PaymentStatus, StrategyOptions, UnifiedPaymentParams } from '../types';
 
 export type StateCallBack = (status: PaymentStatus) => void;
 
@@ -20,12 +21,18 @@ export abstract class BaseStrategy<TConfig = any> {
 
   /**
    * 核心抽象方法：执行支付
-   * 子类必须实现这个方法
+   * 子类必须实现，负责将标准化参数交给具体渠道执行器并返回结果。
+   * @param {UnifiedPaymentParams} params 标准化的支付参数（订单号、金额等）
+   * @param {HttpClient} http 注入的 HTTP 客户端，用于调用后端支付/查单接口
+   * @param {PaymentInvoker} invokerType 执行器类型，用于判断在哪个环境触发支付动作
+   * @param {StateCallBack} [onStateChange] 状态回调，SDK 在支付流转中更新状态时调用
+   * @returns {Promise<PaymentResult>} 支付结果的 Promise
    */
-  abstract pay(params: UnifiedPaymentParams, onStateChange?: StateCallBack): Promise<PaymentResult>;
+  abstract pay(params: UnifiedPaymentParams, http: HttpClient, invokerType: SDKConfig['invokerType']): Promise<PaymentResult>;
 
   /**
-   * 定义查单的标准接口
+   * 查询订单的支付状态
+   * @param { String } orderId 订单id
    */
 
   abstract getPaymentStatus(orderId: string): Promise<PaymentResult>;

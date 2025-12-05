@@ -9,7 +9,8 @@ import { PollingManager } from './PollingManager';
 
 export interface SDKConfig {
   debug?: boolean;
-  http?: HttpClient; // [新增] 依赖注入
+  http?: HttpClient; // 依赖注入
+  invokerType?: 'uniapp' | 'mini' | 'web' | '';
 }
 
 export class PaymentContext extends EventBus {
@@ -28,17 +29,21 @@ export class PaymentContext extends EventBus {
   // 插件分发器
   public driver: PluginDriver;
 
+  // 通过谁拉起支付控件
+  public readonly invokerType: SDKConfig['invokerType'];
+
   // 存个上下文，防止在轮询等待期间数据丢失
   private _lastContextState: Record<string, any> = {} as PaymentContextState;
 
   constructor(config: SDKConfig = {}) {
     super();
 
-    const { http } = config ?? {};
+    const { http, invokerType } = config ?? {};
     this.http = http ?? createDefaultFetcher();
     this.driver = new PluginDriver(this.plugins || []);
     // 初始化轮询管理器，并将 this 传给它
     this.pollingManager = new PollingManager(this);
+    this.invokerType = invokerType;
   }
 
   /**
@@ -91,17 +96,9 @@ export class PaymentContext extends EventBus {
       // --- Stage 4: 执行 (Execution) ---
       this.emit('payStart', { strategyName });
 
-      // 传递 callback 给 strategy (可选支持)
-      // const onStateChange = (status: PaymentStatus) => {
-      //   ctx.currentStatus = status;
-      //   this.emit('statusChange', { status, result: ctx.result });
-      //   this.driver.implant('onStateChange', ctx, status);
-      // };
-
       // 执行真实的支付逻辑 (Strategy.pay)
-      // 传入 onStateChange 让 Strategy 在内部轮询时也能通知到插件
       // @ts-ignore
-      const result = await strategy.pay(ctx.params /*, onStateChange */);
+      const result = await strategy.pay(ctx.params, this.http, this.invokerType);
       ctx.result = result;
 
       // Stage 5: Settlement

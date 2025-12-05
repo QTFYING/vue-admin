@@ -4,7 +4,7 @@ import { PaymentErrorCode, type PaymentPlugin } from './types';
 
 async function main() {
   // 1. 初始化 Context (必须注入 HTTP 实例)
-  const cashier = new PaymentContext();
+  const cashier = new PaymentContext({ debug: false, http: null, invokerType: 'uniapp' });
 
   // 2. 单个注册策略
   const wechatProd = new WechatStrategy({ appId: 'wx888888', mchId: '123456' });
@@ -90,7 +90,6 @@ async function main() {
       console.log('\n⏳ 最终结果: 等待用户扫码...');
 
       // 模拟: 如果是扫码模式，手动开启轮询
-      // 注意：现在的 startPolling 也会触发插件钩子 (onStateChange)
       cashier.startPolling('wechat', 'ORDER_2025_001');
     }
   } catch (err: any) {

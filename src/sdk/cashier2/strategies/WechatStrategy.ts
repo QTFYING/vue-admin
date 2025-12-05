@@ -1,6 +1,8 @@
-import type { PaymentResult, UnifiedPaymentParams } from '../types';
+import { InvokerFactory } from '../core/InvokerFactory';
+import type { SDKConfig } from '../core/PaymentContext';
+import type { HttpClient, PaymentInvoker, PaymentResult, UnifiedPaymentParams } from '../types';
 import { Poller } from '../utils/Poller';
-import { BaseStrategy, type StateCallBack } from './BaseStrategy';
+import { BaseStrategy } from './BaseStrategy';
 
 // 定义微信策略需要的配置类型
 interface WechatConfig {
@@ -11,7 +13,13 @@ interface WechatConfig {
 
 export class WechatStrategy extends BaseStrategy<WechatConfig> {
   public readonly name = 'wechat';
+  private invoker?: PaymentInvoker;
   private startTime = Date.now();
+
+  constructor(config: WechatConfig) {
+    super(config);
+    this.invoker = InvokerFactory.create('wxpay');
+  }
 
   // 实现单次查单逻辑
   async getPaymentStatus(_orderId: string): Promise<PaymentResult> {
@@ -36,9 +44,13 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
    * 扩展：带轮询能力的支付
    * 这种模式下，pay() 会一直挂起，直到用户扫码成功才 resolve
    */
-  async payWithPolling(params: UnifiedPaymentParams, onStateChange: StateCallBack): Promise<PaymentResult> {
+  async payWithPolling(
+    params: UnifiedPaymentParams,
+    http: HttpClient,
+    invokerType?: SDKConfig['invokerType'],
+  ): Promise<PaymentResult> {
     // 1. 先获取二维码链接
-    const prepareResult = await this.pay(params, onStateChange);
+    const prepareResult = await this.pay(params, http, invokerType);
 
     // 如果不是 pending (比如直接失败了)，直接返回
     if (prepareResult.status !== 'pending') {
@@ -67,7 +79,7 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
     }
   }
 
-  async pay(params: UnifiedPaymentParams, onStateChange: StateCallBack): Promise<PaymentResult> {
+  async pay(params: UnifiedPaymentParams, _http: HttpClient, invokerType?: SDKConfig['invokerType']): Promise<PaymentResult> {
     // 1. 调用父类通用校验
     this.validateParams(params);
 
@@ -75,14 +87,22 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
       console.log(`[WechatStrategy] Preparing payment for Order: ${params.orderId}`);
     }
 
-    if (onStateChange) onStateChange('pending');
-
     try {
       // --- 模拟：适配层逻辑 ---
       // 实际开发中，这里会调用后端 API 获取签名，或者调用 wx.chooseWXPay
       console.log(`[WechatStrategy] Signing with AppID: ${this.config.appId}...`);
 
       /** ---------------------- 去支付，这是一个http请求 ---------------------- **/
+      const payload = params; // 实际上的payload是那http去请求prepare的结果
+
+      // 如果有 Invoker (UniApp)，就走 Invoker
+      if (invokerType === 'uniapp') {
+        // const uniAppInvoker = new UniAppInvoker('wxpay');
+        // uniAppInvoker.invoke(payload);
+      } else {
+        this.invoker.invoke(payload);
+      }
+
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       //  Mock逻辑：在首次调用后的 10 秒内返回 pending，之后返回 success

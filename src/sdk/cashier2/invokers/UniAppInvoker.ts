@@ -1,0 +1,37 @@
+// src/invokers/UniAppInvoker.ts
+import { PaymentError } from '../core/PaymentError';
+import { type PaymentInvoker, type PaymentResult, PaymentErrorCode } from '../types';
+
+// 声明 uni 对象，防止 TS 报错
+declare const uni: any;
+
+export class UniAppInvoker implements PaymentInvoker {
+  constructor(private provider: 'wxpay' | 'alipay') {}
+
+  async invoke(orderInfo: any): Promise<PaymentResult> {
+    return new Promise((resolve, reject) => {
+      // UniApp 的统一调用方式
+      uni.requestPayment({
+        provider: this.provider,
+        orderInfo: orderInfo, // 后端签名的原始数据
+        timeStamp: orderInfo.timeStamp, // 微信小程序有时需要拆解参数
+        nonceStr: orderInfo.nonceStr,
+        package: orderInfo.package,
+        signType: orderInfo.signType,
+        paySign: orderInfo.paySign,
+
+        success: (res: any) => {
+          resolve({ status: 'success', raw: res });
+        },
+        fail: (err: any) => {
+          // 这里的 err 也是 UniApp 统一封装过的
+          if (err.errMsg && err.errMsg.includes('cancel')) {
+            resolve({ status: 'cancel', raw: err });
+          } else {
+            reject(new PaymentError(PaymentErrorCode.PROVIDER_INTERNAL_ERROR, err.errMsg, 'uniapp'));
+          }
+        },
+      });
+    });
+  }
+}

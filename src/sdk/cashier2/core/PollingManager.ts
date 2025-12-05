@@ -53,7 +53,6 @@ export class PollingManager {
           // Trigger: 通知业务层 (Event)
           this.context.emit('statusChange', { status: res.status, result: res });
 
-          // Trigger: 通知插件 (Hook)
           // 使用 Context 暴露的公共方法触发 onStateChange
           await this.context.driver.implant('onStateChange', ctx, res.status);
 

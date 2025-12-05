@@ -1,4 +1,4 @@
-import type { PaymentResult, PaymentStatus, UnifiedPaymentParams } from './protocol';
+import type { PayParams, PayResult, PaySt } from './protocol';
 
 /**
  * 1. 运行时上下文 (Mutable Context)
@@ -6,7 +6,7 @@ import type { PaymentResult, PaymentStatus, UnifiedPaymentParams } from './proto
  */
 export interface PaymentContextState {
   // 阶段 1: 初始入参 (可被修改，如增加 token)
-  params: UnifiedPaymentParams;
+  params: PayParams;
 
   // 阶段 2: 后端预下单/签名返回的原始数据
   apiResponse?: any;
@@ -15,10 +15,10 @@ export interface PaymentContextState {
   providerPayload?: any;
 
   // 阶段 4: 轮询或执行过程中的临时状态
-  currentStatus?: PaymentStatus;
+  currentStatus?: PaySt;
 
   // 阶段 5: 最终归一化结果
-  result?: PaymentResult;
+  result?: PayResult;
 
   // 共享状态 (用于插件间传值，类似 Koa ctx.state)
   state: Record<string, any>;
@@ -64,20 +64,20 @@ export interface PaymentPlugin {
    * 状态变更时触发 (主要用于轮询或长连接场景)
    * 场景：UI 更新 "正在查询结果..."
    */
-  onStateChange?(ctx: PaymentContextState, status: PaymentStatus): void;
+  onStateChange?(ctx: PaymentContextState, status: PaySt): void;
 
   // --- Stage 5: 结算 (Settlement) ---
   /**
    * 支付成功时触发
    * 场景：埋点"支付成功"、跳转成功页
    */
-  onSuccess?(ctx: PaymentContextState, result: PaymentResult): Promise<void> | void;
+  onSuccess?(ctx: PaymentContextState, result: PayResult): Promise<void> | void;
 
   /**
    * 支付失败时触发 (包含用户取消)
    * 场景：错误上报 Sentry、Toast 提示
    */
-  onFail?(ctx: PaymentContextState, error: Error | PaymentResult): Promise<void> | void;
+  onFail?(ctx: PaymentContextState, error: Error | PayResult): Promise<void> | void;
 
   /**
    * 流程结束触发 (无论成功失败，类似 finally)

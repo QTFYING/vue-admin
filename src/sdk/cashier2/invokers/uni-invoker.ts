@@ -1,14 +1,14 @@
 // src/invokers/UniAppInvoker.ts
-import { PaymentError } from '../core/payment-error';
-import { type PaymentInvoker, type PaymentResult, PaymentErrorCode } from '../types';
+import { PayError } from '../core/payment-error';
+import { type PaymentInvoker, type PayResult, PayErrorCode } from '../types';
 
 // 声明 uni 对象，防止 TS 报错
 declare const uni: any;
 
 export class UniAppInvoker implements PaymentInvoker {
-  constructor(private provider: 'wxpay' | 'alipay') {}
+  constructor(private provider: string) {}
 
-  async invoke(orderInfo: any): Promise<PaymentResult> {
+  async invoke(orderInfo: any): Promise<PayResult> {
     return new Promise((resolve, reject) => {
       // UniApp 的统一调用方式
       uni.requestPayment({
@@ -28,7 +28,7 @@ export class UniAppInvoker implements PaymentInvoker {
           if (err.errMsg && err.errMsg.includes('cancel')) {
             resolve({ status: 'cancel', raw: err });
           } else {
-            reject(new PaymentError(PaymentErrorCode.PROVIDER_INTERNAL_ERROR, err.errMsg, 'uniapp'));
+            reject(new PayError(PayErrorCode.PROVIDER_INTERNAL_ERROR, err.errMsg, 'uniapp'));
           }
         },
       });

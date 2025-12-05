@@ -1,6 +1,6 @@
 import { InvokerFactory } from '../core/invoker-factory';
 import type { SDKConfig } from '../core/payment-context';
-import type { HttpClient, PaymentInvoker, PaymentResult, UnifiedPaymentParams } from '../types';
+import type { HttpClient, PayParams, PayResult } from '../types';
 import { Poller } from '../utils/poller';
 import { BaseStrategy } from './base-strategy';
 
@@ -13,20 +13,17 @@ interface WechatConfig {
 
 export class WechatStrategy extends BaseStrategy<WechatConfig> {
   public readonly name = 'wechat';
-  private invoker?: PaymentInvoker;
   private startTime = Date.now();
 
-  constructor(config: WechatConfig) {
-    super(config);
-    this.invoker = InvokerFactory.create('wxpay');
-  }
-
   // 实现单次查单逻辑
-  async getPaymentStatus(_orderId: string): Promise<PaymentResult> {
-    // 模拟调用你的后端查单API
-    // const res = await axios.get(`/api/pay/query?id=${orderId}`);
-    // return normalize(res);
+  async getPaySt(orderId: string): Promise<PayResult> {
+    if (this.options.mock) {
+      return this.mockGetStatus(orderId);
+    }
 
+    // 真实逻辑: 调用后端查单API
+    // const res = await this.http.get(`/api/pay/query?id=${orderId}`);
+    // return normalize(res);
     // Mock逻辑：在首次调用后的 10 秒内返回 pending，之后返回 success
 
     const elapsed = Date.now() - this.startTime;
@@ -44,11 +41,7 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
    * 扩展：带轮询能力的支付
    * 这种模式下，pay() 会一直挂起，直到用户扫码成功才 resolve
    */
-  async payWithPolling(
-    params: UnifiedPaymentParams,
-    http: HttpClient,
-    invokerType?: SDKConfig['invokerType'],
-  ): Promise<PaymentResult> {
+  async payWithPolling(params: PayParams, http: HttpClient, invokerType?: SDKConfig['invokerType']): Promise<PayResult> {
     // 1. 先获取二维码链接
     const prepareResult = await this.pay(params, http, invokerType);
 
@@ -66,20 +59,20 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
       // 3. 启动轮询
       const finalResult = await poller.start(
         // Task: 每次查单动作
-        () => this.getPaymentStatus(params.orderId),
+        () => this.getPaySt(params.orderId),
 
         // Validator: 什么时候停止？(成功或失败时停止，pending 继续查)
         (res) => res.status === 'success' || res.status === 'fail',
       );
 
       return finalResult;
-    } catch (err) {
+    } catch (err: any) {
       // 超时或被手动停止
       return { status: 'fail', message: err.message || 'Polling timeout or cancelled' };
     }
   }
 
-  async pay(params: UnifiedPaymentParams, _http: HttpClient, invokerType?: SDKConfig['invokerType']): Promise<PaymentResult> {
+  async pay(params: PayParams, _http: HttpClient, invokerType?: SDKConfig['invokerType']): Promise<PayResult> {
     // 1. 调用父类通用校验
     this.validateParams(params);
 
@@ -87,12 +80,20 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
       console.log(`[WechatStrategy] Preparing payment for Order: ${params.orderId}`);
     }
 
+    // Mock Mode
+    if (this.options.mock) return this.mockPay(params);
+
     try {
-      // --- 模拟：适配层逻辑 ---
+      // --- 适配层逻辑 ---
       // 实际开发中，这里会调用后端 API 获取签名，或者调用 wx.chooseWXPay
       console.log(`[WechatStrategy] Signing with AppID: ${this.config.appId}...`);
 
-      /** ---------------------- 去支付，这是一个http请求 ---------------------- **/
+      // 模拟：向后端请求支付参数
+      // const orderInfo = await _http.post('/api/pay/wechat', params);
+      // const payload = params; // 暂时透传
+
+      /** ---------------------- 去支付 ---------------------- **/
+
       const payload = params; // 实际上的payload是那http去请求prepare的结果
 
       // 如果有 Invoker (UniApp)，就走 Invoker
@@ -100,8 +101,11 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
         // const uniAppInvoker = new UniAppInvoker('wxpay');
         // uniAppInvoker.invoke(payload);
       } else {
-        this.invoker.invoke(payload);
+        const invoker = InvokerFactory.create(this.name, invokerType);
+        invoker.invoke(payload);
       }
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -119,5 +123,27 @@ export class WechatStrategy extends BaseStrategy<WechatConfig> {
         message: error.message || 'Unknown error inside WechatStrategy',
       };
     }
+  }
+
+  // --- Mock Helpers ---
+  private async mockPay(params: PayParams): Promise<PayResult> {
+    console.log(`[WechatStrategy][Mock] Simulating pay for ${params.orderId}`);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const elapsed = Date.now() - this.startTime;
+    // 模拟前10秒 pending
+    if (elapsed < 10000) {
+      return { status: 'pending', message: 'User is paying (Mock)' };
+    }
+    return this.success(`MOCK_${params.orderId}`, { source: 'mock', elapsed });
+  }
+
+  private async mockGetStatus(orderId: string): Promise<PayResult> {
+    const elapsed = Date.now() - this.startTime;
+    if (elapsed < 10000) {
+      return { status: 'pending', message: 'User is paying (Mock)' };
+    }
+    console.log('[Mock] Wechat payment success!');
+    return this.success(`MOCK_${orderId}`, { source: 'mock', elapsed });
   }
 }

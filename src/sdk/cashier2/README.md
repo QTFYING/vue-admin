@@ -1,51 +1,127 @@
-# 支付SDK设计方案
+# Cashier Next SDK
 
-## 目录结构示例
+一个现代化、可扩展的支付 SDK，面向 Web 与混合应用（UniApp）。
 
-```shell
-cashier2/
-├── src/
-│   ├── adapters/                    # [Adapter] 适配层 (可选，视复杂度而定)
-│   │   └── WechatAdapter.ts         # 职责：如果微信参数过于复杂，可在此单独处理数据清洗
-│   │   │
-│   ├── core/                        # [Core] SDK Core
-│   │   ├── EventBus.ts              # [Observer] 事件总线，职责：支持 plugin / context 解耦，抛出 on('success') 等事件
-│   │   ├── InvokerFactory.ts        # [Invoker] 协调用哪一种方案拉起支付控件
-│   │   ├── PaymentContext.ts        # [Context] 策略上下文/调度中心，职责：管理策略注册(.use)，对外暴露统一执行入口(.execute)
-│   │   ├── PaymentError.ts          # [Error] 支付错误类
-│   │   ├── PluginDriver.ts          # [Plugin] 插件编排
-│   │   └── PollingManager.ts        # [Polling] 轮询查单管理器
-│   │   │
-│   ├── invokers/                    # [Invoker] 调用器层，职责：通过用户传入的调用器类型或根据环境自动推导出对应的调用器实例
-│   │   ├── UniAppInvoker.ts         # [Concrete Invoker] UniApp 调用器
-│   │   └── WebInvoker.ts            # [Concrete Invoker] Web 调用器
-│   │
-│   ├── strategies/                  # [Strategy] 策略层
-│   │   ├── BaseStrategy.ts          # [Abstract Class] 策略基类/接口定义，职责：定义 abstract pay() 和通用校验逻辑
-│   │   ├── WechatStrategy.ts        # [Concrete Strategy] 微信支付策略
-│   │   └── AlipayStrategy.ts        # [Concrete Strategy] 支付宝支付策略
-│   │
-│   ├── types/                       # [Type Definitions]
-│   │   ├── errors.ts                # Payment Error Code
-│   │   ├── http.ts                  # 最小的HttpClient
-│   │   ├── index.ts                 # 汇总导出
-│   │   ├── invoker.ts               # 支付执行器接口
-│   │   ├── lifecycle.ts             # 插件生态的地基
-│   │   ├── plugin.ts                # PluginAbortError，插件流转中的专用错误
-│   │   └── protocol.ts              # 核心协议：UnifiedPaymentParamsPaymentResult
-│   │
-│   ├── utils/
-│   │   ├── env.ts                   # 环境检测 (isWechat, isMobile)
-│   │   ├── fetcher.ts               # 使用原生fetch方法，封装一个简单的GET/POST请求，封装成createDefaultFetcher函数
-│   │   ├── Poller.ts                # 轮询查单机
-│   │   ├── ScriptLoader.ts          # 脚本动态加载器
-│   │   └── sign.ts                  # 签名算法工具 (MD5, SHA256)
-│   │
-│   └── index.ts                     # [Entry] 库入口，负责导出 Context 和 Strategies
-│
-├── tests/                           # 测试用例 (Vitest/Jest)
-│
-├── package.json
-├── tsconfig.json
-└── rollup.config.js                 # 打包配置 (ESM/CJS/UMD)
+## 功能特性
+
+- 🔌 **策略模式（Strategy Pattern）**：可在微信、支付宝或自定义支付渠道间轻松切换。
+- 🧩 **插件系统（Plugin System）**：支持 Loading、权限校验、日志上报等中间件能力。
+- ⚡ **跨平台适配**：内置 Web（H5/PC）与 UniApp 的执行器支持。
+- 🔄 **轮询机制**：内置指数退避的轮询器，用于异步支付结果确认。
+- 🛠️ **TypeScript**：完整类型定义，开发体验更好。
+
+## 安装
+
+```bash
+npm install cashier-next
+# 或者
+yarn add cashier-next
+# 或者
+pnpm install cashier-next
 ```
+
+## 快速开始
+
+### 1. 初始化上下文
+
+```typescript
+import { PaymentContext, WechatStrategy, AlipayStrategy } from 'cashier-next';
+
+// 初始化 SDK 上下文
+const cashier = new PaymentContext({
+  debug: true,
+  http: myAxios, // 将自己封装的http实例直接透传
+  invokerType: 'uniapp' // 可选：强制指定环境（uniapp、web）
+});
+
+// 注册策略
+cashier.register(new WechatStrategy({ appId: 'wx888888', mchId: '123456'}));
+       .register(new AlipayStrategy({ appId: '2021000000', privateKey: '...'}));
+```
+
+### 2. 使用插件
+
+```typescript
+  // 插件 C: 日志上报 (对应原“结果读取逻辑”)
+  const LoggerPlugin: PaymentPlugin = {
+    name: 'logger',
+    onBeforePay(ctx) { ... },
+    onSuccess(ctx, res) { ... },
+    onFail(_ctx, _error) { ... },
+  };
+
+cashier.use(LoggerPlugin).use(OtherPlugin);
+```
+
+### 3. 发起支付
+
+```typescript
+try {
+  const result = await cashier.execute('wechat', {
+    orderId: 'ORDER_001',
+    amount: 100, // 单位：分
+    description: 'VIP 订阅',
+  });
+
+  if (result.status === 'success') {
+    console.log('支付成功！');
+  } else if (result.status === 'pending') {
+    // 在 PC/Web 场景下，可能返回 pending（等待扫码）
+    // 可在此手动开启轮询
+    cashier.startPolling('wechat', 'ORDER_001');
+  }
+} catch (error) {
+  console.error('支付失败：', error);
+}
+```
+
+## 高级用法
+
+### 轮询
+
+SDK 内置 `PollingManager`，可自动以指数退避策略进行状态检查。
+
+```typescript
+// 手动开启轮询
+cashier.startPolling('wechat', 'ORDER_001');
+
+// 监听轮询结果事件
+cashier.on('success', (res) => {
+  console.log('轮询成功：', res);
+});
+```
+
+### 自定义支付方式
+
+扩展 `BaseStrategy` 即可实现你的自定义支付渠道。
+
+```typescript
+import { BaseStrategy } from 'cashier-next';
+
+class StripeStrategy extends BaseStrategy {
+  readonly name = 'stripe';
+
+  async pay(params, http, invokerType) {
+    // 在此实现你的支付逻辑
+    return { status: 'success' };
+  }
+
+  async getPaySt(orderId) {
+    return { status: 'success' };
+  }
+}
+
+> 自定义的支付策略，则不走SDK内部的入参和报文的归一
+```
+
+### Mock 模式
+
+在开发阶段，可开启 Mock 模式以模拟支付流程（无需后端）。
+
+```typescript
+const wechat = new WechatStrategy({ appId: 'test', mchId: 'test' }, { mock: true });
+```
+
+## 许可证
+
+MIT

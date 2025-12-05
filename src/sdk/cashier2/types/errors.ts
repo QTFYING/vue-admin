@@ -1,4 +1,4 @@
-export enum PaymentErrorCode {
+export enum PayErrorCode {
   // 1. 用户行为类 (业务层通常不需要弹红框报错，只需提示)
   USER_CANCEL = 'USER_CANCEL', // 用户主动取消/关闭窗口
 

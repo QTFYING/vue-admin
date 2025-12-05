@@ -80,6 +80,7 @@ export default defineConfig([
     },
     rules: {
       ...pluginTypeScript.configs.strict.rules,
+      '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/ban-types': 'off',
       '@typescript-eslint/no-redeclare': 'error',
       '@typescript-eslint/ban-ts-comment': 'off',

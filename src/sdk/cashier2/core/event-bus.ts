@@ -1,4 +1,4 @@
-import type { PaymentResult, PaymentStatus, UnifiedPaymentParams } from '../types/protocol';
+import type { PayParams, PayResult, PaySt } from '../types/protocol';
 
 /**
  * 定义事件名与对应载荷(Payload)的映射关系
@@ -6,17 +6,17 @@ import type { PaymentResult, PaymentStatus, UnifiedPaymentParams } from '../type
  */
 export interface SDKEventMap {
   // 支付开始前（适合做埋点、开启 Loading）
-  beforePay: UnifiedPaymentParams;
+  beforePay: PayParams;
   // 支付动作发起（此时通常意味着用户跳转走了，或者弹窗出来了）
   payStart: { strategyName: string };
 
   // 支付最终结果（成功、失败、取消）
-  success: PaymentResult;
-  fail: PaymentResult;
-  cancel: PaymentResult;
+  success: PayResult;
+  fail: PayResult;
+  cancel: PayResult;
 
   // 任意状态变更（适合做通用的日志监控）
-  statusChange: { status: PaymentStatus; result?: PaymentResult };
+  statusChange: { status: PaySt; result?: PayResult };
 }
 
 // 定义回调函数类型

@@ -1,6 +1,6 @@
-import { PaymentError } from '../core/payment-error';
-import type { PaymentResult } from '../types';
-import { PaymentErrorCode } from '../types/errors';
+import { PayError } from '../core/payment-error';
+import type { PayResult } from '../types';
+import { PayErrorCode } from '../types/errors';
 import type { PaymentInvoker } from '../types/invoker';
 import { ScriptLoader } from '../utils/script-loader';
 
@@ -18,7 +18,7 @@ export class WebInvoker implements PaymentInvoker {
    * 对于支付宝，可能是 HTML Form 字符串 或 URL
    * 对于 H5/PC，可能是 { url: '...' }
    */
-  async invoke(payload: any): Promise<PaymentResult> {
+  async invoke(payload: any): Promise<PayResult> {
     try {
       // 1. 针对微信渠道的处理
       if (this.channel === 'wechat') {
@@ -39,7 +39,7 @@ export class WebInvoker implements PaymentInvoker {
 
       throw new Error(`Unknown payload format for channel: ${this.channel}`);
     } catch (error: any) {
-      throw new PaymentError(PaymentErrorCode.PROVIDER_INTERNAL_ERROR, error.message || 'WebInvoker Execution Failed', error);
+      throw new PayError(PayErrorCode.PROVIDER_INTERNAL_ERROR, error.message || 'WebInvoker Execution Failed', error);
     }
   }
 
@@ -51,7 +51,7 @@ export class WebInvoker implements PaymentInvoker {
    * 处理微信支付逻辑
    * 区分：微信内(JSAPI) vs 微信外(H5/Native)
    */
-  private async handleWechat(data: any): Promise<PaymentResult> {
+  private async handleWechat(data: any): Promise<PayResult> {
     const isWechatBrowser = /MicroMessenger/i.test(navigator.userAgent);
 
     // 场景 A: 微信外部 (H5 / PC)
@@ -110,7 +110,7 @@ export class WebInvoker implements PaymentInvoker {
    * 处理支付宝支付逻辑
    * 区分：支付宝内(JSAPI) vs 网页(Form/URL)
    */
-  private async handleAlipay(data: any): Promise<PaymentResult> {
+  private async handleAlipay(data: any): Promise<PayResult> {
     const isAlipayBrowser = /AlipayClient/i.test(navigator.userAgent);
 
     // 场景 A: 支付宝内部 (JSAPI)

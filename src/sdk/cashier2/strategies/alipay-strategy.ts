@@ -1,7 +1,7 @@
 // src/strategies/AlipayStrategy.ts
-import { PaymentError } from '../core/payment-error';
-import { PaymentErrorCode } from '../types/errors';
-import type { PaymentResult, UnifiedPaymentParams } from '../types/protocol';
+import { PayError } from '../core/payment-error';
+import { PayErrorCode } from '../types/errors';
+import type { PayParams, PayResult } from '../types/protocol';
 import { BaseStrategy } from './base-strategy';
 
 export class AlipayStrategy extends BaseStrategy {
@@ -9,7 +9,7 @@ export class AlipayStrategy extends BaseStrategy {
   private startTime = Date.now();
 
   // 实现单次查单逻辑
-  async getPaymentStatus(_orderId: string): Promise<PaymentResult> {
+  async getPaySt(_orderId: string): Promise<PayResult> {
     // 模拟调用你的后端查单API
     // const res = await axios.get(`/api/pay/query?id=${orderId}`);
     // return normalize(res);
@@ -27,7 +27,7 @@ export class AlipayStrategy extends BaseStrategy {
     return this.success(`MOCK_11111`, { source: 'mock', elapsed });
   }
 
-  async pay(_params: UnifiedPaymentParams): Promise<PaymentResult> {
+  async pay(_params: PayParams): Promise<PayResult> {
     // ... 前置逻辑 ...
 
     try {
@@ -40,14 +40,14 @@ export class AlipayStrategy extends BaseStrategy {
       return this.normalizeResult(rawRes);
     } catch (error: any) {
       // 如果是网络层抛出的 JS Error
-      throw new PaymentError(PaymentErrorCode.UNKNOWN, error.message || 'Alipay invoke failed', this.name);
+      throw new PayError(PayErrorCode.UNKNOWN, error.message || 'Alipay invoke failed', this.name);
     }
   }
 
   /**
    * 专门负责“翻译”的方法
    */
-  private normalizeResult(res: any): PaymentResult {
+  private normalizeResult(res: any): PayResult {
     // 支付宝返回码示例：
     // 9000: 成功
     // 6001: 用户取消
@@ -69,16 +69,16 @@ export class AlipayStrategy extends BaseStrategy {
 
       case '6001':
         // [映射]：6001 -> USER_CANCEL
-        throw new PaymentError(PaymentErrorCode.USER_CANCEL, '用户取消支付', this.name);
+        throw new PayError(PayErrorCode.USER_CANCEL, '用户取消支付', this.name);
 
       case '6002':
         // [映射]：6002 -> NETWORK_ERROR
-        throw new PaymentError(PaymentErrorCode.NETWORK_ERROR, '网络连接出错', this.name);
+        throw new PayError(PayErrorCode.NETWORK_ERROR, '网络连接出错', this.name);
 
       case '4000':
       default:
         // [映射]：其他 -> PROVIDER_INTERNAL_ERROR
-        throw new PaymentError(PaymentErrorCode.PROVIDER_INTERNAL_ERROR, `支付宝渠道异常: ${res.memo || code}`, this.name);
+        throw new PayError(PayErrorCode.PROVIDER_INTERNAL_ERROR, `支付宝渠道异常: ${res.memo || code}`, this.name);
     }
   }
 }

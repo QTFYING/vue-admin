@@ -1,15 +1,16 @@
 import { PaymentContext } from './core/payment-context';
 import { AlipayStrategy, WechatStrategy } from './strategies';
-import { PaymentErrorCode, type PaymentPlugin } from './types';
+import { StripeStrategy } from './stripe-strategy';
+import { PayErrorCode, type PaymentPlugin } from './types';
 
 async function main() {
   // 1. 初始化 Context (必须注入 HTTP 实例)
-  const cashier = new PaymentContext({ debug: false, http: null, invokerType: 'uniapp' });
+  const cashier = new PaymentContext({ debug: false, http: undefined, invokerType: 'uniapp' });
 
-  // 2. 单个注册策略
-  const wechatProd = new WechatStrategy({ appId: 'wx888888', mchId: '123456' });
-  const alipayProd = new AlipayStrategy({ appId: '2021000000', privateKey: '...' });
-  cashier.register(wechatProd).register(alipayProd);
+  cashier
+    .register(new WechatStrategy({ appId: 'wx888888', mchId: '123456' }))
+    .register(new AlipayStrategy({ appId: '2021000000', privateKey: '...' }))
+    .register(new StripeStrategy({ appId: '2021000000', privateKey: '...' }));
 
   // --- 3. 定义并注册插件 (Plugins) ---
 
@@ -94,7 +95,7 @@ async function main() {
     }
   } catch (err: any) {
     // 统一错误处理
-    if (err.code === PaymentErrorCode.USER_CANCEL) {
+    if (err.code === PayErrorCode.USER_CANCEL) {
       console.log('用户取消了');
     } else {
       console.error('业务层捕获异常:', err.message);

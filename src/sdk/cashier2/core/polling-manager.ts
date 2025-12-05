@@ -44,7 +44,7 @@ export class PollingManager {
         async () => {
           // Task: 查单
           // Strategy 内部会使用注入的 HTTP 实例去请求
-          const res = await strategy.getPaymentStatus(orderId);
+          const res = await strategy.getPaySt(orderId);
 
           // Update Context
           ctx.currentStatus = res.status;

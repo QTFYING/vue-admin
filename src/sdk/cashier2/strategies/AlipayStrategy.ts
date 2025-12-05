@@ -22,7 +22,7 @@ export class AlipayStrategy extends BaseStrategy {
       return { status: 'pending', message: 'User is paying' };
     }
 
-    console.log('有订单号了，支付成功啦～');
+    console.log('有订单号了，支付宝支付成功啦～');
 
     return this.success(`MOCK_11111`, { source: 'mock', elapsed });
   }
@@ -40,7 +40,7 @@ export class AlipayStrategy extends BaseStrategy {
       return this.normalizeResult(rawRes);
     } catch (error: any) {
       // 如果是网络层抛出的 JS Error
-      throw new PaymentError(PaymentErrorCode.UNKNOWN, error.message || 'Alipay invoke failed', this.name, error);
+      throw new PaymentError(PaymentErrorCode.UNKNOWN, error.message || 'Alipay invoke failed', this.name);
     }
   }
 
@@ -69,16 +69,16 @@ export class AlipayStrategy extends BaseStrategy {
 
       case '6001':
         // [映射]：6001 -> USER_CANCEL
-        throw new PaymentError(PaymentErrorCode.USER_CANCEL, '用户取消支付', this.name, res);
+        throw new PaymentError(PaymentErrorCode.USER_CANCEL, '用户取消支付', this.name);
 
       case '6002':
         // [映射]：6002 -> NETWORK_ERROR
-        throw new PaymentError(PaymentErrorCode.NETWORK_ERROR, '网络连接出错', this.name, res);
+        throw new PaymentError(PaymentErrorCode.NETWORK_ERROR, '网络连接出错', this.name);
 
       case '4000':
       default:
         // [映射]：其他 -> PROVIDER_INTERNAL_ERROR
-        throw new PaymentError(PaymentErrorCode.PROVIDER_INTERNAL_ERROR, `支付宝渠道异常: ${res.memo || code}`, this.name, res);
+        throw new PaymentError(PaymentErrorCode.PROVIDER_INTERNAL_ERROR, `支付宝渠道异常: ${res.memo || code}`, this.name);
     }
   }
 }

@@ -7,8 +7,7 @@ export { PaymentContext } from './core/PaymentContext';
 export { BaseStrategy } from './strategies/BaseStrategy';
 
 // 导出内置策略
-export { WechatStrategy } from './strategies/WechatStrategy';
-// export { AlipayStrategy } from './strategies/AlipayStrategy';
+export { AlipayStrategy, WechatStrategy } from './strategies';
 
 // 导出类型定义
 export * from './types/protocol';

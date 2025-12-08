@@ -14,7 +14,9 @@ export class UniAppInvoker implements PaymentInvoker {
       uni.requestPayment({
         provider: this.provider,
         orderInfo: orderInfo, // 后端签名的原始数据
-        timeStamp: orderInfo.timeStamp, // 微信小程序有时需要拆解参数
+
+        // 微信小程序特有参数
+        timeStamp: orderInfo.timeStamp,
         nonceStr: orderInfo.nonceStr,
         package: orderInfo.package,
         signType: orderInfo.signType,

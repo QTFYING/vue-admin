@@ -1,8 +1,10 @@
+import { EventBridgePlugin } from '../plugins/event-bridge-plugin';
 import type { BaseStrategy } from '../strategies/base-strategy';
 import type { HttpClient, PaymentContextState, PaymentPlugin, PayParams, PayResult } from '../types';
 import { PayErrorCode } from '../types';
 import { createDefaultFetcher } from '../utils/fetcher';
 import { EventBus } from './event-bus';
+import type { InvokerType } from './invoker-factory';
 import { PayError } from './payment-error';
 import { PluginDriver } from './plugin-driver';
 import { PollingManager } from './polling-manager';
@@ -10,7 +12,7 @@ import { PollingManager } from './polling-manager';
 export interface SDKConfig {
   debug?: boolean;
   http?: HttpClient; // 依赖注入
-  invokerType?: 'uniapp' | 'mini' | 'web' | '';
+  invokerType?: InvokerType;
 }
 
 export class PaymentContext extends EventBus {
@@ -44,6 +46,8 @@ export class PaymentContext extends EventBus {
     // 初始化轮询管理器，并将 this 传给它
     this.pollingManager = new PollingManager(this);
     this.invokerType = invokerType;
+    // [关键] 注册内置的事件桥接插件
+    this.use(EventBridgePlugin);
   }
 
   /**
@@ -66,6 +70,9 @@ export class PaymentContext extends EventBus {
     return this;
   }
 
+  /**
+   * 核心执行器
+   */
   async execute(strategyName: string, params: PayParams): Promise<PayResult> {
     const strategy = this.strategies.get(strategyName);
     if (!strategy) {
@@ -73,12 +80,11 @@ export class PaymentContext extends EventBus {
     }
 
     // 0. 初始化运行时上下文
-    const ctx: PaymentContextState = { params, state: {} };
+    const ctx: PaymentContextState = { context: this, params, state: {} };
 
     try {
       // --- Stage 1: 准备 (Bootstrap) ---
       // 场景：参数校验、权限检查、Loading 开启
-      this.emit('beforePay', params);
       await this.driver.implant('onBeforePay', ctx);
 
       // --- Stage 2: 交互 (Negotiation) ---
@@ -93,18 +99,14 @@ export class PaymentContext extends EventBus {
       await this.driver.implant('onBeforeInvoke', ctx);
 
       // --- Stage 4: 执行 (Execution) ---
-      this.emit('payStart', { strategyName });
-
       // 执行真实的支付逻辑 (Strategy.pay)
       const result = await strategy.pay(ctx.params, this.http, this.invokerType);
       ctx.result = result;
 
       // Stage 5: Settlement
       if (result.status === 'success') {
-        this.emit('success', result);
         await this.driver.implant('onSuccess', ctx, result);
       } else {
-        this.emit('fail', result);
         await this.driver.implant('onFail', ctx, result);
       }
 
@@ -115,7 +117,6 @@ export class PaymentContext extends EventBus {
       // 归一化错误
       const errResult = error instanceof PayError ? error : new PayError(PayErrorCode.UNKNOWN, error.message || 'Unknown Error');
 
-      this.emit('fail', {} as PayResult);
       await this.driver.implant('onFail', ctx, errResult);
 
       // [关键] 出错也要存档

@@ -22,7 +22,7 @@ export class PluginDriver {
         // 允许插件抛 PluginAbortError 或其它异常
         if (err instanceof PluginAbortError) throw err;
         // 包装并继续抛出（或根据需要做更细粒度处理）
-        throw new Error(`[Plugin ${plugin.name}][${String(hook)}] failed: ${err?.message ?? err}`);
+        throw new Error(`[Plugin ${plugin.name}][${String(hook)}] failed`);
       }
     }
   }

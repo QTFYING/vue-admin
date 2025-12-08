@@ -1,3 +1,4 @@
+import type { PaymentContext } from '../core/payment-context';
 import type { PayParams, PayResult, PaySt } from './protocol';
 
 /**
@@ -5,6 +6,9 @@ import type { PayParams, PayResult, PaySt } from './protocol';
  * 插件可以直接修改这个对象中的属性，从而影响后续流程
  */
 export interface PaymentContextState {
+  // context为宿主 Context 的引用，让插件能操作 Bus
+  context: PaymentContext;
+
   // 阶段 1: 初始入参 (可被修改，如增加 token)
   params: PayParams;
 

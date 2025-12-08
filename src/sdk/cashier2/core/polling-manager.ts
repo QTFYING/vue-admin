@@ -33,6 +33,7 @@ export class PollingManager {
     const lastState = this.context.getLastContextState();
 
     const ctx: PaymentContextState = {
+      context: this.context,
       params: { orderId, amount: 0 }, // 轮询阶段参数可能不全，以 orderId 为主
       state: { ...lastState }, // 继承之前的状态 (如 startTime)
       currentStatus: 'pending',

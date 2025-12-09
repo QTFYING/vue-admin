@@ -14,6 +14,9 @@ export enum PayErrorCode {
   // 4. 渠道侧错误 (上游返回了明确的失败)
   PROVIDER_INTERNAL_ERROR = 'PROVIDER_INTERNAL_ERROR', // 微信/支付宝挂了
 
-  // 5. 兜底
+  // 5. 调起支付控件失败
+  API_FAIL = 'API_FAIL', // 检查参数或环境
+
+  // 6. 兜底
   UNKNOWN = 'UNKNOWN',
 }

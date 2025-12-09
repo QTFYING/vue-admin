@@ -3,12 +3,13 @@
     <el-card>
       <template #header>
         <div class="card-header">
-          <span>支付渠道测试</span>
+          <span>支付三个阶段</span>
         </div>
       </template>
       <div>
-        <el-button type="primary" @click="handleAliPay">支付宝</el-button>
+        <el-button type="primary" @click="handleAliPay">支付宝2</el-button>
         <el-button type="primary" @click="handleWeChat">微信</el-button>
+        <el-button type="primary" @click="handleUniApp">UniApp支付</el-button>
       </div>
     </el-card>
   </div>
@@ -52,5 +53,9 @@
 
   const handleWeChat = async () => {
     await mgr.pay({ channel: PaymentProviderType['Wechat'], orderId: 'O2', amount: 100 });
+  };
+
+  const handleUniApp = async () => {
+    await mgr.pay({ channel: PaymentProviderType['Wechat'], orderId: 'O3', amount: 100 });
   };
 </script>

@@ -1,10 +1,12 @@
-/*
-** 微信支付参数适配器
-   金额：单位是分 (Int)，不能有小数点。
-   字段名：通常叫 body (商品描述), out_trade_no (订单号), total_fee (金额), spbill_create_ip (IP)。
-   附加数据：通常放在 attach 字段
-*/
-import type { PayParams } from '../types';
+/**
+ * 微信支付参数适配器
+ * 金额：单位是分 (Int)，不能有小数点。
+ * 字段名：通常叫 body (商品描述), out_trade_no (订单号), total_fee (金额), spbill_create_ip (IP)。
+ * 附加数据：通常放在 attach 字段
+ */
+import { PayError } from '../core/payment-error';
+import { PayErrorCode } from '../types';
+import type { PayParams, PayResult } from '../types/protocol';
 import type { PaymentAdapter } from './payment-adapter';
 
 // 定义微信(统一下单接口)的数据结构
@@ -21,31 +23,88 @@ export interface WechatPayload {
 }
 
 export class WechatAdapter implements PaymentAdapter<WechatPayload> {
+  // 1. 校验传入参数
+  validate(params: PayParams): void {
+    if (!params.orderId) {
+      throw new PayError(PayErrorCode.PARAM_INVALID, 'Missing orderId', 'wechat');
+    }
+    // 微信 JSAPI 支付特定校验
+    if (params.extra?.trade_type === 'JSAPI' && !params.extra?.openid) {
+      throw new PayError(PayErrorCode.PARAM_INVALID, 'JSAPI payment requires openid', 'wechat');
+    }
+  }
+
+  /* 统一下单所需参数示例
+  {
+    "appid": "wxd678efh567hg6787",
+    "mch_id": "1230000109",
+    "nonce_str": "5K8264ILTKCH16CQ2502SI8ZNMTM67VS",
+    "sign": "C380BEC2BFD727A4B6845133519F3AD6",
+    "body": "商品描述",
+    "out_trade_no": "20150806125346",
+    "total_fee": 100,       // 单位：分（100 = 1元）
+    "spbill_create_ip": "123.12.12.123",
+    "notify_url": "https://yourdomain.com/wechatpay/notify",
+    "trade_type": "JSAPI",
+    "openid": "oUpF8uMuAJO_M2pxb1Q9zNjWeS6o"  // 仅 JSAPI 支付需要，其他类型（如 Native）不用填
+  }  */
+
+  /**
+   * 其实微信支付设计的很鸡贼，所有支付方式都用通用的统一下单接口
+   * 唯一的区别，是 trade_type，传入各支付类型的参数
+   */
   transform(params: PayParams): WechatPayload {
-    // 1. 金额转换：元 -> 分 (注意 JS 浮点数精度问题)
-    // 建议使用 safeMath 或简单的 Math.round 修正
-    const totalFee = Math.round(params.amount * 100);
+    // 1. 默认 JSAPI，但允许 extra 覆盖
+    const tradeType = params.extra?.tradeType || 'JSAPI';
 
-    // 2. 构造标准微信参数
-    const payload: WechatPayload = {
-      // 映射描述 -> body
-      body: params.description || '商品支付',
+    // 2. 校验：JSAPI 必须有 openid
+    if (tradeType === 'JSAPI' && !params.extra?.openid) {
+      throw new Error('JSAPI requires openid');
+    }
 
-      // 映射订单号 -> out_trade_no
+    const payload = {
+      body: (params.description || '商品支付').substring(0, 127), // 自动截断
       out_trade_no: params.orderId,
-
-      // 映射金额
-      total_fee: totalFee,
-
-      // 处理 extra 里的透传参数
-      ...params.extra,
+      total_fee: Math.round(params.amount * 100), // 元转分
+      ...params.extra, // 透传高级参数
+      trade_type: tradeType, // 核心参数
     };
 
-    // 3. 特殊处理：截断过长的字符串 (微信 body 限制 128 字符)
-    if (payload.body.length > 128) {
-      payload.body = payload.body.substring(0, 125) + '...';
+    // H5 支付必填 IP，这里可能需要服务端获取
+    if (tradeType === 'MWEB') {
+      Object.assign(payload, { spbill_create_ip: '127.0.0.1' });
     }
 
     return payload;
+  }
+
+  /**
+   * 其实微信支付设计的很鸡贼，所有支付方式都用通用的统一下单接口
+   * requestPayment:ok -> 小程序/UniApp
+   * chooseWXPay:ok    -> 公众号 JSSDK
+   * getBrandWCPayRequest:ok -> 老版本微信
+   * 微信各种支付返回均放在rawResult中
+   * Native 支付返回 rawResult 中包含 code_url
+   * H5 跳转 (后端返回了 mweb_url)
+   * JSAPI和小程序则统一返回标准格式
+   */
+  normalize(rawResult: any): PayResult {
+    const msg = rawResult?.errMsg || rawResult?.err_msg || '';
+
+    if (msg === 'requestPayment:ok' || msg === 'chooseWXPay:ok' || msg === 'getBrandWCPayRequest:ok') {
+      return { status: 'success', raw: rawResult };
+    }
+
+    // 2. 匹配取消
+    if (msg.indexOf('cancel') > -1 || msg.indexOf('取消') > -1) {
+      return { status: 'cancel', message: 'User cancelled', raw: rawResult };
+    }
+
+    // 3. 其他全算失败
+    return {
+      status: 'fail',
+      message: msg || 'Wechat Payment Failed',
+      raw: rawResult,
+    };
   }
 }

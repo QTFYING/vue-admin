@@ -60,18 +60,19 @@ export class WechatAdapter implements PaymentAdapter<WechatPayload> {
    */
   transform(params: PayParams): WechatPayload {
     // 1. 默认 JSAPI，但允许 extra 覆盖
-    const tradeType = params.extra?.tradeType || 'JSAPI';
+    const { tradeType = 'JSAPI', ...rest } = params.extra || {};
 
     // 2. 校验：JSAPI 必须有 openid
     if (tradeType === 'JSAPI' && !params.extra?.openid) {
       throw new Error('JSAPI requires openid');
     }
 
+    // 3. 构建基础参数
     const payload = {
       body: (params.description || '商品支付').substring(0, 127), // 自动截断
       out_trade_no: params.orderId,
       total_fee: Math.round(params.amount * 100), // 元转分
-      ...params.extra, // 透传高级参数
+      ...rest, // 透传高级参数
       trade_type: tradeType, // 核心参数
     };
 
@@ -93,16 +94,18 @@ export class WechatAdapter implements PaymentAdapter<WechatPayload> {
   normalize(rawResult: any): PayResult {
     // 1. 识别 Invoker 透传出来的“指令动作” (如 PC 扫码、H5 跳转)
 
+    const actionType = rawResult?.action ?? '';
+
     // A: 扫码，是一个中间态，需要进入轮询
-    if (rawResult?.action === 'qrcode') {
-      const { action, code, original } = rawResult;
-      return { action, code, status: 'pending', raw: original, message: '请扫码...' };
+    if (actionType === 'qrcode') {
+      const { code, original } = rawResult;
+      return { action: { type: 'qrcode', value: code }, status: 'pending', raw: original, message: '请扫描二维码支付...' };
     }
 
     // B: 跳转，跳转后状态未知，需进入轮询或等待回调
-    if (rawResult?.action === 'url_jump') {
-      const { action, url, original } = rawResult;
-      return { action, url, status: 'pending', raw: original, message: '跳转中...' };
+    if (actionType === 'url_jump') {
+      const { url, original } = rawResult;
+      return { action: { type: 'url_jump', value: url }, status: 'pending', raw: original, message: '正在跳转支付...' };
     }
 
     // C: JSAPI & Bridge
@@ -124,10 +127,6 @@ export class WechatAdapter implements PaymentAdapter<WechatPayload> {
     }
 
     // 3. 其他全算失败
-    return {
-      status: 'fail',
-      message: msg || '微信支付失败',
-      raw: rawResult,
-    };
+    return { status: 'fail', message: msg || '微信支付失败', raw: rawResult };
   }
 }

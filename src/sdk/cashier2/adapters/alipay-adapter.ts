@@ -57,8 +57,11 @@ export class AlipayAdapter implements PaymentAdapter<AlipayPayload, any> {
     // 支付宝有些端返回 resultCode，有些返回 resultStatus
     const code = rawResult?.resultCode || rawResult?.resultStatus;
 
-    // "9000" 代表支付成功
+    // 兼容非json格式的，如form表单、二维码等
+    if (!rawResult) return { status: 'success', message: '表单或二维码支付' };
+
     if (code === '9000') {
+      // "9000" 代表支付成功
       return { status: 'success', raw: rawResult };
     }
 

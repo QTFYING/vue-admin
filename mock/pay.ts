@@ -19,8 +19,10 @@ export default MockServer([
   {
     url: '/payment/alipay',
     method: 'post',
-    response: ({ body }: { body: any }) => {
+    timeout: 100,
+    response: ({ body }) => {
       const { product_code } = body;
+
       // 手机网页支付：返回表单
       if (product_code === 'QUICK_WAP_WAY') {
         return {

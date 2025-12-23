@@ -83,7 +83,7 @@
               <p class="text-xl font-medium text-gray-800 mb-0">微信扫码支付</p>
 
               <div
-                class="my-4 relative flex justify-center items-center w-[216px] h-[216px] border border-gray-100 rounded-lg overflow-hidden bg-white"
+                class="my-4 relative flex justify-center items-center w-[216px] h-[216px] border border-gray-100 rounded-lg bg-white overflow-hidden"
               >
                 <el-skeleton v-if="loading && !qrValue" animated>
                   <template #template>
@@ -91,16 +91,21 @@
                   </template>
                 </el-skeleton>
 
-                <div v-else class="relative w-full h-full flex items-center justify-center">
-                  <img
-                    :src="qrImgUrl"
-                    :class="['w-48 h-48 transition-all duration-300', isQrExpired ? 'filter blur-[2px] opacity-20' : 'opacity-100']"
+                <div v-else class="relative p-2 bg-white">
+                  <qrcode-vue
+                    :value="qrValue"
+                    :size="190"
+                    level="H"
+                    render-as="svg"
+                    :class="['transition-all duration-300', isQrExpired ? 'filter blur-[3px] opacity-10' : 'opacity-100']"
                   />
 
-                  <div v-if="isQrExpired" class="absolute inset-0 flex flex-col items-center justify-center bg-white/60">
-                    <p class="text-sm text-gray-800 font-bold mb-2">二维码已过期</p>
-                    <el-button type="primary" link @click="onRefreshQr">点击刷新</el-button>
-                  </div>
+                  <transition name="el-fade-in">
+                    <div v-if="isQrExpired" class="absolute inset-0 flex flex-col items-center justify-center bg-white/60">
+                      <p class="text-sm text-gray-800 font-bold mb-2">二维码已过期</p>
+                      <el-button type="primary" size="small" link @click="onRefreshQr">点击刷新</el-button>
+                    </div>
+                  </transition>
                 </div>
               </div>
 
@@ -148,6 +153,7 @@
 <script setup lang="ts">
   import { useCashier } from '@/hooks/use-cashier';
   import { ElMessage } from 'element-plus';
+  import QrcodeVue from 'qrcode.vue';
   import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
 
   const { reset, pay, orderId, create, loading, status, result, statusText, cashier } = useCashier();
@@ -158,21 +164,15 @@
 
   // --- 逻辑计算 ---
 
-  // 二维码取值逻辑对齐 React
+  // 获取支付链接
   const qrValue = computed(() => {
     const action = result.value?.action;
     if (action?.type === 'qrcode' && action.value) return action.value;
-    return result.value?.raw?.code_url;
-  });
-
-  // 生成二维码图片（实际项目中建议引入 qrcode.vue 库直接渲染 Canvas）
-  const qrImgUrl = computed(() => {
-    return qrValue.value ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrValue.value)}` : '';
+    return result.value?.raw?.code_url || '';
   });
 
   const expireAt = computed(() => result.value?.raw?.expired_time);
 
-  // 按钮文案与状态对齐 React
   const btnText = computed(() => {
     if (status.value === 'success') return '下一单';
     if (isCreated.value) return '重新支付';
@@ -197,18 +197,15 @@
   // --- 核心方法 ---
 
   const onFinish = async () => {
-    // 1. 如果已支付成功，点击“下一单”执行重置
     if (status.value === 'success') {
       handleReset();
       return;
     }
 
     try {
-      // 2. 创建订单
       const id = await create({ amount: 100, productId: 'A123456789' });
       isCreated.value = true;
 
-      // 3. 发起支付逻辑对齐 React
       const base = { amount: 100, orderId: id };
       const extraMap: Record<string, any> = {
         wechat: { extra: { body: '测试商品', tradeType: 'NATIVE' } },
@@ -220,7 +217,6 @@
 
       isQrExpired.value = false;
     } catch (err: any) {
-      console.error('支付发起失败', err);
       ElMessage.error(err.message || '支付发起失败');
     }
   };
@@ -228,13 +224,12 @@
   const handleReset = () => {
     isCreated.value = false;
     isQrExpired.value = false;
-    reset(); // 调用 SDK 的 reset 清除内部状态
+    reset();
   };
 
   const onRefreshQr = () => onFinish();
 
-  // --- 生命周期与轮询 ---
-
+  // --- 轮询 ---
   watch(
     [() => form.channel, qrValue, status, orderId],
     ([ch, qr, st, oid]) => {
@@ -253,7 +248,15 @@
 </script>
 
 <style scoped>
+  :deep(.custom-radio-group .el-radio-button__inner) {
+    height: 40px;
+    padding: 0 20px;
+    line-height: 40px;
+  }
 
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
 
   @keyframes fade-in {
     from {
@@ -265,16 +268,5 @@
       opacity: 1;
       transform: translateY(0);
     }
-  }
-
-  /* 自定义 Radio Button 样式对齐 AntD */
-  :deep(.custom-radio-group .el-radio-button__inner) {
-    height: 40px;
-    padding: 0 20px;
-    line-height: 40px;
-  }
-
-  .animate-fade-in {
-    animation: fade-in 0.4s ease-out forwards;
   }
 </style>

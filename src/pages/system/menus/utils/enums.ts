@@ -97,12 +97,4 @@ const frameLoadingOptions: Array<OptionsType> = [
   },
 ];
 
-export {
-  fixedTagOptions,
-  frameLoadingOptions,
-  hiddenTagOptions,
-  keepAliveOptions,
-  menuTypeOptions,
-  showLinkOptions,
-  showParentOptions,
-};
+export { fixedTagOptions, frameLoadingOptions, hiddenTagOptions, keepAliveOptions, menuTypeOptions, showLinkOptions, showParentOptions };

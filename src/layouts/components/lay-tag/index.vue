@@ -90,10 +90,7 @@
     } else if (tabItemElOffsetLeft < -translateX.value) {
       // 标签在可视区域左侧
       translateX.value = -tabItemElOffsetLeft + tabNavPadding;
-    } else if (
-      tabItemElOffsetLeft > -translateX.value &&
-      tabItemElOffsetLeft + tabItemOffsetWidth < -translateX.value + scrollbarDomWidth
-    ) {
+    } else if (tabItemElOffsetLeft > -translateX.value && tabItemElOffsetLeft + tabItemOffsetWidth < -translateX.value + scrollbarDomWidth) {
       // 标签在可视区域
       translateX.value = Math.min(0, scrollbarDomWidth - tabItemOffsetWidth - tabItemElOffsetLeft - tabNavPadding);
     } else {
@@ -520,23 +517,13 @@
       <IconifyIconOffline :icon="ArrowLeftSLine" @click="handleScroll(200)" />
     </span>
 
-    <div
-      ref="scrollbarDom"
-      class="scroll-container"
-      :class="showModel === 'chrome' && 'chrome-scroll-container'"
-      @wheel.prevent="handleWheel"
-    >
+    <div ref="scrollbarDom" class="scroll-container" :class="showModel === 'chrome' && 'chrome-scroll-container'" @wheel.prevent="handleWheel">
       <div ref="tabDom" class="tab select-none" :style="getTabStyle">
         <div
           v-for="(item, index) in multiTags"
           :ref="'dynamic' + index"
           :key="index"
-          :class="[
-            'scroll-item is-closable',
-            linkIsActive(item),
-            showModel === 'chrome' && 'chrome-item',
-            isFixedTag(item) && 'fixed-tag',
-          ]"
+          :class="['scroll-item is-closable', linkIsActive(item), showModel === 'chrome' && 'chrome-item', isFixedTag(item) && 'fixed-tag']"
           @contextmenu.prevent="openMenu(item, $event)"
           @mouseenter.prevent="onMouseenter(index)"
           @mouseleave.prevent="onMouseleave(index)"
@@ -592,13 +579,7 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item
-            v-for="(item, key) in tagsViews"
-            :key="key"
-            :command="{ key, item }"
-            :divided="item.divided"
-            :disabled="item.disabled"
-          >
+          <el-dropdown-item v-for="(item, key) in tagsViews" :key="key" :command="{ key, item }" :divided="item.divided" :disabled="item.disabled">
             <IconifyIconOffline :icon="item.icon" />
             {{ item.text }}
           </el-dropdown-item>

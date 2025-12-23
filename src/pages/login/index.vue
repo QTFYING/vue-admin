@@ -28,14 +28,7 @@
             </el-form-item>
 
             <el-form-item label="密码" prop="password" :rules="[{ required: true, message: '请输入账号', trigger: 'blur' }]">
-              <el-input
-                v-model="form.password"
-                clearable
-                maxlength="20"
-                show-password
-                placeholder="请输入您的密码"
-                :prefix-icon="lockIcon"
-              />
+              <el-input v-model="form.password" clearable maxlength="20" show-password placeholder="请输入您的密码" :prefix-icon="lockIcon" />
             </el-form-item>
 
             <el-row justify="end">

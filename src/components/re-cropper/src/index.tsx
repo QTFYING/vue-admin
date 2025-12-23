@@ -101,15 +101,7 @@ export default defineComponent({
     });
 
     const iconClass = computed(() => {
-      return [
-        'p-[6px]',
-        'h-[30px]',
-        'w-[30px]',
-        'outline-none',
-        'rounded-[4px]',
-        'cursor-pointer',
-        'hover:bg-[rgba(0,0,0,0.06)]',
-      ];
+      return ['p-[6px]', 'h-[30px]', 'w-[30px]', 'outline-none', 'rounded-[4px]', 'cursor-pointer', 'hover:bg-[rgba(0,0,0,0.06)]'];
     });
 
     const getWrapperStyle = computed((): CSSProperties => {

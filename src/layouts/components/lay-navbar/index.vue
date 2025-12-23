@@ -2,12 +2,7 @@
 
 <template>
   <div class="navbar bg-[#fff] shadow-xs shadow-[rgba(0,21,41,0.08)]">
-    <LaySidebarTopCollapse
-      v-if="device === 'mobile'"
-      class="hamburger-container"
-      :is-active="pureApp.sidebar.opened"
-      @toggleClick="toggleSideBar"
-    />
+    <LaySidebarTopCollapse v-if="device === 'mobile'" class="hamburger-container" :is-active="pureApp.sidebar.opened" @toggleClick="toggleSideBar" />
 
     <LaySidebarBreadCrumb v-if="layout !== 'mix' && device !== 'mobile'" class="breadcrumb-container" />
 

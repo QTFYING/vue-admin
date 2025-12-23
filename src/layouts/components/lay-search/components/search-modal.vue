@@ -264,14 +264,7 @@
     @opened="inputRef.focus()"
     @closed="inputRef.blur()"
   >
-    <el-input
-      ref="inputRef"
-      v-model="keyword"
-      size="large"
-      clearable
-      placeholder="搜索菜单（支持拼音搜索）"
-      @input="handleSearch"
-    >
+    <el-input ref="inputRef" v-model="keyword" size="large" clearable placeholder="搜索菜单（支持拼音搜索）" @input="handleSearch">
       <template #prefix>
         <IconifyIconOffline :icon="SearchIcon" class="text-primary w-[24px] h-[24px]" />
       </template>
@@ -289,13 +282,7 @@
           @collect="handleCollect"
           @drag="handleDrag"
         />
-        <SearchResult
-          v-if="showSearchResult"
-          ref="resultRef"
-          v-model:value="activePath"
-          :options="resultOptions"
-          @click="handleEnter"
-        />
+        <SearchResult v-if="showSearchResult" ref="resultRef" v-model:value="activePath" :options="resultOptions" @click="handleEnter" />
       </el-scrollbar>
     </div>
     <template #footer>

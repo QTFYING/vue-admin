@@ -140,12 +140,7 @@ class PureHttp {
   }
 
   /** 通用请求工具函数 */
-  public request<T>(
-    method: RequestMethods,
-    url: string,
-    param?: AxiosRequestConfig,
-    axiosConfig?: PureHttpRequestConfig,
-  ): Promise<T> {
+  public request<T>(method: RequestMethods, url: string, param?: AxiosRequestConfig, axiosConfig?: PureHttpRequestConfig): Promise<T> {
     const { env = '' } = getUrlParams();
 
     if (env) axiosConfig = { ...axiosConfig, headers: { ...axiosConfig?.headers, 'x-request-env': env } };

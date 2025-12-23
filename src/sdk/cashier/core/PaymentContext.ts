@@ -1,9 +1,4 @@
-export type RequestDecorator = (opts: {
-  url: string;
-  method: string;
-  headers: Record<string, string>;
-  data?: unknown;
-}) => Promise<void> | void;
+export type RequestDecorator = (opts: { url: string; method: string; headers: Record<string, string>; data?: unknown }) => Promise<void> | void;
 
 export type ResponseHandler<T = any, R = any> = (res: T) => R;
 

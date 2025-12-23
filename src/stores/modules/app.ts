@@ -4,9 +4,7 @@ import { type appType, deviceDetection, getConfig, responsiveStorageNameSpace, s
 export const useAppStore = defineStore('pure-app', {
   state: (): appType => ({
     sidebar: {
-      opened:
-        storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}layout`)?.sidebarStatus ??
-        getConfig().SidebarStatus,
+      opened: storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}layout`)?.sidebarStatus ?? getConfig().SidebarStatus,
       withoutAnimation: false,
       isClickCollapse: false,
     },

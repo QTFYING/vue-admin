@@ -26,9 +26,7 @@
           <el-button plain type="primary"> 拥有code：['permission:btn:edit'] 权限可见 </el-button>
         </Perms>
         <Perms :value="['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete']">
-          <el-button plain type="danger">
-            拥有code：['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'] 权限可见
-          </el-button>
+          <el-button plain type="danger"> 拥有code：['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'] 权限可见 </el-button>
         </Perms>
       </el-space>
     </el-card>
@@ -38,12 +36,8 @@
         <div class="card-header">函数方式判断权限</div>
       </template>
       <el-space wrap>
-        <el-button v-if="hasPerms('permission:btn:add')" plain type="warning">
-          拥有code：'permission:btn:add' 权限可见
-        </el-button>
-        <el-button v-if="hasPerms(['permission:btn:edit'])" plain type="primary">
-          拥有code：['permission:btn:edit'] 权限可见
-        </el-button>
+        <el-button v-if="hasPerms('permission:btn:add')" plain type="warning"> 拥有code：'permission:btn:add' 权限可见 </el-button>
+        <el-button v-if="hasPerms(['permission:btn:edit'])" plain type="primary"> 拥有code：['permission:btn:edit'] 权限可见 </el-button>
         <el-button v-if="hasPerms(['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'])" plain type="danger">
           拥有code：['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'] 权限可见
         </el-button>

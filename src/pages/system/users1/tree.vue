@@ -34,14 +34,7 @@
     label: 'name',
   };
   const buttonClass = computed(() => {
-    return [
-      '!h-[20px]',
-      '!text-sm',
-      'reset-margin',
-      '!text-[var(--el-text-color-regular)]',
-      'dark:!text-white',
-      'dark:hover:!text-primary',
-    ];
+    return ['!h-[20px]', '!text-sm', 'reset-margin', '!text-[var(--el-text-color-regular)]', 'dark:!text-white', 'dark:hover:!text-primary'];
   });
 
   const filterNode = (value: string, data: Tree) => {
@@ -65,9 +58,7 @@
     });
     emit(
       'tree-select',
-      highlightMap.value[nodeId]?.highlight
-        ? Object.assign({ ...value, selected: true })
-        : Object.assign({ ...value, selected: false }),
+      highlightMap.value[nodeId]?.highlight ? Object.assign({ ...value, selected: true }) : Object.assign({ ...value, selected: false }),
     );
   }
 

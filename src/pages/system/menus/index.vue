@@ -66,14 +66,7 @@
           @selection-change="handleSelectionChange"
         >
           <template #operation="{ row }">
-            <el-button
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(EditPen)"
-              @click="openDialog('修改', row)"
-            >
+            <el-button class="reset-margin" link type="primary" :size="size" :icon="useRenderIcon(EditPen)" @click="openDialog('修改', row)">
               修改
             </el-button>
             <el-button

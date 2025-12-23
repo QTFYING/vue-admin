@@ -69,16 +69,7 @@ export default defineComponent({
     });
 
     const topClass = computed(() => {
-      return [
-        'flex',
-        'justify-between',
-        'pt-[3px]',
-        'px-[11px]',
-        'border-b-[1px]',
-        'border-solid',
-        'border-[#dcdfe6]',
-        'dark:border-[#303030]',
-      ];
+      return ['flex', 'justify-between', 'pt-[3px]', 'px-[11px]', 'border-b-[1px]', 'border-solid', 'border-[#dcdfe6]', 'dark:border-[#303030]'];
     });
 
     function onReFresh() {
@@ -201,13 +192,7 @@ export default defineComponent({
       <>
         <div
           {...attrs}
-          class={[
-            'w-[99/100]',
-            'px-2',
-            'pb-2',
-            'bg-bg_color',
-            isFullscreen.value ? ['!w-full', '!h-full', 'z-[2002]', 'fixed', 'inset-0'] : 'mt-2',
-          ]}
+          class={['w-[99/100]', 'px-2', 'pb-2', 'bg-bg_color', isFullscreen.value ? ['!w-full', '!h-full', 'z-[2002]', 'fixed', 'inset-0'] : 'mt-2']}
         >
           <div class="flex justify-between w-full h-[60px] p-4">
             {slots?.title ? slots.title() : <p class="font-bold truncate">{props.title}</p>}
@@ -266,12 +251,7 @@ export default defineComponent({
                                 class={['drag-btn w-[16px] mr-2', isFixedColumn(item) ? '!cursor-no-drop' : '!cursor-grab']}
                                 onMouseenter={(event: { preventDefault: () => void }) => rowDrop(event)}
                               />
-                              <el-checkbox
-                                key={index}
-                                label={item}
-                                value={item}
-                                onChange={(value) => handleCheckColumnListChange(value, item)}
-                              >
+                              <el-checkbox key={index} label={item} value={item} onChange={(value) => handleCheckColumnListChange(value, item)}>
                                 <span title={item} class="inline-block w-[120px] truncate hover:text-text_color_primary">
                                   {item}
                                 </span>

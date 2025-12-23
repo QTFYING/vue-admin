@@ -348,8 +348,8 @@ export default defineFakeRoute([
         return {
           success: true,
           data: [
-            100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 200, 201, 202, 203, 204, 205, 300, 301, 302, 303, 304, 400,
-            401, 402, 403, 404, 500, 501, 502, 503,
+            100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 200, 201, 202, 203, 204, 205, 300, 301, 302, 303, 304, 400, 401, 402, 403, 404,
+            500, 501, 502, 503,
           ],
         };
       } else if (body.id == 2) {
@@ -1725,8 +1725,7 @@ export default defineFakeRoute([
             Host: '192.168.2.121:8848',
             Origin: 'http://192.168.2.121:8848',
             Referer: 'http://192.168.2.121:8848/',
-            'User-Agent':
-              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
             'X-Requested-With': 'XMLHttpRequest',
           },
           requestBody: {
@@ -1773,8 +1772,7 @@ export default defineFakeRoute([
             Host: '192.168.2.121:8848',
             Origin: 'http://192.168.2.121:8848',
             Referer: 'http://192.168.2.121:8848/',
-            'User-Agent':
-              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
             'X-Requested-With': 'XMLHttpRequest',
           },
           requestBody: null,

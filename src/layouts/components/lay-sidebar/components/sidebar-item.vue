@@ -1,15 +1,7 @@
 /** 侧边栏 */
 <template>
-  <SidebarLinkItem
-    v-if="hasOneShowingChild(item.children, item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)"
-    :to="item"
-  >
-    <el-menu-item
-      :index="resolvePath(onlyOneChild.path)"
-      :class="{ 'submenu-title-noDropdown': !isNest }"
-      :style="getNoDropdownStyle"
-      v-bind="attrs"
-    >
+  <SidebarLinkItem v-if="hasOneShowingChild(item.children, item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)" :to="item">
+    <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{ 'submenu-title-noDropdown': !isNest }" :style="getNoDropdownStyle" v-bind="attrs">
       <div v-if="toRaw(item.meta.icon)" class="sub-menu-icon" :style="getSubMenuIconStyle">
         <component :is="useRenderIcon(toRaw(onlyOneChild.meta.icon) || (item.meta && toRaw(item.meta.icon)))" />
       </div>

@@ -97,11 +97,7 @@
           class="bg-transparent flex-c w-full h-20 rounded-md border border-[var(--pure-border-color)]"
           @click="setStretch(!settings.stretch)"
         >
-          <div
-            class="flex-bc transition-all duration-300"
-            :class="[settings.stretch ? 'w-[24%]' : 'w-[50%]']"
-            style="color: var(--el-color-primary)"
-          >
+          <div class="flex-bc transition-all duration-300" :class="[settings.stretch ? 'w-[24%]' : 'w-[50%]']" style="color: var(--el-color-primary)">
             <IconifyIconOffline :icon="settings.stretch ? RightArrow : LeftArrow" height="20" />
             <div class="grow border-b border-dashed" style="border-color: var(--el-color-primary)" />
             <IconifyIconOffline :icon="settings.stretch ? LeftArrow : RightArrow" height="20" />
@@ -150,13 +146,7 @@
         </li>
         <li>
           <span class="dark:text-white">页签持久化</span>
-          <el-switch
-            v-model="settings.multiTagsCache"
-            inline-prompt
-            active-text="开"
-            inactive-text="关"
-            @change="multiTagsCacheChange"
-          />
+          <el-switch v-model="settings.multiTagsCache" inline-prompt active-text="开" inactive-text="关" @change="multiTagsCacheChange" />
         </li>
       </ul>
     </div>
@@ -189,8 +179,7 @@
   const verticalRef = ref();
   const horizontalRef = ref();
 
-  const { dataTheme, overallStyle, layoutTheme, themeColors, toggleClass, dataThemeChange, setLayoutThemeColor } =
-    useDataThemeChange();
+  const { dataTheme, overallStyle, layoutTheme, themeColors, toggleClass, dataThemeChange, setLayoutThemeColor } = useDataThemeChange();
 
   /* body添加layout属性，作用于src/style/sidebar.scss */
   if (unref(layoutTheme)) {

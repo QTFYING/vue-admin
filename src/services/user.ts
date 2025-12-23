@@ -36,24 +36,22 @@ export type RefreshTokenResult = {
 
 /** 登录 */
 export const getLogin = (data?: object) => {
-  return http
-    .request<any>('post', '/login', { data }, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-    .then((res) => {
-      const { username, mobile, boundRoleList, token } = res.data;
-      return {
-        ...res,
-        data: {
-          avatar: '',
-          username,
-          nickname: mobile,
-          roles: boundRoleList ?? ['admin'],
-          permissions: ['*:*:*'],
-          accessToken: token,
-          refreshToken: undefined,
-          expires: undefined,
-        },
-      };
-    });
+  return http.request<any>('post', '/login', { data }, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then((res) => {
+    const { username, mobile, boundRoleList, token } = res.data;
+    return {
+      ...res,
+      data: {
+        avatar: '',
+        username,
+        nickname: mobile,
+        roles: boundRoleList ?? ['admin'],
+        permissions: ['*:*:*'],
+        accessToken: token,
+        refreshToken: undefined,
+        expires: undefined,
+      },
+    };
+  });
 };
 
 /** 刷新`token` */

@@ -106,19 +106,12 @@
             }
           "
         >
-          <IconifyIconOffline
-            class="pure-dialog-svg"
-            :icon="options?.fullscreen ? ExitFullscreen : fullscreen ? ExitFullscreen : Fullscreen"
-          />
+          <IconifyIconOffline class="pure-dialog-svg" :icon="options?.fullscreen ? ExitFullscreen : fullscreen ? ExitFullscreen : Fullscreen" />
         </i>
       </div>
       <component :is="options?.headerRenderer({ close, titleId, titleClass })" v-else />
     </template>
-    <component
-      v-bind="options?.props"
-      :is="options.contentRenderer({ options, index })"
-      @close="(args) => handleClose(options, index, args)"
-    />
+    <component v-bind="options?.props" :is="options.contentRenderer({ options, index })" @close="(args) => handleClose(options, index, args)" />
     <!-- footer -->
     <template v-if="!options?.hideFooter" #footer>
       <template v-if="options?.footerRenderer">

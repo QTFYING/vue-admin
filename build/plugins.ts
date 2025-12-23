@@ -14,11 +14,7 @@ import { cdn } from './cdn';
 import { configCompressPlugin } from './compress';
 import { viteBuildInfo } from './info';
 
-export function getPluginsList(
-  VITE_CDN: boolean,
-  VITE_COMPRESSION: ViteCompression,
-  VITE_ENABLE_HTTP_PROXY: `${boolean}`,
-): PluginOption[] {
+export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompression, VITE_ENABLE_HTTP_PROXY: `${boolean}`): PluginOption[] {
   const lifecycle = process.env.npm_lifecycle_event;
   return [
     vue(),

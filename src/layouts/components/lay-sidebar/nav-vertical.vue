@@ -83,21 +83,11 @@
         :popper-effect="tooltipEffect"
         :default-active="defaultActive"
       >
-        <LaySidebarItem
-          v-for="routes in menuData"
-          :key="routes.path"
-          :item="routes"
-          :base-path="routes.path"
-          class="outer-most select-none"
-        />
+        <LaySidebarItem v-for="routes in menuData" :key="routes.path" :item="routes" :base-path="routes.path" class="outer-most select-none" />
       </el-menu>
     </el-scrollbar>
 
-    <LaySidebarCenterCollapse
-      v-if="device !== 'mobile' && (isShow || isCollapse)"
-      :is-active="pureApp.sidebar.opened"
-      @toggleClick="toggleSideBar"
-    />
+    <LaySidebarCenterCollapse v-if="device !== 'mobile' && (isShow || isCollapse)" :is-active="pureApp.sidebar.opened" @toggleClick="toggleSideBar" />
 
     <LaySidebarLeftCollapse v-if="device !== 'mobile'" :is-active="pureApp.sidebar.opened" @toggleClick="toggleSideBar" />
   </div>

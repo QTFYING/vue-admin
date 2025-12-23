@@ -1,19 +1,8 @@
 /** mix 版菜单栏右侧 */
 <template>
   <div v-if="device !== 'mobile'" v-loading="usePermissionStoreHook().wholeMenus.length === 0" class="horizontal-header">
-    <el-menu
-      ref="menuRef"
-      router
-      mode="horizontal"
-      popper-class="pure-scrollbar"
-      class="horizontal-header-menu"
-      :default-active="defaultActive"
-    >
-      <el-menu-item
-        v-for="route in usePermissionStoreHook().wholeMenus"
-        :key="route.path"
-        :index="resolvePath(route) || route.redirect"
-      >
+    <el-menu ref="menuRef" router mode="horizontal" popper-class="pure-scrollbar" class="horizontal-header-menu" :default-active="defaultActive">
+      <el-menu-item v-for="route in usePermissionStoreHook().wholeMenus" :key="route.path" :index="resolvePath(route) || route.redirect">
         <template #title>
           <strong class="text-base" :style="getDivStyle">
             <span class="select-none">
@@ -81,9 +70,7 @@
     const wholeMenus = usePermissionStoreHook().wholeMenus;
     /** 当前路由的父级路径 */
     const parentRoutes = getParentPaths(routePath, wholeMenus)[0];
-    defaultActive.value = !isAllEmpty(route.meta?.activePath)
-      ? route.meta.activePath
-      : findRouteByPath(parentRoutes, wholeMenus)?.children[0]?.path;
+    defaultActive.value = !isAllEmpty(route.meta?.activePath) ? route.meta.activePath : findRouteByPath(parentRoutes, wholeMenus)?.children[0]?.path;
   }
 
   onMounted(() => {

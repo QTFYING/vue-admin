@@ -22,9 +22,7 @@
           <el-button plain type="primary"> 拥有code：['permission:btn:edit'] 权限可见 </el-button>
         </Auth>
         <Auth :value="['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete']">
-          <el-button plain type="danger">
-            拥有code：['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'] 权限可见
-          </el-button>
+          <el-button plain type="danger"> 拥有code：['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'] 权限可见 </el-button>
         </Auth>
       </el-space>
     </el-card>
@@ -35,9 +33,7 @@
       </template>
       <el-space wrap>
         <el-button v-if="hasAuth('permission:btn:add')" plain type="warning"> 拥有code：'permission:btn:add' 权限可见 </el-button>
-        <el-button v-if="hasAuth(['permission:btn:edit'])" plain type="primary">
-          拥有code：['permission:btn:edit'] 权限可见
-        </el-button>
+        <el-button v-if="hasAuth(['permission:btn:edit'])" plain type="primary"> 拥有code：['permission:btn:edit'] 权限可见 </el-button>
         <el-button v-if="hasAuth(['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'])" plain type="danger">
           拥有code：['permission:btn:add', 'permission:btn:edit', 'permission:btn:delete'] 权限可见
         </el-button>

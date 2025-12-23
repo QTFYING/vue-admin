@@ -18,11 +18,7 @@ import { getAsyncRoutes } from '@/services/routes';
 
 function handRank(routeInfo: any) {
   const { name, path, parentId, meta } = routeInfo;
-  return isAllEmpty(parentId)
-    ? isAllEmpty(meta?.rank) || (meta?.rank === 0 && name !== 'Home' && path !== '/')
-      ? true
-      : false
-    : false;
+  return isAllEmpty(parentId) ? (isAllEmpty(meta?.rank) || (meta?.rank === 0 && name !== 'Home' && path !== '/') ? true : false) : false;
 }
 
 /** 按照路由中meta下的rank等级升序来排序路由 */
@@ -137,10 +133,7 @@ function handleAsyncRoutes(routeList) {
     usePermissionStoreHook().handleWholeMenus(routeList);
   }
   if (!useMultiTagsStoreHook().getMultiTagsCache) {
-    useMultiTagsStoreHook().handleTags('equal', [
-      ...routerArrays,
-      ...usePermissionStoreHook().flatteningRoutes.filter((v) => v?.meta?.fixedTag),
-    ]);
+    useMultiTagsStoreHook().handleTags('equal', [...routerArrays, ...usePermissionStoreHook().flatteningRoutes.filter((v) => v?.meta?.fixedTag)]);
   }
   addPathMatch();
 }

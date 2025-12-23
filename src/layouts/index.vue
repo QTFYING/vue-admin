@@ -162,9 +162,7 @@
         },
         {
           default: () => [
-            !pureSetting.hiddenSideBar && (layout.value.includes('vertical') || layout.value.includes('mix'))
-              ? h(LayNavbar)
-              : null,
+            !pureSetting.hiddenSideBar && (layout.value.includes('vertical') || layout.value.includes('mix')) ? h(LayNavbar) : null,
             !pureSetting.hiddenSideBar && layout.value.includes('horizontal') ? h(NavHorizontal) : null,
             h(LayTag),
           ],

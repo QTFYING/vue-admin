@@ -1,5 +1,5 @@
-import type { SDKConfig } from '../core/payment-context';
-import type { HttpClient, PayParams, PayResult, PaySt, StrategyOptions } from '../types';
+import type { HttpClient, PayParams, PayResult, PaySt, SDKConfig } from '../types';
+import type { StrategyOptions } from '../types/protocol';
 
 export type StateCallBack = (status: PaySt) => void;
 

@@ -1,5 +1,8 @@
 // 导出核心类
-export { PaymentContext, type SDKConfig } from './core/payment-context';
+export { PaymentContext } from './core/payment-context';
+
+// 导出 Invoker 工厂,用户可自行注册Invoker，如·：uni.requestPayment
+export { InvokerFactory } from './core/invoker-factory';
 
 // 导出策略基类（方便用户自定义扩展）
 export { PayError } from './core/payment-error';
@@ -10,8 +13,4 @@ export { ScriptLoader } from './utils/script-loader';
 export { AlipayStrategy, WechatStrategy } from './strategies';
 
 // 导出类型定义
-export * from './types/errors';
-export * from './types/lifecycle';
-export * from './types/protocol';
-
-// 导出一些其他变量
+export * from './types';

@@ -1,4 +1,12 @@
 /**
+ * 核心业务模型 (Params, Result, Enum)
+ * 负责定义
+ * - 入参 (Params)
+ * - 结果 (Result)
+ * - 枚举 (Enum)
+ */
+
+/**
  * 统一支付结果状态
  * 用于表示支付的最终结果状态
  * fail 失败
@@ -23,8 +31,10 @@ export interface PayParams {
   amount: number; // 金额（建议统一单位：分）
   currency?: string; // 币种，默认 CNY
   description?: string; // 商品描述
-  // 扩展字段：用于透传某些渠道特有的参数
-  // 例如：微信可能需要 openid，支付宝可能需要 return_url
+  /**
+   * 扩展字段：用于透传某些渠道特有的参数
+   * 例如：微信可能需要 openid，支付宝可能需要 return_url
+   */
   extra?: Record<string, any>;
 }
 

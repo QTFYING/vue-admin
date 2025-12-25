@@ -5,6 +5,8 @@ interface ScriptAttributes {
 }
 
 export class ScriptLoader {
+  private constructor() {}
+
   // 核心缓存：Key 是 URL，Value 是加载过程的 Promise
   private static cache: Map<string, Promise<void>> = new Map();
 
@@ -93,7 +95,7 @@ export class ScriptLoader {
     this.cache.clear();
   }
 
-  public logger() {
+  static logger() {
     // 简单的调试辅助
     console.log('[ScriptLoader] Current Cache:', ScriptLoader.cache.keys());
   }
